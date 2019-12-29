@@ -9,7 +9,7 @@ export default class Main extends Component{
 
     render(){
         return(
-          <main className="col-12 col-lg-9 pl-0 pr-0">
+          <main className="col-12 col-lg-9 pl-0 pr-0 mt-5 mt-sm-0 pt-3 pt-sm-0">
 						<Header />	
             <Switch>
               <Route exact path="/productos">  

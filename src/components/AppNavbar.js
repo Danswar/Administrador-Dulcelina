@@ -25,7 +25,7 @@ class AppNavbar extends Component {
   render() {
     return (
       <div className="sticky-top">
-        <Navbar color="dark" dark expand="lg">
+        <Navbar color="dark" fixed="top" dark expand="lg">
           <NavbarBrand href="/">
             <img
               src={logo}
@@ -33,7 +33,7 @@ class AppNavbar extends Component {
               className="mr-2"
               alt="logo dulcelina"
             />
-            <span style={tituloApp} >DulceApp</span>
+            <span style={tituloApp} >Dulcelina App</span>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
