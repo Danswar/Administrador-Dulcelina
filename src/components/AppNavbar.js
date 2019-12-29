@@ -24,7 +24,7 @@ class AppNavbar extends Component {
 
   render() {
     return (
-      <div>
+      <div className="sticky-top">
         <Navbar color="dark" dark expand="lg">
           <NavbarBrand href="/">
             <img

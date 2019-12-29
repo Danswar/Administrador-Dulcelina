@@ -5,8 +5,8 @@ import logo from "../assets/logo_dulcelina.jpeg";
 class Aside extends Component {
   render() {
     return (
-      <aside className="col-0 col-lg-3 pr-0 d-none d-lg-block">
-        <div className="header-aside container-flush">
+      <aside className="col-0 col-lg-3 pr-0 pl-0 d-none d-lg-block">
+        <div className="header-aside container-fluid">
           <img src={logo} alt="logo dulcelina" />
           <p className="titulo-app">Dulcelina App</p>
         </div>
@@ -36,7 +36,7 @@ class Aside extends Component {
           <hr />
         </div>
 
-        <div className="container">
+        <div className="container d-none">
           <p className="text-muted mb-2">Busca un producto</p>
           <div className="input-group mb-3">
             <input

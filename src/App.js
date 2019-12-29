@@ -18,7 +18,7 @@ class App extends Component {
             <AppNavbar />
           </div>
 
-          <div className="container-flush">
+          <div className="container-fluid">
             <div className="row">
               <Aside />
               <Main />

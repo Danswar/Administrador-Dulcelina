@@ -117,3 +117,27 @@ th, td{
 .scroll-on{
     overflow-y: scroll;
 }
+.btn-primary{
+    color:#605e55  !important;
+    background-color:#eed67f !important;
+    border-color:#eed67f !important;
+}
+.btn-primary:hover{
+    color: white  !important;
+    font-weight: 600;
+    background-color:#dbbb47 !important;
+}
+.btn-float-circle{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    background-color:#eed67fda !important;
+    border-color:#eed67f !important;
+    border: none;
+
+}

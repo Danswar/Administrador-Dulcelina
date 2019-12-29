@@ -9,7 +9,7 @@ export default class Main extends Component{
 
     render(){
         return(
-          <main className="col-12 col-lg-9 pl-0">
+          <main className="col-12 col-lg-9 pl-0 pr-0">
 						<Header />	
             <Switch>
               <Route exact path="/productos">  
@@ -27,7 +27,7 @@ export default class Main extends Component{
 function Header() {
     return(
 			<div className="header-main d-none d-lg-block">
-				<div className="pl-3 pr-3 pt-2 d-flex justify-content-between align-items-center">
+				<div className="pt-2 d-flex justify-content-between align-items-center">
 					
 						<p className="ml-3">
 							<span className="mr-4"><i className="fas fa-dollar-sign fuente-verde"></i> 46.0000 Bsf/USD</span>
