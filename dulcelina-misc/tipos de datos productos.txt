@@ -1,0 +1,41 @@
+1) id : number - notNull - primarykey
+	-Solo para manejo de la base de datos, no visible para el usuario
+
+2) codigo : number - null - unique - identificar el producto
+	-Viene a se como un codigo de barras o algo asi
+
+3) nombre : string - notNull - unique - identificar el producto
+	-Nombre del producto, ejemplo "CACAO EN POLVO BOLSA 100G"
+	-Se guardara todo en mayusculas
+	-No puede comenzar con numeros ni caracteres raros
+
+4) stock : number - null - default=1 - numero de existencias de este producto
+	-cantidad del producto disponible
+	-por ahora se manejara como un integer
+
+5) stock_min : number - null - opcional - alarma de bajo stock
+	-cantidad minima para considerar el articulo como en bajo stock
+	-si es null, no estara activa la alarma
+
+6) p_costo_bsf : number - notNull - default=1 - precio costo producto en bolivares
+	-se fija cada vez que se agrega un nuevo producto al inventario o se updatea el stock para un producto existente
+
+7) p_costo_usd : number - notNull - default=1 - precio costo producto en dolares
+	-se calcula cada vez que se agrega un nuevo producto o se updatea el p_costo_bsf, REQUIERE: bsf_usd_base
+
+8) p_venta_bsf : number - notNull - default=1 - precio de venta al publico en bolivares
+	-se calcula en base al p_costo_usd, el margen y el bsf_usd_base en algun momento especifico
+	-queda almacenado tal cual
+
+9) p_venta_usd : number - notNull - default=1 - precio de venta al publico en dolares
+	-se calcula al vuelo con el p_venta_bsf y bsf_usd_actual
+			
+10) margen: number - notNull - default=1 - margen porcentual entre p_costo_dolares y p_venta_usd
+
+11) margen_min : number - notNull - default=0 - margen para alerta de precio desactualizado, misma ecuacion de margen
+
+12) bsf_usd_base : number - notNull - default=0 - conversión bolivares por dolar al momento de ingresar un p_costo_bsf
+	-valor de la conversion bsf-usd al momento de fijar un p_costo_bsf
+	
+13) bsf_usd_actual : number - notNull - default=0 - conversión bolivares por dolar mas actual
+	-valor actual del dolar, conseguir una api externa para esto. Puede ser LBC
