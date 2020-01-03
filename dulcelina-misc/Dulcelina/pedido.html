@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="custom.css">
+
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/5162fbebe5.js" crossorigin="anonymous"></script>
+
+  <title>Sistema de administración | Dulcelina</title>
+
+
+</head>
+
+<body>
+
+  <div id="app" class="d-flex flex-row-reverse">
+
+    <main>
+      <div class="header-main">
+        <div class="container">
+          <div class="row d-flex justify-content-between align-items-center">
+            <p class="ml-3">
+              <span class="mr-4"><i class="fas fa-dollar-sign fuente-verde"></i> 46.0000 Bsf/USD</span>
+              <span class="font-italic"><i class="far fa-calendar-alt"></i> 22/12/2019 - 12:26pm</span>
+            </p>
+            <div class="perfil-emoji mr-3">
+              <img class="img-circle" src="https://via.placeholder.com/35" alt="">
+              <p>Hola, <strong>Admin</strong></p>
+              <button class="btn btn-outline-success">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AREA DE TRABAJO -->
+      <div class="container">
+        <div id="ventana-factura" class="card mt-3">
+          <h5 class="card-header card-header-importe">Gestion de pedidos <small>Sucursal "La churuata"</small></h5>
+
+          <div class="card-body">
+            <form>
+              <div class="form-row d-flex justify-content-center flex-nowrap pb-3">
+                <div class="col-md-2">
+                  <label for="inputEmail4">Codigo</label>
+                  <input type="text" class="form-control" placeholder="Cod.">
+                </div>
+                <div class="col-md-7">
+                  <label for="inputEmail4">Nombre del producto</label>
+                  <input type="text" class="form-control" placeholder="Nombre">
+                </div>
+                <div class="col-md-1">
+                  <label for="inputEmail4">Cant.</label>
+                  <input type="text" class="form-control" placeholder="#">
+                </div>
+                <div class="col-md-1 align-self-end">
+                  <button class="btn btn-info img-circle ml-1"><i class="fas fa-arrow-right"></i></button>
+                </div>
+              </div>
+            </form>
+          
+            <div class="container tabla-factura scroll-on mt-3">
+            <table class="table">
+              <thead>
+                <tr class="row">
+                  <th class="col-1" scope="col"></th>
+                  <th class="col-1" scope="col">Cod.</th>
+                  <th  class="col-5"   scope="col">Nombre</th>
+                  <th  class="col-2"   scope="col">P.Unit</th>
+                  <th  class="col-1"  scope="col">Cant.</th>
+                  <th  class="col-2"  scope="col">Final</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="row">
+                  <td class="col-1" scope="col"><button class="btn btn-light img-circle"><i class="fas fa-times text-muted"></i></button></td>
+                  <td class="col-1" scope="col">C11234</td>
+                  <td  class="col-5"  scope="col">Algun nombre de articulo</td>
+                  <td  class="col-2"  scope="col">78.000,00</td>
+                  <td  class="col-1"  scope="col">10</td>
+                  <td class="col-2" scope="col">780.000,00</td>
+                </tr>
+                <tr class="row">
+                  <td class="col-1" scope="col"><button class="btn btn-light img-circle"><i class="fas fa-times text-muted"></i></button></td>
+                  <td class="col-1" scope="col">C11234</td>
+                  <td  class="col-5"  scope="col">Algun nombre de articulo</td>
+                  <td  class="col-2"  scope="col">78.000,00</td>
+                  <td  class="col-1"  scope="col">10</td>
+                  <td class="col-2" scope="col">780.000,00</td>
+                </tr>
+                <tr class="row">
+                  <td class="col-1" scope="col"><button class="btn btn-light img-circle"><i class="fas fa-times text-muted"></i></button></td>
+                  <td class="col-1" scope="col">C11234</td>
+                  <td  class="col-5"  scope="col">Algun nombre de articulo</td>
+                  <td  class="col-2"  scope="col">78.000,00</td>
+                  <td  class="col-1"  scope="col">10</td>
+                  <td class="col-2" scope="col">780.000,00</td>
+                </tr>
+                <tr class="row">
+                  <td class="col-1" scope="col"><button class="btn btn-light img-circle"><i class="fas fa-times text-muted"></i></button></td>
+                  <td class="col-1" scope="col">C11234</td>
+                  <td  class="col-5"  scope="col">Algun nombre de articulo</td>
+                  <td  class="col-2"  scope="col">78.000,00</td>
+                  <td  class="col-1"  scope="col">10</td>
+                  <td class="col-2" scope="col">780.000,00</td>
+                </tr>
+                <tr class="row">
+                  <td class="col-1" scope="col"><button class="btn btn-light img-circle"><i class="fas fa-times text-muted"></i></button></td>
+                  <td class="col-1" scope="col">C11234</td>
+                  <td  class="col-5"  scope="col">Algun nombre de articulo</td>
+                  <td  class="col-2"  scope="col">78.000,00</td>
+                  <td  class="col-1"  scope="col">10</td>
+                  <td class="col-2" scope="col">780.000,00</td>
+                </tr>
+                <tr class="row">
+                  <td class="col-1" scope="col"><button class="btn btn-light img-circle"><i class="fas fa-times text-muted"></i></button></td>
+                  <td class="col-1" scope="col">C11234</td>
+                  <td  class="col-5"  scope="col">Algun nombre de articulo</td>
+                  <td  class="col-2"  scope="col">78.000,00</td>
+                  <td  class="col-1"  scope="col">10</td>
+                  <td class="col-2" scope="col">780.000,00</td>
+                </tr>
+                <tr class="row">
+                  <td class="col-1" scope="col"><button class="btn btn-light img-circle"><i class="fas fa-times text-muted"></i></button></td>
+                  <td class="col-1" scope="col">C11234</td>
+                  <td  class="col-5"  scope="col">Algun nombre de articulo</td>
+                  <td  class="col-2"  scope="col">78.000,00</td>
+                  <td  class="col-1"  scope="col">10</td>
+                  <td class="col-2" scope="col">780.000,00</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            </div>
+
+
+          
+          </div> <!-- FIN card-body -->
+
+          <div class="card-footer importe">
+            <div class="d-flex flex-row-reverse height-full">
+              <p class="align-self-end fuente-ok">Bsf</p>
+              <h1 class="align-self-end font-weight-bolder fuente-ok">430.600, 00 </h1>
+              <h4 class="mr-3 fuente-ok">Importe</h4>
+            </div>
+          </div>
+
+        </div>
+      </div> <!-- FIN AREA TRABAJO -->
+    </main>
+
+    <aside>
+      <div class="header-aside container">
+        <img src="logo_dulcelina.jpeg" alt="logo dulcelina">
+        <p class="titulo-app">Dulcelina App</span>
+      </div>
+
+      <nav class="container-flush mt-3">
+        <ul>
+          <li class="item-nav"><a class="d-block" href="index.html"><i class="fas fa-home pr-3"></i>Home</a></li>
+          <li class="item-nav item-nav-active"><a class="d-block" href="pedido.html"><i
+                class="fab fa-sellsy pr-3"></i>Armar pedido</a></li>
+          <li class="item-nav"><a class="d-block" href="productos.html"><i class="fas fa-boxes pr-3"></i>Productos</a>
+          </li>
+          <li class="item-nav"><a class="d-block" href="categoria.html"><i class="fas fa-list pr-3"></i>Categorias</a>
+          </li>
+          <li class="item-nav"><a class="d-block" href="ajustes.html"><i class="fas fa-toolbox pr-3"></i>Ajustes</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="container mt-3 mb-3">
+        <hr>
+      </div>
+
+      <div class="container">
+        <p class="text-muted mb-2">Busca un producto</p>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="ejm: Torta" aria-label="ejm: Torta"
+            aria-describedby="button-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
+                class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+
+
+
+
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

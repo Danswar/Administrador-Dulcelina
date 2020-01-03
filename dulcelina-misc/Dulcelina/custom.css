@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+}
+p{
+    margin-bottom: 0;
+}
+ul{
+    padding-left: 0;
+}
+a, a:hover{
+    text-decoration: none;
+    color: inherit;
+}
+main{
+    width: 80%;
+    background-color: #f1f2f7;
+}
+aside{
+    width: 20%;
+    height: 100vh;
+    
+    background-color: #2a3542;
+}
+.titulo-app{
+    color: white;
+    font-size: 1.8rem;
+    font-weight: bolder;
+    margin-bottom: 0;
+    text-align: center;
+    margin-left: .5rem;
+    font-family: 'Dancing Script', cursive;
+}
+.header-aside, .header-main{
+    height: 55px;
+    display: flex;
+    align-items: center;
+}
+.header-aside{
+    background-color: black;
+}
+.header-aside img{
+    height: 100%;
+}
+.header-main{
+    background-color: white;
+}
+.img-circle{
+    border-radius: 50% !important;
+}
+.perfil-emoji{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.perfil-emoji img{
+    margin-right: .2rem;
+}
+.perfil-emoji p{
+    margin-right: 1rem;
+}
+
+.item-nav{
+    padding: .75rem 1.25rem;
+    text-decoration: none !important;
+    list-style: none !important;
+    color: #c5c5c5;
+}
+.item-nav:hover , .item-nav-active{
+    background-color: #1e282c !important;
+    color: white;
+}
+.item-nav-active{
+    border-left: 4px solid #46a1d6 !important;
+}
+.fuente-verde{
+    color: green !important;
+}
+.fuente-ok{
+    color: #1eb542;
+}
+.fuente-warning{
+    color: #f0e21c;
+}
+.fuente-danger{
+    color: rgb(255, 35, 35);
+}
+.icon-card{
+    font-size: 4.5rem;
+}
+th, td{
+    text-align: center;   
+}
+.table .thead-dark th {
+    background-color: #d1d3d5 !important;
+    border-color: #d1d3d5 !important;
+    color: #616161 !important;
+}
+#ventana-factura{
+    height: 85vh;
+}
+/* .card-body{
+    padding: 0 !important;
+} */
+.card-header-importe{
+    background-color: rgb(238, 214, 124);
+    border-bottom: 1px solid rgb(238, 214, 124);
+    color: #5d5846;;
+}
+.importe{
+    height: 100px !important;
+    background-color: white !important;
+}
+.height-full{
+    height: 100% !important;
+}
+.fuente-importe{
+    color:#253f25;
+}
+.tabla-factura{
+    max-height: 75% !important;
+}
+.scroll-on{
+    overflow-y: scroll;
+}
