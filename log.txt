@@ -1,0 +1,4 @@
+03/01/2020-------------------------
+- Termine de aclarar los tipos de datos para el recurso "Producto" toda la info esta en ./../dulcelina-misc/tipos de datos productos.txt
+
+

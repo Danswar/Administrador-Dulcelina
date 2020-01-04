@@ -1,5 +1,21 @@
 import React, { Component, useState } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Col,
+  Row,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
+} from "reactstrap";
 
 export default class Productos extends Component {
   handleModal = obj => {
@@ -20,7 +36,7 @@ export default class Productos extends Component {
 
         {/* BARRA DE BUSQUEDA Y BOTON*/}
         <div className="d-flex flex-wrap justify-content-between mt-2 mt-sm-4 ">
-          <ButtonModal
+          <ModalNew
             classNameButton="btn btn-primary d-none d-sm-block"
             buttonLabel="Agregar nuevo"
             classNameIcon="fas fa-plus-circle pr-2"
@@ -47,110 +63,346 @@ export default class Productos extends Component {
         </div>
 
         {/* BOTON FLOTANTE REDONDO SOLO PARA PANTALLAS PEQUEÑAS*/}
-        <ButtonModal
+        <ModalNew
           classNameButton="btn-float-circle d-block d-sm-none"
           buttonLabel=""
           classNameIcon="fas fa-plus"
           handleModal={this.handleModal}
         />
 
-        <table className="table mt-4">
-          <thead className="thead-dark">
-            <tr>
-              <th scope="col">Hora</th>
-              <th scope="col">Cant. productos</th>
-              <th scope="col">Importe</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>22/12/2019 - 20:30</td>
-              <td>12</td>
-              <td>502.394,00 Bsf</td>
-            </tr>
-            <tr>
-              <td>22/12/2019 - 20:30</td>
-              <td>12</td>
-              <td>502.394,00 Bsf</td>
-            </tr>
-            <tr>
-              <td>22/12/2019 - 20:30</td>
-              <td>12</td>
-              <td>502.394,00 Bsf</td>
-            </tr>
-            <tr>
-              <td>22/12/2019 - 20:30</td>
-              <td>12</td>
-              <td>502.394,00 Bsf</td>
-            </tr>
-            <tr>
-              <td>22/12/2019 - 20:30</td>
-              <td>12</td>
-              <td>502.394,00 Bsf</td>
-            </tr>
-            <tr>
-              <td>22/12/2019 - 20:30</td>
-              <td>12</td>
-              <td>502.394,00 Bsf</td>
-            </tr>
-          </tbody>
-        </table>
+        <h1 className="mt-4 pt-4">ZONA EN DESARROLLO</h1>
+        <h2>Muestra de datos en forma de tabla o algo asi</h2>
+
+        
+        
       </div>
     );
   }
 }
 
 /* MODAL PARA INGRESAR NUEVO PRODUCTO */
-const ButtonModal = props => {
-  const { buttonLabel, classNameButton, classNameIcon, handleModal } = props;
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
+class ModalNew extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.buttonLabel=props.buttonLabel;
+    this.classNameButton=props.classNameButton;
+    this.classNameIcon =props.classNameIcon;
+    
+    this.state = {
+      show: false,
+      producto: {
+        id: "",
+        codigo: "",
+        nombre: "",
+        stock: 1,
+        stock_min: 0,
+        p_costo_bsf: 0,
+        p_costo_usd: 0,
+        p_venta_bsf: 0,
+        p_venta_usd: 0,
+        margen: 1,
+        margen_min: 0,
+        dolar_base: 1,
+        dolar_actual: 2
+      }
+    };
+  }
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    //the code to save a new product goes here
-    const objetoLiteral = { msg: "MENSAJE desde el modal" };
-    handleModal(objetoLiteral);
-    toggle();
-  };
+  toggle = () => this.setState({
+    show: !this.state.show
+  });
 
-  return (
-    <div>
-      <button className={classNameButton} onClick={toggle}>
-        <i className={classNameIcon}></i>
-        {buttonLabel}
-      </button>
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-        <ModalBody>
-          <form>
-            <div className="form-group">
-              <input
-                type="email"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-              />
-            </div>
+  handleChange = (e) =>{
+    let newProducto = this.calculadora(e);
 
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              className="btn btn-primary"
-            >
-              Submit
-            </button>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Do Something
-          </Button>{" "}
-          <Button color="secondary" onClick={toggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </div>
-  );
-};
+    this.setState({
+      producto: newProducto
+    });
+  
+  }
+
+  calculadora = e =>{
+    let name = e.target.name;
+    let value = e.target.value;
+    
+    let temp = this.state.producto;
+    temp[name] = value;
+    
+    let diff = 0;
+    console.log(diff);
+    name= value===0 || value==='' ? null : name; 
+    switch(name){
+      case 'p_costo_bsf':
+        temp.p_costo_usd = temp.p_costo_bsf/temp.dolar_base;
+        diff = temp.p_venta_usd-temp.p_costo_usd;
+        temp.margen = (diff/temp.p_costo_usd)*100;
+        break;
+
+      case 'dolar_base':
+        temp.p_costo_usd = temp.p_costo_bsf/temp.dolar_base;
+        diff = temp.p_venta_usd-temp.p_costo_usd;
+        temp.margen = (diff/temp.p_costo_usd)*100;
+        break;
+      
+      case 'p_costo_usd':
+        temp.dolar_base = temp.p_costo_bsf/temp.p_costo_usd;
+        diff = temp.p_venta_usd-temp.p_costo_usd;
+        temp.margen = (diff/temp.p_costo_usd)*100;
+        break;
+      
+      case 'p_venta_bsf':
+        temp.p_venta_usd = temp.p_venta_bsf/temp.dolar_actual;
+        diff = temp.p_venta_usd-temp.p_costo_usd;
+        temp.margen = (diff/temp.p_costo_usd)*100;
+        break;
+      
+      case 'dolar_actual':
+        temp.p_venta_usd = temp.p_venta_bsf/temp.dolar_actual;
+        diff = temp.p_venta_usd-temp.p_costo_usd;
+        temp.margen = (diff/temp.p_costo_usd)*100;
+        break;
+      
+      case 'p_venta_usd':
+        temp.p_venta_bsf = temp.p_venta_usd*temp.dolar_actual;
+        diff = temp.p_venta_usd-temp.p_costo_usd;
+        temp.margen = (diff/temp.p_costo_usd)*100;
+        break;
+      
+      case 'margen':
+        temp.p_venta_usd = (temp.margen*temp.p_costo_usd/100) + parseFloat(temp.p_costo_usd);
+        temp.p_venta_bsf = temp.p_venta_usd*temp.dolar_actual;
+        break;
+
+      default:
+        console.log('[calculadora] default');
+    }
+    return temp;
+  }
+
+  render() {
+    return (
+      <div>
+        <button className={this.classNameButton} onClick={this.toggle}>
+          <i className={this.classNameIcon}></i>
+          {this.buttonLabel}
+        </button>
+        <Modal isOpen={this.state.show} toggle={this.toggle} className={'className'} size={'lg'}>
+          <ModalHeader toggle={this.toggle}>
+            <span className="h5">
+              <i className="fas fa-boxes pr-3" />
+              Agregar nuevo producto
+            </span>{" "}
+            <small className="text-muted font-italic">
+              | Inventario de Productos
+            </small>
+          </ModalHeader>
+          <ModalBody>
+            
+          <Form className="pr-1 pl-1">
+            <Row form>
+              <Col md={3}>
+                <FormGroup>
+                  <Label for="codigo">Codigo</Label>
+                  <Input
+                    value={this.state.producto.codigo}
+                    onChange={this.handleChange}
+                    type="number"
+                    name="codigo"
+                    id="codigo"
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={9}>
+                <FormGroup>
+                  <Label for="nombre">Nombre del producto</Label>
+                  <Input
+                    value={this.state.producto.nombre}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="nombre"
+                    id="nombre"
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+
+            <Row form className="pb-3">
+              <Col md={5}>
+                <div className="d-flex flex-wrap">
+                  <Label for="stock" className="mb-0 pt-1 mr-2">
+                    Stock
+                  </Label>
+                  <Input
+                    value={this.state.producto.stock}
+                    onChange={this.handleChange}
+                    type="number"
+                    name="stock"
+                    id="stock"
+                    className="col-md-6"
+                  />
+                </div>
+              </Col>
+              <Col md={{ size: 5, offset: 1 }}>
+                <div className="d-flex flex-wrap">
+                  <Label for="stock_min" className="mb-0 pt-1 mr-2">
+                    Stock minimo
+                  </Label>
+                  <Input
+                    value={this.state.producto.stock_min}
+                    onChange={this.handleChange}
+                    type="number"
+                    name="stock_min"
+                    id="stock_min"
+                    className="col-md-6"
+                  />
+                </div>
+              </Col>
+            </Row>
+
+            <Row form className="pb-3 pt-3">
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="p_costo_bsf">P. costo Bsf</Label>
+                  <Input
+                    value={this.state.producto.p_costo_bsf}
+                    onChange={this.handleChange}
+                    type="number"
+                    name="p_costo_bsf"
+                    id="p_costo_bsf"
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label>Dolar base</Label>
+                  <InputGroup>
+                    <Input
+                      value={this.state.producto.dolar_base}
+                      onChange={this.handleChange}
+                      type="number"
+                      name="dolar_base"
+                      id="dolar_base"
+                    />
+                    <InputGroupAddon addonType="append">
+                      <Button outline color="success">
+                        <i className="fas fa-sync-alt"></i>
+                      </Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="p_costo_usd">P. costo Usd</Label>
+                  <Input
+                    value={this.state.producto.p_costo_usd}
+                    onChange={this.handleChange}
+                    type="number"
+                    name="p_costo_usd"
+                    id="p_costo_usd"
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+
+            <Row form className="pt-3">
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="p_venta_bsf">P. venta Bsf</Label>
+                  <Input
+                    onChange={this.handleChange}
+                    value={this.state.producto.p_venta_bsf}
+                    type="number"
+                    name="p_venta_bsf"
+                    id="p_venta_bsf"
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label>Dolar actual</Label>
+                  <InputGroup>
+                    <Input
+                      value={this.state.producto.dolar_actual}
+                      onChange={this.handleChange}
+                      type="number"
+                      name="dolar_actual"
+                      id="dolar_actual"
+                    />
+                    <InputGroupAddon addonType="append">
+                      <Button outline color="success">
+                        <i className="fas fa-sync-alt"></i>
+                      </Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="p_venta_usd">P. venta Usd</Label>
+                  <Input
+                    onChange={this.handleChange}
+                    value={this.state.producto.p_venta_usd}
+                    type="number"
+                    name="p_venta_usd"
+                    id="p_venta_usd"
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+
+            <Row form className="pb-4">
+              <Col md={5}>
+                <div className="d-flex flex-wrap">
+                  <Label className="mb-0 pt-1">Margen</Label>
+                  <InputGroup className="col-md-8">
+                    <Input
+                      onChange={this.handleChange}
+                      value={this.state.producto.margen}
+                      type="number"
+                      id="margen"
+                      name="margen"
+                    />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>%</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </div>
+              </Col>
+              <Col md={{ size: 5, offset: 1 }}>
+                <div className="d-flex flex-wrap">
+                  <Label className="mb-0 pt-1">Margen min.</Label>
+                  <InputGroup className="col-md-8">
+                    <Input
+                      value={this.state.producto.margen_min}
+                      onChange={this.handleChange}
+                      type="number"
+                      id="margen_min"
+                      name="margen_min"
+                    />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>%</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </div>
+              </Col>
+            </Row>
+
+            <ModalFooter>
+              <Button color="secondary" onClick={this.toggle}>
+                Cancelar
+              </Button>{" "}
+              <Button color="primary" onClick={this.toggle}>
+                Listo!
+              </Button>
+            </ModalFooter>
+          </Form>
+
+
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}

@@ -9,6 +9,10 @@ a, a:hover{
     text-decoration: none;
     color: inherit;
 }
+label{
+    margin-bottom: 0 !important;
+    font-style: italic !important;
+}
 main{
     background-color: #f1f2f7;
 }
