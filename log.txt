@@ -1,3 +1,13 @@
+05/01/2020------------------------
+- el modal agrega productos al componente Productos donde ahora se lista en una tabla
+- el valor del dolar esta en el state del componente Producto.
+- hay TODOs por resolver con el asunto del 'dolar actual'
+
+04/01/2020------------------------
+- Termine el diseño del formulario de nuevo Producto
+- Se calculan los valores de los campos que dependen de otros
+
+
 03/01/2020-------------------------
 - Termine de aclarar los tipos de datos para el recurso "Producto" toda la info esta en ./../dulcelina-misc/tipos de datos productos.txt
 
