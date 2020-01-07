@@ -16,6 +16,9 @@ import {
   InputGroupAddon,
   InputGroupText
 } from "reactstrap";
+import { useState } from 'react';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
 
 export default class Productos extends Component {
   constructor(props) {
@@ -126,8 +129,8 @@ export default class Productos extends Component {
 
         <div className="pt-4">
           <p className="text-right font-italic">
-            <small>Calculos con dolar a:</small>
-            <strong> {dolar_actual}bsf/usd</strong> - actualizado: justo ahora
+            <small>Dolar: </small>
+            <strong> {dolar_actual}bsf/usd</strong> - act.: justo ahora
             <button className="btn fuente-verde">
               <i className="fas fa-sync"></i>
             </button>
@@ -138,9 +141,9 @@ export default class Productos extends Component {
         <table className="table table-hover">
           <thead className="thead-dark">
             <tr>
-              <th scope="col">Cod.</th>
+              <th scope="col" className="d-none d-sm-table-cell">Cod.</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Stock</th>
+              <th scope="col" className="d-none d-sm-table-cell">Stock</th>
               <th scope="col">Margen</th>
               <th scope="col">P.Venta</th>
               <th scope="col"></th>
@@ -151,15 +154,15 @@ export default class Productos extends Component {
               let margen =(prod.p_venta_bsf / (prod.p_costo_usd * dolar_actual) -1)*100;
               return (
                 <tr key={prod.id}>
-                  <th scope="row">{prod.codigo}</th>
+                  <th scope="row" className="d-none d-sm-table-cell">{prod.codigo}</th>
                   <td>{prod.nombre}</td>
-                  <td>{prod.stock}</td>
+                  <td className="d-none d-sm-table-cell">{prod.stock}</td>
                   <td>
                     {parseFloat(margen).toFixed(1)}%
                   </td>
                   <td>{prod.p_venta_bsf}Bsf</td>
                   <td>
-                    <i className="fas fa-ellipsis-v"></i>
+                    <OptionsDropdown />
                   </td>
                 </tr>
               );
@@ -244,45 +247,45 @@ class ModalNew extends Component {
     name = value === 0 || value === "" ? null : name;
     switch (name) {
       case "p_costo_bsf":
-        temp.p_costo_usd = temp.p_costo_bsf / temp.dolar_base;
+        temp.p_costo_usd = parseFloat(temp.p_costo_bsf / temp.dolar_base).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = (diff / temp.p_costo_usd) * 100;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "dolar_base":
-        temp.p_costo_usd = temp.p_costo_bsf / temp.dolar_base;
+        temp.p_costo_usd = parseFloat(temp.p_costo_bsf / temp.dolar_base).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = (diff / temp.p_costo_usd) * 100;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "p_costo_usd":
-        temp.dolar_base = temp.p_costo_bsf / temp.p_costo_usd;
+        temp.dolar_base = parseFloat(temp.p_costo_bsf / temp.p_costo_usd).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = (diff / temp.p_costo_usd) * 100;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "p_venta_bsf":
-        temp.p_venta_usd = temp.p_venta_bsf / temp.dolar_actual;
+        temp.p_venta_usd = parseFloat(temp.p_venta_bsf / temp.dolar_actual).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = (diff / temp.p_costo_usd) * 100;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "dolar_actual":
-        temp.p_venta_usd = temp.p_venta_bsf / temp.dolar_actual;
+        temp.p_venta_usd = parseFloat(temp.p_venta_bsf / temp.dolar_actual).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = (diff / temp.p_costo_usd) * 100;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "p_venta_usd":
-        temp.p_venta_bsf = temp.p_venta_usd * temp.dolar_actual;
+        temp.p_venta_bsf = parseFloat(temp.p_venta_usd * temp.dolar_actual).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = (diff / temp.p_costo_usd) * 100;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "margen":
         temp.p_venta_usd =
           (temp.margen * temp.p_costo_usd) / 100 + parseFloat(temp.p_costo_usd);
-        temp.p_venta_bsf = temp.p_venta_usd * temp.dolar_actual;
+        temp.p_venta_bsf = parseFloat(temp.p_venta_usd * temp.dolar_actual).toFixed(2);
         break;
 
       default:
@@ -409,6 +412,7 @@ class ModalNew extends Component {
                       type="number"
                       name="p_costo_bsf"
                       id="p_costo_bsf"
+                      step="any"
                       required
                     />
                   </FormGroup>
@@ -423,6 +427,7 @@ class ModalNew extends Component {
                         type="number"
                         name="dolar_base"
                         id="dolar_base"
+                        step="any"
                         required
                       />
                       <InputGroupAddon addonType="append">
@@ -442,6 +447,7 @@ class ModalNew extends Component {
                       type="number"
                       name="p_costo_usd"
                       id="p_costo_usd"
+                      step="any"
                       required
                     />
                   </FormGroup>
@@ -458,6 +464,7 @@ class ModalNew extends Component {
                       type="number"
                       name="p_venta_bsf"
                       id="p_venta_bsf"
+                      step="any"
                       required
                     />
                   </FormGroup>
@@ -472,6 +479,7 @@ class ModalNew extends Component {
                         type="number"
                         name="dolar_actual"
                         id="dolar_actual"
+                        step="any"
                         required
                       />
                       <InputGroupAddon addonType="append">
@@ -491,6 +499,7 @@ class ModalNew extends Component {
                       type="number"
                       name="p_venta_usd"
                       id="p_venta_usd"
+                      step="any"
                       required
                     />
                   </FormGroup>
@@ -508,6 +517,7 @@ class ModalNew extends Component {
                         type="number"
                         id="margen"
                         name="margen"
+                        step="any"
                         required
                       />
                       <InputGroupAddon addonType="append">
@@ -526,6 +536,7 @@ class ModalNew extends Component {
                         type="number"
                         id="margen_min"
                         name="margen_min"
+                        step="any"
                         required
                       />
                       <InputGroupAddon addonType="append">
@@ -550,4 +561,24 @@ class ModalNew extends Component {
       </div>
     );
   }
+}
+
+
+const OptionsDropdown = (props) => {
+  const [dropdownOpen, setOpen] = useState(false);
+
+  const toggle = () => setOpen(!dropdownOpen);
+
+  return (
+    <ButtonDropdown direction="left" isOpen={dropdownOpen} toggle={toggle}>
+      <DropdownToggle color="light">
+      <i className="fas fa-ellipsis-v"></i>
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem><i className="far fa-edit mr-3"></i>Editar</DropdownItem>
+        <DropdownItem divider/>
+        <DropdownItem><i class="far fa-trash-alt mr-3"></i>Eliminar</DropdownItem>
+      </DropdownMenu>
+    </ButtonDropdown>
+  );
 }

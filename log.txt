@@ -1,3 +1,7 @@
+07/01/2020------------------------
+- tabla de productos responsive
+- añadido dropdown para poner menu editar y eliminar
+
 05/01/2020------------------------
 - el modal agrega productos al componente Productos donde ahora se lista en una tabla
 - el valor del dolar esta en el state del componente Producto.
