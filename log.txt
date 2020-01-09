@@ -1,3 +1,7 @@
+09/01/2020------------------------
+- se puede cambiar el valor del dolar actual desde un input en el componente Productos
+- proximo paso, implementar redux con el valor del dolar
+
 08/01/2020------------------------
 - modal de ahora permite editar
 - el margen y p_venta_usd se calculan correctamente al entrar en editar

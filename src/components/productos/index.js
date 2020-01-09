@@ -74,6 +74,12 @@ export default class Productos extends Component {
     });
   }
 
+  changeDolarValue = (newDolarValue) =>{
+    this.setState({
+      dolar_actual: newDolarValue
+    });
+  }
+
 
   render() {
     const { dolar_actual, productos } = this.state;
@@ -127,15 +133,19 @@ export default class Productos extends Component {
           handleModal={this.newProducto}
         />
 
-        <div className="pt-4">
-          <p className="text-right font-italic">
+        <div className="pt-4  pb-1 text-right">
+          <p className="text-right font-italic d-inline pr-2">
             <small>Dolar: </small>
             <strong> {dolar_actual}bsf/usd</strong> - act.: justo ahora
-            <UpdateDolarForm />
+            
             {/* <button className="btn fuente-verde">
               <i className="fas fa-sync"></i>
             </button> */}
           </p>
+          <UpdateDolarForm 
+            handleUpdateDolar={this.changeDolarValue} 
+            dolar_actual={this.state.dolar_actual}
+            />
         </div>
 
         {/* TABLA DE DATOS */}
