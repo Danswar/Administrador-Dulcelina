@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Productos from './Productos';
-import Pedido from './Pedido';
+import Productos from './productos';
+import Pedido from './pedido';
 
 
 export default class Main extends Component{
