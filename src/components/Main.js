@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import { useSelector } from 'react-redux'
+
 import Productos from './productos';
 import Pedido from './pedido';
 
@@ -25,12 +27,14 @@ export default class Main extends Component{
 }
 
 function Header() {
+    const dolar_actual = useSelector(state => state.dolar.dolar_actual);
+
     return(
 			<div className="header-main d-none d-lg-block">
 				<div className="pt-2 d-flex justify-content-between align-items-center">
 					
 						<p className="ml-3">
-							<span className="mr-4"><i className="fas fa-dollar-sign fuente-verde"></i> ---- Bsf/USD</span>
+							<span className="mr-4"><i className="fas fa-dollar-sign fuente-verde"></i> {dolar_actual} Bsf/USD</span>
 							<span className="font-italic"><i className="far fa-calendar-alt"></i> 22/12/2019 - 12:26pm</span>
 						</p>
 						<div className="perfil-emoji mr-3">

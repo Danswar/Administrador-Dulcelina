@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+
+import { updateDolar } from '../../redux/actions/dolarActions';
+
+import { connect } from 'react-redux';
+
 import uuid from "react-uuid";
 import {
     Button,
@@ -18,7 +23,7 @@ import {
   } from "reactstrap";
 
   
-export default class ModalProducto extends Component {
+class ModalProducto extends Component {
     constructor(props) {
       super(props);
   
@@ -26,6 +31,7 @@ export default class ModalProducto extends Component {
       this.buttonLabel = props.buttonLabel;
       this.classNameButton = props.classNameButton;
       this.classNameIcon = props.classNameIcon;
+
       
       /*si viene un producto por las props lo cargamos en el form */
       /*si no se inicializa todo vacio */
@@ -41,16 +47,17 @@ export default class ModalProducto extends Component {
         p_venta_usd: "",
         margen: "",
         margen_min: "",
-        dolar_base: "",
-        dolar_actual: "" /**TODO: hacer el peo del dolar */
+        dolar_base: ""
       }} = props; 
 
 
       /**el margen y el precio venta se calculan al inicializar*/
-      let {p_venta_bsf, p_costo_usd, dolar_actual} = producto;
+      let {p_venta_bsf, p_costo_usd} = producto;
+      let dolar_actual = this.props.dolar_actual;
+
       if( p_venta_bsf!=="" && p_costo_usd!=="" ){
         producto.p_venta_usd = parseFloat(p_venta_bsf / dolar_actual).toFixed(2);
-        let diff = producto.p_venta_usd - p_costo_usd; console.log(diff);
+        let diff = producto.p_venta_usd - p_costo_usd;
         producto.margen = parseFloat((diff / p_costo_usd) * 100).toFixed(2);     
       }
 
@@ -60,8 +67,24 @@ export default class ModalProducto extends Component {
       };
       
     }
+
+    componentDidUpdate(prevProps, prevState){
+      if(prevProps.dolar_actual !==  this.props.dolar_actual){
+        let producto = this.state.producto
+        let {p_venta_bsf, p_costo_usd} = producto;
+        let dolar_actual = this.props.dolar_actual;
   
-   
+        if( p_venta_bsf!=="" && p_costo_usd!=="" ){
+          producto.p_venta_usd = parseFloat(p_venta_bsf / dolar_actual).toFixed(2);
+          let diff = producto.p_venta_usd - p_costo_usd;
+          producto.margen = parseFloat((diff / p_costo_usd) * 100).toFixed(2);     
+        }
+  
+        this.setState( {
+          producto: producto
+        });
+      }
+    }
   
     toggle = () =>
       this.setState({
@@ -75,6 +98,11 @@ export default class ModalProducto extends Component {
         producto: newProducto
       });
     };
+
+    handleValueDolarChange = e =>{
+      this.props.updateDolar(e.target.value);
+      this.calculadora(e);
+    }
   
     calculadora = e => {
       let name = e.target.name;
@@ -105,19 +133,19 @@ export default class ModalProducto extends Component {
           break;
   
         case "p_venta_bsf":
-          temp.p_venta_usd = parseFloat(temp.p_venta_bsf / temp.dolar_actual).toFixed(2);
+          temp.p_venta_usd = parseFloat(temp.p_venta_bsf / this.props.dolar_actual).toFixed(2);
           diff = temp.p_venta_usd - temp.p_costo_usd;
           temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
           break;
   
         case "dolar_actual":
-          temp.p_venta_usd = parseFloat(temp.p_venta_bsf / temp.dolar_actual).toFixed(2);
+          temp.p_venta_usd = parseFloat(temp.p_venta_bsf / this.props.dolar_actual).toFixed(2);
           diff = temp.p_venta_usd - temp.p_costo_usd;
           temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
           break;
   
         case "p_venta_usd":
-          temp.p_venta_bsf = parseFloat(temp.p_venta_usd * temp.dolar_actual).toFixed(2);
+          temp.p_venta_bsf = parseFloat(temp.p_venta_usd * this.props.dolar_actual).toFixed(2);
           diff = temp.p_venta_usd - temp.p_costo_usd;
           temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
           break;
@@ -125,7 +153,7 @@ export default class ModalProducto extends Component {
         case "margen":
           temp.p_venta_usd =
             (temp.margen * temp.p_costo_usd) / 100 + parseFloat(temp.p_costo_usd);
-          temp.p_venta_bsf = parseFloat(temp.p_venta_usd * temp.dolar_actual).toFixed(2);
+          temp.p_venta_bsf = parseFloat(temp.p_venta_usd * this.props.dolar_actual).toFixed(2);
           break;
   
         default:
@@ -150,8 +178,6 @@ export default class ModalProducto extends Component {
         p_venta_bsf: data.p_venta_bsf,
         margen_min: data.margen_min,
         dolar_base: data.dolar_base,
-        dolar_actual:
-          data.dolar_actual /* TODO: Remover esto de aqui es solo para probar */
       };
   
       this.props.handleModal(dataToSend);
@@ -159,6 +185,7 @@ export default class ModalProducto extends Component {
     };
   
     render() {
+
       return (
         <div>
           <button className={this.classNameButton} onClick={this.toggle}>
@@ -315,8 +342,8 @@ export default class ModalProducto extends Component {
                       <Label>Dolar actual</Label>
                       <InputGroup>
                         <Input
-                          value={this.state.producto.dolar_actual}
-                          onChange={this.handleChange}
+                          value={this.props.dolar_actual}
+                          onChange={ this.handleValueDolarChange }
                           type="number"
                           name="dolar_actual"
                           id="dolar_actual"
@@ -403,4 +430,12 @@ export default class ModalProducto extends Component {
       );
     }
   }
+
+  const mapStateToProps = state =>({
+    dolar_actual: state.dolar.dolar_actual
+  });
+
+  
+  
+  export default connect(mapStateToProps, {updateDolar} )(ModalProducto);
   

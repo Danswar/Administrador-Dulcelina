@@ -1,4 +1,10 @@
 09/01/2020------------------------
+- implementado redux para el control del dolar actual
+- todos los componentes del paquete producto toman el valor del dolar desde la store de redux
+- agregados lo productos a la store
+- funciona el buscador de productos
+
+09/01/2020------------------------
 - se puede cambiar el valor del dolar actual desde un input en el componente Productos
 - proximo paso, implementar redux con el valor del dolar
 

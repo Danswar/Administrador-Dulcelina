@@ -1,24 +1,29 @@
 import React, { useState } from "react";
+
+import { useSelector , useDispatch } from 'react-redux';
+import { updateDolar } from '../../redux/actions/dolarActions';
+
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 
 const UpdateDolarForm = props => {
   
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [valueInputDolar, setVaueInputDolar] = useState(props.dolar_actual);
-
   const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const valueInputDolar = useSelector( state => state.dolar.dolar_actual);
+  const dispatch = useDispatch();
   
   const onChangeValue = (e) =>{
     let value = e.target.value
-    setVaueInputDolar(value);
+    dispatch(updateDolar(value));
   }
 
   const onSubmit = (e) =>{
     e.preventDefault();
-    props.handleUpdateDolar(e.target.dolar_actual.value);
     toggle();
   }
+
 
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle} direction="left" style={{display:'inline'}} >
