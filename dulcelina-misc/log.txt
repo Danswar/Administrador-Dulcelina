@@ -1,3 +1,9 @@
+12/01/2020------------------------
+- instalado un proyecto laravel de nombre store
+- creadas la migración de la tabla productos
+- implementada las rutas para listar todos los productos
+- implementada la ruta para devolver un unico producto
+ 
 09/01/2020------------------------
 - implementado redux para el control del dolar actual
 - todos los componentes del paquete producto toman el valor del dolar desde la store de redux
