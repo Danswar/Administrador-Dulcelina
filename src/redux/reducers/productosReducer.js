@@ -1,10 +1,9 @@
-import { FETCH_PRODUCTS } from "../actions/types";
-
+import { SET_PRODUCTS } from '../actions/productosActions';
 const productos = [];
 
 export default function(state = productos, action) {
   switch (action.type) {
-    case FETCH_PRODUCTS:
+    case SET_PRODUCTS:
       return action.payload;
 
     default:

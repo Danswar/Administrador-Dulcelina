@@ -72,7 +72,7 @@ class Productos extends Component {
 
   render() {
     const { dolar_actual } = this.props;
-    const { productos } = this.props;
+    const { productos } = this.state;
 
     return (
       <div className="container ">
