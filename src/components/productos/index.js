@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
+import { fetchProducts } from "../../redux/actions/productosActions";
 
-import UpdateDolarForm from './UpdateDolarForm';
+import UpdateDolarForm from "./UpdateDolarForm";
 import ModalProducto from "./ModalProducto";
 
 class Productos extends Component {
@@ -12,6 +13,10 @@ class Productos extends Component {
       searchParam: "",
       productos: props.productos
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchProducts();
   }
 
   /* TODO: Poner esto en redux */
@@ -24,10 +29,10 @@ class Productos extends Component {
 
   /* TODO: Poner esto en redux */
   /*Editar producto en el state*/
-  editProducto= obj =>{
-    let nuevaLista = this.state.productos.map(prod =>{
-      if(prod.id===obj.id){
-        prod=obj;
+  editProducto = obj => {
+    let nuevaLista = this.state.productos.map(prod => {
+      if (prod.id === obj.id) {
+        prod = obj;
       }
       return prod;
     });
@@ -35,41 +40,39 @@ class Productos extends Component {
     this.setState({
       productos: nuevaLista
     });
-  }
+  };
 
-
-  changeDolarValue = (newDolarValue) =>{
+  changeDolarValue = newDolarValue => {
     this.setState({
       dolar_actual: newDolarValue
     });
-  }
-  handleSearch = (e) => {
+  };
+  handleSearch = e => {
     let searchParam = e.target.value;
     this.setState({
       searchParam
     });
 
-    if(searchParam!==''){
-      let matches = this.props.productos.filter( producto =>{
-        const regex = new RegExp(`^${searchParam}`,'gi');
-        return producto.nombre.match(regex) || producto.codigo.match(regex)
-      })
+    if (searchParam !== "") {
+      let matches = this.props.productos.filter(producto => {
+        const regex = new RegExp(`^${searchParam}`, "gi");
 
+        return producto.nombre.match(regex); // || producto.codigo.match(regex);
+      });
+      console.log(matches);
       this.setState({
-        productos:matches
-      })
-    }else{
+        productos: matches
+      });
+    } else {
       this.setState({
-        productos:this.props.productos
+        productos: this.props.productos
       });
     }
-  } 
-
+  };
 
   render() {
-
     const { dolar_actual } = this.props;
-    const {  productos } =this.state
+    const { productos } = this.props;
 
     return (
       <div className="container ">
@@ -126,15 +129,14 @@ class Productos extends Component {
           <p className="text-right font-italic d-inline pr-2">
             <small>Dolar: </small>
             <strong> {dolar_actual}bsf/usd</strong> - act.: justo ahora
-            
             {/* <button className="btn fuente-verde">
               <i className="fas fa-sync"></i>
             </button> */}
           </p>
-          <UpdateDolarForm 
-            handleUpdateDolar={this.changeDolarValue} 
+          <UpdateDolarForm
+            handleUpdateDolar={this.changeDolarValue}
             dolar_actual={this.state.dolar_actual}
-            />
+          />
         </div>
 
         {/* TABLA DE DATOS */}
@@ -156,8 +158,7 @@ class Productos extends Component {
           <tbody>
             {productos.map(prod => {
               let margen =
-                (prod.p_venta_bsf / (prod.p_costo_usd * dolar_actual) - 1) *
-                100;
+                (prod.p_venta / (prod.p_costo_usd * dolar_actual) - 1) * 100;
               return (
                 <tr key={prod.id}>
                   <th scope="row" className="d-none d-sm-table-cell">
@@ -166,15 +167,15 @@ class Productos extends Component {
                   <td>{prod.nombre}</td>
                   <td className="d-none d-sm-table-cell">{prod.stock}</td>
                   <td>{parseFloat(margen).toFixed(1)}%</td>
-                  <td>{prod.p_venta_bsf}Bsf</td>
+                  <td>{prod.p_venta}Bsf</td>
                   <td>
                     <ModalProducto
-                      modalTitle = "Editar producto"
+                      modalTitle="Editar producto"
                       classNameButton="btn p-0"
                       buttonLabel=""
                       classNameIcon="far fa-edit"
                       producto={prod}
-                      handleModal = {this.editProducto}
+                      handleModal={this.editProducto}
                     />
                   </td>
                 </tr>
@@ -187,9 +188,9 @@ class Productos extends Component {
   }
 }
 
-const mapStateToProps = state =>({
+const mapStateToProps = state => ({
   dolar_actual: state.dolar.dolar_actual,
   productos: state.productos
 });
 
-export default connect(mapStateToProps,null)(Productos);
+export default connect(mapStateToProps, { fetchProducts })(Productos);
