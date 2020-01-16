@@ -1,12 +1,36 @@
-import { SET_PRODUCTS } from '../actions/productosActions';
-const productos = [];
+import {
+  SET_PRODUCTS,
+  FILTER_PRODUCTS,
+  SET_SUGGESTION
+} from "../actions/productosActions";
 
-export default function(state = productos, action) {
+const initialState = {
+  listaProductos: [],
+  filter: "",
+  suggestion: []
+};
+
+export const productosReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PRODUCTS:
-      return action.payload;
+      return {
+        ...state,
+        listaProductos: action.payload.data
+      };
+
+    case FILTER_PRODUCTS:
+      return {
+        ...state,
+        filter: action.payload.data
+      };
+
+    case SET_SUGGESTION:
+      return {
+        ...state,
+        suggestion: action.payload.data
+      };
 
     default:
       return state;
   }
-}
+};

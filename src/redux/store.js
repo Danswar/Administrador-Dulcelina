@@ -2,12 +2,16 @@ import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./reducers";
 
 import thunk from "redux-thunk";
+import { appMidleware } from "./middleware/app";
+import { apiMiddleware } from "./middleware/core/apiMiddleware";
 
 const initialState = {};
 
 const middleware = [
   //the middleware goes here
-  thunk
+  thunk,
+  ...appMidleware,
+  apiMiddleware
 ];
 
 const store = createStore(
@@ -16,7 +20,7 @@ const store = createStore(
   compose(
     applyMiddleware(...middleware),
     /* //for react devtools - TODO: Comentar al terminar */
-    /* window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() */
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 

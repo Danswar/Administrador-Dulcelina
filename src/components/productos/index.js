@@ -19,6 +19,8 @@ class Productos extends Component {
     this.props.fetchProducts();
   }
 
+  componentDidUpdate(prevProps, prevState) {}
+
   /* TODO: Poner esto en redux */
   /* Agregamos al state el nuevo producto que viene desde el modal */
   newProducto = obj => {
@@ -190,7 +192,7 @@ class Productos extends Component {
 
 const mapStateToProps = state => ({
   dolar_actual: state.dolar.dolar_actual,
-  productos: state.productos
+  productos: state.productos.listaProductos
 });
 
 export default connect(mapStateToProps, { fetchProducts })(Productos);
