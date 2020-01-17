@@ -7,7 +7,7 @@ export const apiMiddleware = ({ dispatch }) => next => action => {
     const { body, method, url } = action.payload.meta;
     /*body no lo estamos usando pero aqui la data para  update/insert */
 
-    fetch(url, { method })
+    fetch(url, { method }, JSON.stringify(body))
       .then(res => res.json())
       .then(data => dispatch(apiSuccess(data.data, action.payload.meta.entity)))
       .catch(error => dispatch(apiError(error, action.payload.meta.entity)));

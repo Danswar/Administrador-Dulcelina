@@ -1,3 +1,8 @@
+16/01/2020------------------------
+- retomamos el proyecto, empeze por implementar los reducer
+- filtrado a travez del middleware de productos
+- quede trancado en el insert, algo falla en la base de datos, tengo que agregar manejo de errores en el este endpoint
+
 12/01/2020------------------------
 - instalado un proyecto laravel de nombre store
 - creadas la migración de la tabla productos

@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { fetchProducts } from "../../redux/actions/productosActions";
+import {
+  fetchProducts,
+  setFilter,
+  filterProducts
+} from "../../redux/actions/productosActions";
 
 import UpdateDolarForm from "./UpdateDolarForm";
 import ModalProducto from "./ModalProducto";
@@ -31,7 +35,7 @@ class Productos extends Component {
 
   /* TODO: Poner esto en redux */
   /*Editar producto en el state*/
-  editProducto = obj => {
+  /* editProducto = obj => {
     let nuevaLista = this.state.productos.map(prod => {
       if (prod.id === obj.id) {
         prod = obj;
@@ -42,7 +46,7 @@ class Productos extends Component {
     this.setState({
       productos: nuevaLista
     });
-  };
+  }; */
 
   changeDolarValue = newDolarValue => {
     this.setState({
@@ -51,30 +55,11 @@ class Productos extends Component {
   };
   handleSearch = e => {
     let searchParam = e.target.value;
-    this.setState({
-      searchParam
-    });
-
-    if (searchParam !== "") {
-      let matches = this.props.productos.filter(producto => {
-        const regex = new RegExp(`^${searchParam}`, "gi");
-
-        return producto.nombre.match(regex); // || producto.codigo.match(regex);
-      });
-      console.log(matches);
-      this.setState({
-        productos: matches
-      });
-    } else {
-      this.setState({
-        productos: this.props.productos
-      });
-    }
+    this.props.filterProducts(searchParam);
   };
 
   render() {
-    const { dolar_actual } = this.props;
-    const { productos } = this.state;
+    const { dolar_actual, suggestions } = this.props;
 
     return (
       <div className="container ">
@@ -103,7 +88,7 @@ class Productos extends Component {
               placeholder="Buscar algo"
               aria-label="Buscar algo"
               aria-describedby="button-addon2"
-              value={this.state.searchParam}
+              /* value={this.props.filter} */
               onChange={this.handleSearch}
             />
             <div className="input-group-append">
@@ -158,7 +143,7 @@ class Productos extends Component {
             </tr>
           </thead>
           <tbody>
-            {productos.map(prod => {
+            {suggestions.map(prod => {
               let margen =
                 (prod.p_venta / (prod.p_costo_usd * dolar_actual) - 1) * 100;
               return (
@@ -192,7 +177,14 @@ class Productos extends Component {
 
 const mapStateToProps = state => ({
   dolar_actual: state.dolar.dolar_actual,
-  productos: state.productos.listaProductos
+  productos: state.productos.listaProductos,
+  filter: state.productos.filter,
+  suggestions: state.productos.suggestions
 });
 
-export default connect(mapStateToProps, { fetchProducts })(Productos);
+const mapActionsToProps = {
+  fetchProducts,
+  filterProducts
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Productos);

@@ -1,13 +1,13 @@
 import {
   SET_PRODUCTS,
-  FILTER_PRODUCTS,
+  SET_FILTER,
   SET_SUGGESTION
 } from "../actions/productosActions";
 
 const initialState = {
   listaProductos: [],
   filter: "",
-  suggestion: []
+  suggestions: []
 };
 
 export const productosReducer = (state = initialState, action) => {
@@ -18,16 +18,16 @@ export const productosReducer = (state = initialState, action) => {
         listaProductos: action.payload.data
       };
 
-    case FILTER_PRODUCTS:
+    case SET_FILTER:
       return {
         ...state,
-        filter: action.payload.data
+        filter: action.payload
       };
 
     case SET_SUGGESTION:
       return {
         ...state,
-        suggestion: action.payload.data
+        suggestions: action.payload
       };
 
     default:
