@@ -14,10 +14,13 @@ export const apiRequest = (body, method, url, entity) => ({
   }
 });
 
+//--
+//--
+//-- importante response.data
 export const apiSuccess = (response, entity) => ({
   type: `${entity} ${API_SUCCESS}`,
   payload: {
-    data: response,
+    data: response.data,
     meta: { entity }
   }
 });

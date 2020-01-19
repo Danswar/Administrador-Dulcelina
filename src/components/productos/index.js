@@ -3,56 +3,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   fetchProducts,
-  setFilter,
-  filterProducts
+  filterProducts,
+  orderProductsBy
 } from "../../redux/actions/productosActions";
 
 import UpdateDolarForm from "./UpdateDolarForm";
 import ModalProducto from "./ModalProducto";
 
+
 class Productos extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchParam: "",
-      productos: props.productos
-    };
-  }
 
   componentDidMount() {
     this.props.fetchProducts();
   }
 
-  componentDidUpdate(prevProps, prevState) {}
-
-  /* TODO: Poner esto en redux */
-  /* Agregamos al state el nuevo producto que viene desde el modal */
-  newProducto = obj => {
-    this.setState({
-      productos: [...this.state.productos, obj]
-    });
-  };
-
-  /* TODO: Poner esto en redux */
-  /*Editar producto en el state*/
-  /* editProducto = obj => {
-    let nuevaLista = this.state.productos.map(prod => {
-      if (prod.id === obj.id) {
-        prod = obj;
-      }
-      return prod;
-    });
-
-    this.setState({
-      productos: nuevaLista
-    });
-  }; */
-
-  changeDolarValue = newDolarValue => {
-    this.setState({
-      dolar_actual: newDolarValue
-    });
-  };
   handleSearch = e => {
     let searchParam = e.target.value;
     this.props.filterProducts(searchParam);
@@ -79,7 +43,6 @@ class Productos extends Component {
             classNameButton="btn btn-primary d-none d-sm-block"
             buttonLabel="Agregar nuevo"
             classNameIcon="fas fa-plus-circle pr-2"
-            handleModal={this.newProducto}
           />
           <div className="input-group col-md-6 col-12 pr-0 pl-0">
             <input
@@ -88,7 +51,6 @@ class Productos extends Component {
               placeholder="Buscar algo"
               aria-label="Buscar algo"
               aria-describedby="button-addon2"
-              /* value={this.props.filter} */
               onChange={this.handleSearch}
             />
             <div className="input-group-append">
@@ -109,20 +71,15 @@ class Productos extends Component {
           classNameButton="btn-float-circle d-block d-sm-none"
           buttonLabel=""
           classNameIcon="fas fa-plus"
-          handleModal={this.newProducto}
         />
 
         <div className="pt-4  pb-1 text-right">
           <p className="text-right font-italic d-inline pr-2">
             <small>Dolar: </small>
             <strong> {dolar_actual}bsf/usd</strong> - act.: justo ahora
-            {/* <button className="btn fuente-verde">
-              <i className="fas fa-sync"></i>
-            </button> */}
           </p>
           <UpdateDolarForm
-            handleUpdateDolar={this.changeDolarValue}
-            dolar_actual={this.state.dolar_actual}
+            dolar_actual={this.props.dolar_actual}
           />
         </div>
 
@@ -131,14 +88,15 @@ class Productos extends Component {
           <thead className="thead-dark">
             <tr>
               <th scope="col" className="d-none d-sm-table-cell">
-                Cod.
+                <button className="btn btn-link">Cod.</button>
               </th>
-              <th scope="col">Nombre</th>
+              <th scope="col"><button className="btn btn-link">Nombre</button></th>
               <th scope="col" className="d-none d-sm-table-cell">
-                Stock
+                <button className="btn btn-link">Stock</button>
               </th>
-              <th scope="col">Margen</th>
-              <th scope="col">P.Venta</th>
+              <th scope="col"><button className="btn btn-link" onClick={this.props.orderProductsBy("margen")}>Margen</button></th>
+              <th scope="col">
+                <button className="btn btn-link">P.Venta</button></th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -162,7 +120,6 @@ class Productos extends Component {
                       buttonLabel=""
                       classNameIcon="far fa-edit"
                       producto={prod}
-                      handleModal={this.editProducto}
                     />
                   </td>
                 </tr>
@@ -184,7 +141,8 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
   fetchProducts,
-  filterProducts
+  filterProducts,
+  orderProductsBy
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Productos);

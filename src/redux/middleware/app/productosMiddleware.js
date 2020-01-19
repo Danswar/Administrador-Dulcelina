@@ -7,16 +7,20 @@ import {
   setSuggestion,
   filterProducts,
   ADD_PRODUCT,
-  fetchProducts
+  EDIT_PRODUCT,
+  ORDER_PRODUCTS,
+  toggleModal,
 } from "../../actions/productosActions";
+
 import {
   apiRequest,
   API_SUCCESS,
   INSERT,
-  API_ERROR
+  API_ERROR,
+  UPDATE
 } from "../../actions/apiActions";
+
 import { PRODUCTS_ENDPOINT, PRODUCT_ENDPOINT } from "../../constats";
-/* import { setLoader } from "../../actions/uiActions"; */
 
 export const productosMiddleware = store => next => action => {
   next(action);
@@ -29,22 +33,22 @@ export const productosMiddleware = store => next => action => {
     /* ACTION: pedir info al server */
     case FETCH_PRODUCTS:
       dispatch(apiRequest(null, "GET", PRODUCTS_ENDPOINT, PRODUCTS));
-      /* dispatch(setLoader(true)); */
       break;
 
     //--
     //--
     /* ACTION: tipear en la barra de busqueda de productos */
     case FILTER_PRODUCTS:
+      const products = store.getState().productos.listaProductos;
       const filter = action.payload ? action.payload : "";
+
       dispatch(setFilter(filter));
 
-      const products = store.getState().productos.listaProductos;
       const suggestions = products.filter(producto => {
-        const regex = new RegExp(`^${filter}`, "gi");
-        return producto.nombre.match(regex) || producto.codigo.match(regex);
+        const regex = new RegExp(`${filter}`, "gi");
+        return producto.nombre.match(regex) /* || producto.codigo.match(regex) */;
       });
-      console.log(suggestions);
+
       dispatch(setSuggestion(suggestions));
       break;
 
@@ -53,14 +57,45 @@ export const productosMiddleware = store => next => action => {
     /* ACTION: añadir nuevo producto */
     case ADD_PRODUCT:
       dispatch(
-        apiRequest(
-          action.payload,
-          "POST",
-          PRODUCT_ENDPOINT,
-          `${PRODUCTS} ${INSERT}`
-        )
+        apiRequest(action.payload, "POST", PRODUCT_ENDPOINT, `${PRODUCTS} ${INSERT}`)
       );
       break;
+
+    //--
+    //--
+    /* ACTION: Editar un producto */
+    case EDIT_PRODUCT:
+      dispatch(
+        apiRequest(action.payload, "POST", PRODUCT_ENDPOINT, `${PRODUCTS} ${UPDATE}`)
+      );
+      break
+
+    //--
+    //--
+    /* ACTION: Ordenar lista */
+    case ORDER_PRODUCTS:
+      const orderList = store.getState().productos.listaProductos;
+      const dolar_actual = store.getState().dolar.dolar_actual;
+      orderList.sort((a, b) => {
+        let margen_a = (a.p_venta / (a.p_costo_usd * dolar_actual) - 1) * 100
+        let margen_b = (b.p_venta / (b.p_costo_usd * dolar_actual) - 1) * 100
+        if (margen_a > margen_b) {
+          return 1;
+        } else if (margen_a < margen_b) {
+          return -1;
+        } else {
+          return 0
+        }
+      });
+      console.log(orderList);
+      dispatch(setProducts(orderList));
+
+      break
+
+
+
+
+
 
     //--
     //--
@@ -68,21 +103,50 @@ export const productosMiddleware = store => next => action => {
     case `${PRODUCTS} ${API_SUCCESS}`:
       dispatch(setProducts(action.payload.data));
       dispatch(filterProducts());
-      /* dispatch(setLoader(false)); */
-      break;
-
-    case `${PRODUCTS} ${INSERT} ${API_ERROR}`:
-      console.log(action.payload);
-      /* dispatch(setLoader(false)); */
       break;
 
     //--
     //--
     /* EVENT: petición añadir nuevo al server fue exitosa */
     case `${PRODUCTS} ${INSERT} ${API_SUCCESS}`:
-      dispatch(fetchProducts());
-      /* dispatch(setLoader(false)); */
+      const prevProducts = store.getState().productos.listaProductos;
+      const nextProducts = [action.payload.data, ...prevProducts];
+      dispatch(setProducts(nextProducts));
+      dispatch(filterProducts());
+      dispatch(toggleModal());
       break;
+
+    //--
+    //--
+    /* EVENT: petición añadir nuevo al server fue exitosa */
+    case `${PRODUCTS} ${UPDATE} ${API_SUCCESS}`:
+      const incomeProduct = action.payload.data;
+      const editProducts = store.getState().productos.listaProductos.map((item) => {
+        if (item.id === incomeProduct.id) {
+          return incomeProduct;
+        }
+        return item;
+      });
+      dispatch(setProducts(editProducts));
+      dispatch(filterProducts());
+      dispatch(toggleModal());
+      break;
+
+
+    //--
+    //--
+    /* EVENT: petición al server no fue exitosa */
+    case `${PRODUCTS} ${API_ERROR}`:
+      console.log(action.payload);
+      break;
+
+    //--
+    //--
+    /* EVENT: peticion de insertar nuevo no existosa */
+    case `${PRODUCTS} ${INSERT} ${API_ERROR}`:
+      console.log(action.payload);
+      break;
+
 
     default:
       break;

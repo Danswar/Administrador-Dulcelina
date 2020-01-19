@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { updateDolar } from "../../redux/actions/dolarActions";
-import { addProduct } from "../../redux/actions/productosActions";
+import { addProduct, editProduct, toggleModal } from "../../redux/actions/productosActions";
 import { connect } from "react-redux";
 
 import {
@@ -60,7 +60,7 @@ class ModalProducto extends Component {
     }
 
     this.state = {
-      show: false,
+      isOpen: false,
       producto: producto
     };
   }
@@ -81,11 +81,34 @@ class ModalProducto extends Component {
         producto: producto
       });
     }
+    if (this.state.isOpen === true && prevProps.isOpen === true && this.props.isOpen === false) {
+      this.toggle();
+      this.props.toggleModal();
+
+      if (this.state.producto.id === "") {
+        this.setState({
+          producto: {
+            id: "",
+            codigo: "",
+            nombre: "",
+            stock: "",
+            stock_min: "",
+            p_costo: "",
+            p_costo_usd: "",
+            p_venta: "",
+            p_venta_usd: "",
+            margen: "",
+            margen_min: "",
+            dolar_base: ""
+          }
+        });
+      }
+    }
   }
 
   toggle = () =>
     this.setState({
-      show: !this.state.show
+      isOpen: !this.state.isOpen
     });
 
   handleChange = e => {
@@ -176,23 +199,10 @@ class ModalProducto extends Component {
   handleOnSubmit = e => {
     e.preventDefault();
 
-    const data = this.state.producto; /** ESTA ES LA DATA A STOREAR EN LA BD */
-    const id = this.state.producto.id === "" ? null : this.state.producto.id;
-    const dataToSend = {
-      id: id,
-      codigo: data.codigo,
-      nombre: data.nombre,
-      stock: data.stock,
-      stock_min: data.stock_min,
-      p_costo: data.p_costo,
-      p_costo_usd: data.p_costo_usd,
-      p_venta: data.p_venta,
-      margen_min: data.margen_min,
-      dolar_base: data.dolar_base
-    };
+    const dataToSend = this.state.producto; /** ESTA ES LA DATA A STOREAR EN LA BD */
 
-    this.props.addProduct(dataToSend);
-    this.toggle();
+    dataToSend.id === "" ? this.props.addProduct(dataToSend) : this.props.editProduct(dataToSend);
+
   };
 
   render() {
@@ -203,7 +213,7 @@ class ModalProducto extends Component {
           {this.buttonLabel}
         </button>
         <Modal
-          isOpen={this.state.show}
+          isOpen={this.state.isOpen} /* UNO ES LOCAL Y EL OTRO DEL REDUCER */
           toggle={this.toggle}
           className={"className"}
           size={"lg"}
@@ -226,7 +236,6 @@ class ModalProducto extends Component {
                     <Input
                       value={this.state.producto.codigo}
                       onChange={this.handleChange}
-                      type="number"
                       name="codigo"
                       id="codigo"
                     />
@@ -442,9 +451,17 @@ class ModalProducto extends Component {
 }
 
 const mapStateToProps = state => ({
-  dolar_actual: state.dolar.dolar_actual
+  dolar_actual: state.dolar.dolar_actual,
+  isOpen: state.productos.modalIsOpen
 });
 
-export default connect(mapStateToProps, { updateDolar, addProduct })(
+const mapActionsToProps = {
+  updateDolar,
+  addProduct,
+  editProduct,
+  toggleModal
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(
   ModalProducto
 );

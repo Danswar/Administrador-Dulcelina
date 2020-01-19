@@ -1,13 +1,15 @@
 import {
   SET_PRODUCTS,
   SET_FILTER,
-  SET_SUGGESTION
+  SET_SUGGESTION,
+  TOGGLE_MODAL,
 } from "../actions/productosActions";
 
 const initialState = {
   listaProductos: [],
   filter: "",
-  suggestions: []
+  suggestions: [],
+  modalIsOpen: true,
 };
 
 export const productosReducer = (state = initialState, action) => {
@@ -28,6 +30,12 @@ export const productosReducer = (state = initialState, action) => {
       return {
         ...state,
         suggestions: action.payload
+      };
+
+    case TOGGLE_MODAL:
+      return {
+        ...state,
+        modalIsOpen: !state.modalIsOpen
       };
 
     default:
