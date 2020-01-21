@@ -1,3 +1,10 @@
+21/01/2020------------------------
+- empece con la funcionalidad de armado de pedidos.
+- copie el html que use en la maqueta dentro de react
+- la barra de ingresar un nuevo producto al pedido tiene su propio componente
+- eliminado el campo de codigo, ahora solo habra uno donde se podra buscar unificadamente por nombre y codigo
+. agregado el campo "final Bsf"
+
 20/01/2020------------------------
 - se puede hacer delete en la tabla de productos de inventario
 
