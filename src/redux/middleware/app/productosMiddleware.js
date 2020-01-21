@@ -10,6 +10,9 @@ import {
   EDIT_PRODUCT,
   ORDER_PRODUCTS,
   toggleModal,
+  DELETE_PRODUCT,
+  deleteSingleProduct,
+  DELETE_SINGLE_PRODUCT,
 } from "../../actions/productosActions";
 
 import {
@@ -17,7 +20,8 @@ import {
   API_SUCCESS,
   INSERT,
   API_ERROR,
-  UPDATE
+  UPDATE,
+  api
 } from "../../actions/apiActions";
 
 import { PRODUCTS_ENDPOINT, PRODUCT_ENDPOINT } from "../../constats";
@@ -70,6 +74,13 @@ export const productosMiddleware = store => next => action => {
       );
       break
 
+    case DELETE_PRODUCT:
+      const { id } = action.payload;
+      dispatch(
+        api(null, "POST", `${PRODUCT_ENDPOINT}/${id}`, deleteSingleProduct)
+      );
+      break;
+
     //--
     //--
     /* ACTION: Ordenar lista */
@@ -87,14 +98,8 @@ export const productosMiddleware = store => next => action => {
           return 0
         }
       });
-      console.log(orderList);
       dispatch(setProducts(orderList));
-
       break
-
-
-
-
 
 
     //--
@@ -135,6 +140,18 @@ export const productosMiddleware = store => next => action => {
 
     //--
     //--
+    /* EVENT: petición añadir nuevo al server fue exitosa */
+    case DELETE_SINGLE_PRODUCT:
+      const productToDelete = action.payload.data;
+      const list = store.getState().productos.listaProductos.filter((product) => product.id !== productToDelete.id);
+      dispatch(setProducts(list));
+      dispatch(filterProducts());
+      dispatch(toggleModal());
+      break;
+
+
+    //--
+    //--
     /* EVENT: petición al server no fue exitosa */
     case `${PRODUCTS} ${API_ERROR}`:
       console.log(action.payload);
@@ -151,4 +168,6 @@ export const productosMiddleware = store => next => action => {
     default:
       break;
   }
+
+
 };

@@ -1,3 +1,6 @@
+20/01/2020------------------------
+- se puede hacer delete en la tabla de productos de inventario
+
 19/01/2020------------------------
 - eliminamos el metodo PUT, ahora los updates e insert seran por POST (Muchos errores de Cors)
 - terminado insert y updates

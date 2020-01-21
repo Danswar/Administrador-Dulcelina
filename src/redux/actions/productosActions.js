@@ -6,6 +6,9 @@ export const FILTER_PRODUCTS = `${PRODUCTS} Filter`;
 export const ADD_PRODUCT = `${PRODUCTS} Add new`;
 export const EDIT_PRODUCT = `${PRODUCTS} edit`;
 export const ORDER_PRODUCTS = `${PRODUCTS} order`;
+export const DELETE_PRODUCT = `${PRODUCTS} delete`;
+export const DELETE_SINGLE_PRODUCT = `${PRODUCTS} delete single`;
+
 
 /* van al Reducer */
 export const SET_PRODUCTS = `${PRODUCTS} SET_LISTA_PRODUCTOS`;
@@ -37,7 +40,17 @@ export const editProduct = product => ({
 export const orderProductsBy = field => ({
   type: ORDER_PRODUCTS,
   payload: field
-})
+});
+
+export const deleteProduct = product => ({
+  type: DELETE_PRODUCT,
+  payload: product
+});
+
+export const deleteSingleProduct = product => ({
+  type: DELETE_SINGLE_PRODUCT,
+  payload: product
+});
 
 //--
 //--

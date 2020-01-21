@@ -9,6 +9,7 @@ import {
 
 import UpdateDolarForm from "./UpdateDolarForm";
 import ModalProducto from "./ModalProducto";
+import ModalDelete from "./ModalDelete";
 
 
 class Productos extends Component {
@@ -113,12 +114,18 @@ class Productos extends Component {
                   <td className="d-none d-sm-table-cell">{prod.stock}</td>
                   <td>{parseFloat(margen).toFixed(1)}%</td>
                   <td>{prod.p_venta}Bsf</td>
-                  <td>
+                  <td className="d-flex">
                     <ModalProducto
                       modalTitle="Editar producto"
                       classNameButton="btn p-0"
                       buttonLabel=""
                       classNameIcon="far fa-edit"
+                      producto={prod}
+                    />
+                    <ModalDelete
+                      classNameButton="btn p-0 pl-2"
+                      buttonLabel=""
+                      classNameIcon="far fa-trash-alt fuente-danger"
                       producto={prod}
                     />
                   </td>
