@@ -435,7 +435,6 @@ class ModalProducto extends Component {
               </Row>
 
               <ModalFooter>
-                <Button className="float-left">Eliminar</Button>
                 <Button color="secondary" onClick={this.toggle}>
                   Cancelar
                 </Button>{" "}

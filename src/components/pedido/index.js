@@ -1,29 +1,17 @@
 import React, { Component } from "react";
-import BarraEntrada from "./BarraEntrada";
 import { connect } from "react-redux";
 
-import { fetchProducts } from "../../redux/actions/productosActions";
+import { fetchProducts , filterProducts } from "../../redux/actions/productosActions";
 import { addItem, deleteItem } from "../../redux/actions/pedidoActions";
 
 import TablaPedido from "./TablaPedido";
+import BarraEntrada from "./BarraEntrada";
 
-import uuid from "uuid";
 
 class Pedido extends Component {
 
   componentDidMount() {
     this.props.fetchProducts();
-  }
-
-  click = () => {
-    let id = uuid();
-    this.props.addItem({
-      id: id,
-      nombre: id,
-      p_venta: 3000,
-      cantidad: 5,
-      final: "15000",
-    })
   }
 
   render() {
@@ -35,8 +23,12 @@ class Pedido extends Component {
           </h5>
 
           <div className="card-body">
-            <button onClick={this.click}>Add Item</button>
-            <BarraEntrada />
+            
+            <BarraEntrada 
+              addItem={this.props.addItem} 
+              filterProducts={this.props.filterProducts}
+              suggestions={this.props.suggestions}  
+            />
 
             <div className="container tabla-factura scroll-on mt-3">
 
@@ -73,6 +65,7 @@ Pedido.propTypes = {
 // props from Redux
 const mapStateToProps = (state) => ({
   listaPedido: state.pedido.listaPedido,
+  suggestions: state.productos.suggestions,
 });
 
 // action from Redux
@@ -80,6 +73,7 @@ const mapActionToProps = {
   fetchProducts,
   addItem,
   deleteItem,
+  filterProducts,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Pedido);

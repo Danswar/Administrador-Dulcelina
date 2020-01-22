@@ -9,7 +9,7 @@ const TablaPedido = (props) => {
     } = props;
 
     const onDelete = (e) => {
-        deleteRow(e.target.value)
+        deleteRow(e.target.dataset.id)
     }
 
     return (
@@ -35,10 +35,10 @@ const TablaPedido = (props) => {
 
                 {listaPedido.map((producto) => {
                     return (
-                        <tr className="row">
+                        <tr className="row" key={producto.id}>
                             <td className="col-1">
-                                <button className="btn btn-light img-circle" onClick={onDelete} value={producto.id}>
-                                    <i className="fas fa-times text-muted"></i>
+                                <button className="btn btn-light img-circle" onClick={onDelete} data-id={producto.id}>
+                                    <i className="fas fa-times text-muted" data-id={producto.id}></i>
                                 </button>
                             </td>
                             <td className="col-6">{producto.nombre}</td>

@@ -1,3 +1,7 @@
+22/01/2020------------------------
+- los botones de eliminar item pasa el id atravez de data-id para evitar el error al hacer click directo en la X
+- adelantos en el componente de ingreso de nuevo producto al pedido
+
 21/01/2020------------------------
 - empece con la funcionalidad de armado de pedidos.
 - copie el html que use en la maqueta dentro de react
