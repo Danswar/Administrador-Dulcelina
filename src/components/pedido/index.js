@@ -1,7 +1,31 @@
 import React, { Component } from "react";
 import BarraEntrada from "./BarraEntrada";
+import { connect } from "react-redux";
 
-export default class Pedido extends Component {
+import { fetchProducts } from "../../redux/actions/productosActions";
+import { addItem, deleteItem } from "../../redux/actions/pedidoActions";
+
+import TablaPedido from "./TablaPedido";
+
+import uuid from "uuid";
+
+class Pedido extends Component {
+
+  componentDidMount() {
+    this.props.fetchProducts();
+  }
+
+  click = () => {
+    let id = uuid();
+    this.props.addItem({
+      id: id,
+      nombre: id,
+      p_venta: 3000,
+      cantidad: 5,
+      final: "15000",
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -11,48 +35,27 @@ export default class Pedido extends Component {
           </h5>
 
           <div className="card-body">
+            <button onClick={this.click}>Add Item</button>
             <BarraEntrada />
+
             <div className="container tabla-factura scroll-on mt-3">
-              <table className="table">
-                <thead>
-                  <tr className="row">
-                    <th className="col-1" scope="col"></th>
-                    <th className="col-6" scope="col">
-                      Nombre
-                    </th>
-                    <th className="col-2" scope="col">
-                      P.Unit
-                    </th>
-                    <th className="col-1" scope="col">
-                      Cant.
-                    </th>
-                    <th className="col-2" scope="col">
-                      Final
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="row">
-                    <td className="col-1">
-                      <button className="btn btn-light img-circle">
-                        <i className="fas fa-times text-muted"></i>
-                      </button>
-                    </td>
-                    <td className="col-6">Algun nombre de articulo</td>
-                    <td className="col-2">78.000,00</td>
-                    <td className="col-1">10</td>
-                    <td className="col-2">780.000,00</td>
-                  </tr>
-                </tbody>
-              </table>
+
+              <TablaPedido
+                listaPedido={this.props.listaPedido}
+                deleteRow={this.props.deleteItem}
+              />
+
             </div>
+
           </div>
 
           <div className="card-footer importe">
             <div className="d-flex flex-row-reverse height-full">
               <p className="align-self-end fuente-ok">Bsf</p>
               <h1 className="align-self-end font-weight-bolder fuente-ok">
-                430.600, 00{" "}
+                {this.props.listaPedido.reduce((sum, value) =>
+                  (typeof value.final == "number" ? sum + value.final : sum + Number(value.final)), 0)
+                }
               </h1>
               <h4 className="mr-3 fuente-ok">Importe</h4>
             </div>
@@ -62,3 +65,21 @@ export default class Pedido extends Component {
     );
   }
 }
+
+// PROPTYPES
+Pedido.propTypes = {
+}
+
+// props from Redux
+const mapStateToProps = (state) => ({
+  listaPedido: state.pedido.listaPedido,
+});
+
+// action from Redux
+const mapActionToProps = {
+  fetchProducts,
+  addItem,
+  deleteItem,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(Pedido);
