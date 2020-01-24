@@ -33,18 +33,18 @@ const TablaPedido = (props) => {
             </thead>
             <tbody>
 
-                {listaPedido.map((producto) => {
+                {listaPedido.map((item) => {
                     return (
-                        <tr className="row" key={producto.id}>
+                        <tr className="row" key={item.producto.id}>
                             <td className="col-1">
-                                <button className="btn btn-light img-circle" onClick={onDelete} data-id={producto.id}>
-                                    <i className="fas fa-times text-muted" data-id={producto.id}></i>
+                                <button className="btn btn-light img-circle" onClick={onDelete} data-id={item.producto.id}>
+                                    <i className="fas fa-times text-muted" data-id={item.producto.id}></i>
                                 </button>
                             </td>
-                            <td className="col-6">{producto.nombre}</td>
-                            <td className="col-2">{producto.p_venta}</td>
-                            <td className="col-1">{producto.cantidad}</td>
-                            <td className="col-2">{producto.final}</td>
+                            <td className="col-6">{item.producto.nombre}</td>
+                            <td className="col-2">{item.producto.p_venta}</td>
+                            <td className="col-1">{item.cantidad}</td>
+                            <td className="col-2">{item.final}</td>
                         </tr>
                     )
                 })}

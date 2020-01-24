@@ -1,51 +1,44 @@
-import React, {useState} from "react";
-
+import React, { useState } from "react";
+import TextField from '@material-ui/core/TextField';
+import { Autocomplete, Input } from '@material-ui/lab';
 import uuid from "uuid";
-
 import PropTypes from "prop-types";
 
 const BarraEntrada = props => {
 
   const {
     addItem,
-    filterProducts,
-    suggestions
+    listaProductos,
   } = props;
 
-  const [ readyToSend , setReadyTosend ] = useState(false);
-  const [ showSuggestions , setShowSuggestions ] = useState(false);
-  const [ item , setItem ] = useState(false);
-  
-  const onSubmit = (e) =>{
+  const [itemSelected, setItemSelected] = useState({});
+  const [cantidad, setCantidad] = useState(1);
+  const [final, setFinal] = useState("");
+
+  const onSubmit = (e) => {
     e.preventDefault();
-
-    if(!readyToSend){
-      return;
-    }
-
-    let id = uuid();
+    // TODO: VALIDACIONES
     addItem({
-      id: id,
-      nombre: id,
-      p_venta: 3000,
-      cantidad: 5,
-      final: "15000",
-    })
+      producto: itemSelected,
+      cantidad,
+      final,
+    });
+
   }
 
-  const onChange = (e) => {
-    const {value} = e.target;
-    filterProducts(value);
-    
-    if(value.length===0){
-      setShowSuggestions(false);
-      setItem(null);
-      setReadyTosend(false);
-      return;
+  const onItemChange = (e, value) => {
+    setItemSelected(value);
+    setFinal(Number(value.p_venta) * Number(cantidad))
+
+  }
+
+  const onCantidadChange = (e) => {
+    const { value } = e.target;
+    setCantidad(value);
+    if (itemSelected.p_venta) {
+      setFinal(Number(itemSelected.p_venta) * Number(value))
     }
-    
-    
-  } 
+  }
 
 
 
@@ -53,27 +46,24 @@ const BarraEntrada = props => {
     <form>
       <div className="form-row d-flex flex-nowrap pb-3">
         <div className="col-md-7">
-          <label htmlFor="inputEmail4">Producto</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Ingresa el nombre o codigo de producto"
-            onChange={onChange}
+          <Autocomplete
+            id="combo-nombre"
+            options={listaProductos}
+            getOptionLabel={option => option.nombre}
+            onChange={onItemChange}
+            autoSelect
+            renderInput={params => (
+              <TextField {...params} label="Nombre producto" variant="outlined" autoFocus fullWidth />
+            )}
           />
         </div>
+
+
         <div className="col-md-1">
-          <label htmlFor="inputEmail4">Cant.</label>
-          <input type="text" className="form-control" placeholder="#" />
+          <TextField id="outlined-basic" onChange={onCantidadChange} label="Cant." defaultValue="1" variant="outlined" fullWidth />
         </div>
         <div className="col-md-3">
-          <label htmlFor="inputEmail4" className="d-block text-right mr-3">
-            Final (Bsf)
-          </label>
-          <input
-            type="text"
-            className="form-control text-right"
-            placeholder="7.800.000,00"
-          />
+          <TextField id="outlined-basic" value={final} label="Final Bsf" variant="outlined" fullWidth />
         </div>
         <div className="col-md-1 align-self-end">
           <button
@@ -90,8 +80,9 @@ const BarraEntrada = props => {
 
 BarraEntrada.propTypes = {
   addItem: PropTypes.func,
-  filterProducts: PropTypes.func,
-  suggestions: PropTypes.array,
+  listaProductos: PropTypes.array,
+  /* filterProducts: PropTypes.func,
+  suggestions: PropTypes.array, */
 }
 
 export default BarraEntrada;

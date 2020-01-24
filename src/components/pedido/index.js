@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { fetchProducts , filterProducts } from "../../redux/actions/productosActions";
+import { fetchProducts, filterProducts } from "../../redux/actions/productosActions";
 import { addItem, deleteItem } from "../../redux/actions/pedidoActions";
 
 import TablaPedido from "./TablaPedido";
@@ -23,11 +23,12 @@ class Pedido extends Component {
           </h5>
 
           <div className="card-body">
-            
-            <BarraEntrada 
-              addItem={this.props.addItem} 
-              filterProducts={this.props.filterProducts}
-              suggestions={this.props.suggestions}  
+
+            <BarraEntrada
+              addItem={this.props.addItem}
+              listaProductos={this.props.listaProductos}
+            /* filterProducts={this.props.filterProducts}
+            suggestions={this.props.suggestions}   */
             />
 
             <div className="container tabla-factura scroll-on mt-3">
@@ -65,7 +66,8 @@ Pedido.propTypes = {
 // props from Redux
 const mapStateToProps = (state) => ({
   listaPedido: state.pedido.listaPedido,
-  suggestions: state.productos.suggestions,
+  listaProductos: state.productos.listaProductos,
+  /* suggestions: state.productos.suggestions, */
 });
 
 // action from Redux

@@ -17,7 +17,7 @@ export const pedidoReducer = (state = initialState, action) => {
             const id = action.payload.data;
             return {
                 ...state,
-                listaPedido: state.listaPedido.filter((item) => item.id !== id)
+                listaPedido: state.listaPedido.filter((item) => item.producto.id !== id)
             }
 
         default:

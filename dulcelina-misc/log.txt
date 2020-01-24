@@ -1,3 +1,10 @@
+23/01/2020------------------------
+- implementado material ui para aprovechar el come Autocomplete
+- emplazado el auto complete y las calculadoras asociadas
+- se cambiaron los input por los de material
+- se puede agregar una nuevo producto real a la lista de pedido
+- TODOS: Reparar el reducer de borrar producto, validaciones y estilos para los input
+
 22/01/2020------------------------
 - los botones de eliminar item pasa el id atravez de data-id para evitar el error al hacer click directo en la X
 - adelantos en el componente de ingreso de nuevo producto al pedido
