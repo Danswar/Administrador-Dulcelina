@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { fetchProducts, filterProducts } from "../../redux/actions/productosActions";
-import { addItem, deleteItem } from "../../redux/actions/pedidoActions";
+import { addRow, deleteRow } from "../../redux/actions/pedidoActions";
 
 import TablaPedido from "./TablaPedido";
 import BarraEntrada from "./BarraEntrada";
 
+import PropTypes from "prop-types";
 
 class Pedido extends Component {
 
@@ -25,7 +26,7 @@ class Pedido extends Component {
           <div className="card-body">
 
             <BarraEntrada
-              addItem={this.props.addItem}
+              addRow={this.props.addRow}
               listaProductos={this.props.listaProductos}
             /* filterProducts={this.props.filterProducts}
             suggestions={this.props.suggestions}   */
@@ -35,7 +36,7 @@ class Pedido extends Component {
 
               <TablaPedido
                 listaPedido={this.props.listaPedido}
-                deleteRow={this.props.deleteItem}
+                deleteRow={this.props.deleteRow}
               />
 
             </div>
@@ -43,7 +44,8 @@ class Pedido extends Component {
           </div>
 
           <div className="card-footer importe">
-            <div className="d-flex flex-row-reverse height-full">
+            <div className="d-flex flex-row-reverse height-full ">
+              <button className="btn btn-outline-success ml-5"><h5>Procesar</h5></button>
               <p className="align-self-end fuente-ok">Bsf</p>
               <h1 className="align-self-end font-weight-bolder fuente-ok">
                 {this.props.listaPedido.reduce((sum, value) =>
@@ -52,6 +54,7 @@ class Pedido extends Component {
               </h1>
               <h4 className="mr-3 fuente-ok">Importe</h4>
             </div>
+
           </div>
         </div>
       </div>
@@ -61,6 +64,12 @@ class Pedido extends Component {
 
 // PROPTYPES
 Pedido.propTypes = {
+  listaPedido: PropTypes.array,
+  listaProductos: PropTypes.array,
+  fetchProducts: PropTypes.func,
+  addRow: PropTypes.func,
+  deleteRow: PropTypes.func,
+  filterProducts: PropTypes.func,
 }
 
 // props from Redux
@@ -73,8 +82,8 @@ const mapStateToProps = (state) => ({
 // action from Redux
 const mapActionToProps = {
   fetchProducts,
-  addItem,
-  deleteItem,
+  addRow,
+  deleteRow,
   filterProducts,
 };
 

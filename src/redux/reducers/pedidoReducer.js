@@ -1,4 +1,4 @@
-import { ADD_ITEM, DELETE_ITEM } from "../actions/pedidoActions";
+import { ADD_ROW, DELETE_ROW } from "../actions/pedidoActions";
 
 const initialState = {
     listaPedido: []
@@ -7,17 +7,18 @@ const initialState = {
 export const pedidoReducer = (state = initialState, action) => {
     switch (action.type) {
         //ACTIONS TO THE REDUCER GOES HERE
-        case ADD_ITEM: /**TODO: Interceptar en el middleware */
+        case ADD_ROW: /**TODO: Interceptar en el middleware */
             return {
                 ...state,
                 listaPedido: [action.payload.data, ...state.listaPedido]
             }
 
-        case DELETE_ITEM: /**TODO: Interceptar en el middleware */
+        case DELETE_ROW: /**TODO: Interceptar en el middleware */
             const id = action.payload.data;
+            console.log(action.payload);
             return {
                 ...state,
-                listaPedido: state.listaPedido.filter((item) => item.producto.id !== id)
+                listaPedido: state.listaPedido.filter(row => row.id !== id)
             }
 
         default:

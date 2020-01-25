@@ -9,6 +9,7 @@ const TablaPedido = (props) => {
     } = props;
 
     const onDelete = (e) => {
+        console.log(e.target.dataset.id);
         deleteRow(e.target.dataset.id)
     }
 
@@ -33,18 +34,19 @@ const TablaPedido = (props) => {
             </thead>
             <tbody>
 
-                {listaPedido.map((item) => {
+                {listaPedido.map((row) => {
+                    console.log(row);
                     return (
-                        <tr className="row" key={item.producto.id}>
+                        <tr className="row" key={row.id}>
                             <td className="col-1">
-                                <button className="btn btn-light img-circle" onClick={onDelete} data-id={item.producto.id}>
-                                    <i className="fas fa-times text-muted" data-id={item.producto.id}></i>
+                                <button className="btn btn-light img-circle" onClick={onDelete} data-id={row.id}>
+                                    <i className="fas fa-times text-muted" onClick={onDelete} data-id={row.id}></i>
                                 </button>
                             </td>
-                            <td className="col-6">{item.producto.nombre}</td>
-                            <td className="col-2">{item.producto.p_venta}</td>
-                            <td className="col-1">{item.cantidad}</td>
-                            <td className="col-2">{item.final}</td>
+                            <td className="col-6">{row.producto.nombre}</td>
+                            <td className="col-2">{row.producto.p_venta}</td>
+                            <td className="col-1">{row.cantidad}</td>
+                            <td className="col-2">{row.final}</td>
                         </tr>
                     )
                 })}

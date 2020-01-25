@@ -1,3 +1,9 @@
+24/01/2020------------------------
+- agregadas algunas validaciones al la barra de entrada
+- las filas de la tabla de productos manejan un id propio diferente a al del producto que contienen
+- el valor del dolar queda guardado en el localStorage
+- un Spinner bloquea el modal de agregar producto al enviar a la base de datos
+
 23/01/2020------------------------
 - implementado material ui para aprovechar el come Autocomplete
 - emplazado el auto complete y las calculadoras asociadas

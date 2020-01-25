@@ -1,19 +1,19 @@
 const PEDIDO = "[Pedido]";
 
-export const ADD_ITEM = `${PEDIDO} Add Item`;
-export const DELETE_ITEM = `${PEDIDO} Delete Item`;
+export const ADD_ROW = `${PEDIDO} Add Row`;
+export const DELETE_ROW = `${PEDIDO} Delete Row`;
 
 
 //Middleware
-export const addItem = product => ({
-    type: ADD_ITEM,
+export const addRow = product => ({
+    type: ADD_ROW,
     payload: {
         data: product
     }
 });
 
-export const deleteItem = id => ({
-    type: DELETE_ITEM,
+export const deleteRow = id => ({
+    type: DELETE_ROW,
     payload: {
         data: id
     }

@@ -18,7 +18,8 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
+  Spinner,
 } from "reactstrap";
 
 class ModalProducto extends Component {
@@ -61,6 +62,7 @@ class ModalProducto extends Component {
 
     this.state = {
       isOpen: false,
+      isSending: false,
       producto: producto
     };
   }
@@ -100,7 +102,8 @@ class ModalProducto extends Component {
             margen: "",
             margen_min: "",
             dolar_base: ""
-          }
+          },
+          isSending: false
         });
       }
     }
@@ -198,6 +201,8 @@ class ModalProducto extends Component {
 
   handleOnSubmit = e => {
     e.preventDefault();
+
+    this.setState({ isSending: true });
 
     const dataToSend = this.state.producto; /** ESTA ES LA DATA A STOREAR EN LA BD */
 
@@ -438,9 +443,18 @@ class ModalProducto extends Component {
                 <Button color="secondary" onClick={this.toggle}>
                   Cancelar
                 </Button>{" "}
-                <Button color="primary" type="submit">
-                  Listo!
-                </Button>
+                {
+                  !this.state.isSending &&
+                  <Button color="primary" type="submit">
+                    Listo!
+                  </Button>
+                }
+                {
+                  this.state.isSending &&
+                  <Spinner color="warning" />
+                }
+
+
               </ModalFooter>
             </Form>
           </ModalBody>
