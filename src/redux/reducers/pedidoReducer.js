@@ -7,15 +7,14 @@ const initialState = {
 export const pedidoReducer = (state = initialState, action) => {
     switch (action.type) {
         //ACTIONS TO THE REDUCER GOES HERE
-        case ADD_ROW: /**TODO: Interceptar en el middleware */
+        case ADD_ROW:
             return {
                 ...state,
                 listaPedido: [action.payload.data, ...state.listaPedido]
             }
 
-        case DELETE_ROW: /**TODO: Interceptar en el middleware */
+        case DELETE_ROW:
             const id = action.payload.data;
-            console.log(action.payload);
             return {
                 ...state,
                 listaPedido: state.listaPedido.filter(row => row.id !== id)

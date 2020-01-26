@@ -11,9 +11,9 @@ import UpdateDolarForm from "./UpdateDolarForm";
 import ModalProducto from "./ModalProducto";
 import ModalDelete from "./ModalDelete";
 
+import "./styles.css";
 
 class Productos extends Component {
-
   componentDidMount() {
     this.props.fetchProducts();
   }
@@ -27,7 +27,7 @@ class Productos extends Component {
     const { dolar_actual, suggestions } = this.props;
 
     return (
-      <div className="container ">
+      <div className="container productos-main">
         <div className="row mr-1 ml-1 mr-md-0 ml-md-0">
           <h5 className="mt-2 ">
             Listado de productos{" "}
@@ -77,27 +77,23 @@ class Productos extends Component {
         <div className="pt-4  pb-1 text-right">
           <p className="text-right font-italic d-inline pr-2">
             <small>Dolar: </small>
-            <strong> {dolar_actual}bsf/usd</strong> - act.: justo ahora
+            <strong> {dolar_actual}bsf/usd</strong>
+            {/*  - act.: justo ahora */}
           </p>
-          <UpdateDolarForm
-            dolar_actual={this.props.dolar_actual}
-          />
+          <UpdateDolarForm dolar_actual={this.props.dolar_actual} />
         </div>
 
         {/* TABLA DE DATOS */}
         <table className="table table-hover">
           <thead className="thead-dark">
             <tr>
-              <th scope="col" className="d-none d-sm-table-cell">
-                <button className="btn btn-link">Cod.</button>
-              </th>
-              <th scope="col"><button className="btn btn-link">Nombre</button></th>
-              <th scope="col" className="d-none d-sm-table-cell">
-                <button className="btn btn-link">Stock</button>
-              </th>
-              <th scope="col"><button className="btn btn-link" onClick={this.props.orderProductsBy("margen")}>Margen</button></th>
-              <th scope="col">
-                <button className="btn btn-link">P.Venta</button></th>
+              {/* <th scope="col" className="d-none">
+                Cod.
+              </th> */}
+              <th scope="col">Nombre</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Margen</th>
+              <th scope="col">P.Venta</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -107,14 +103,25 @@ class Productos extends Component {
                 (prod.p_venta / (prod.p_costo_usd * dolar_actual) - 1) * 100;
               return (
                 <tr key={prod.id}>
-                  <th scope="row" className="d-none d-sm-table-cell">
+                  {/* <td className="d-none">
                     {prod.codigo}
-                  </th>
+                  </td> */}
                   <td>{prod.nombre}</td>
                   <td className="d-none d-sm-table-cell">{prod.stock}</td>
-                  <td>{parseFloat(margen).toFixed(1)}%</td>
-                  <td>{prod.p_venta}Bsf</td>
-                  <td className="d-flex">
+                  <td>
+                    {" "}
+                    <span className="text-muted font-italic d-inline d-sm-none">
+                      Margen:{" "}
+                    </span>
+                    {parseFloat(margen).toFixed(1)}%
+                  </td>
+                  <td>
+                    <span className="text-muted font-italic d-inline d-sm-none">
+                      P. Venta:{" "}
+                    </span>
+                    {prod.p_venta}Bsf
+                  </td>
+                  <td className="d-flex td-acciones">
                     <ModalProducto
                       modalTitle="Editar producto"
                       classNameButton="btn p-0"
@@ -153,3 +160,8 @@ const mapActionsToProps = {
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Productos);
+
+////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
+////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
+////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
+////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
