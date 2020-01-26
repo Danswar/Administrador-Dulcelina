@@ -19,8 +19,8 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(...middleware),
-    /* //for react devtools - TODO: Comentar al terminar */
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    /* //for react devtools - */
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   )
 );
 

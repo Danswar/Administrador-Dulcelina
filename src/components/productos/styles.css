@@ -1,0 +1,38 @@
+@media (max-width: 558px) {
+  .productos-main thead {
+    display: none;
+  }
+  .productos-main tr {
+    margin: 0.3rem auto;
+    padding: 0.4rem 0.9rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    border: rgb(223, 222, 222) solid 1px;
+    border-radius: 4px;
+
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(168, 168, 168, 1);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(168, 168, 168, 1);
+    box-shadow: 1px 1px 5px 0px rgba(168, 168, 168, 1);
+  }
+  .productos-main td {
+    border: none;
+    padding: 0.2rem;
+  }
+  .productos-main td:first-child {
+    margin-bottom: 0.4rem;
+    font-weight: bolder;
+    border-bottom: rgba(189, 187, 187, 0.418) solid 1px;
+  }
+  .productos-main td:nth-child(3),
+  .productos-main td:nth-child(4) {
+    align-self: flex-start;
+  }
+  .productos-main .td-acciones {
+    justify-content: flex-end;
+  }
+  .productos-main .td-acciones > * {
+    margin-left: 0.5rem;
+  }
+}
