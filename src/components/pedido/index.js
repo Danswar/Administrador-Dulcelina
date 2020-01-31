@@ -31,8 +31,6 @@ class Pedido extends Component {
             <BarraEntrada
               addRow={this.props.addRow}
               listaProductos={this.props.listaProductos}
-              /* filterProducts={this.props.filterProducts}
-            suggestions={this.props.suggestions}   */
             />
 
             <div className="container tabla-factura scroll-on mt-sm-3 mt-0">
@@ -81,7 +79,6 @@ Pedido.propTypes = {
 const mapStateToProps = state => ({
   listaPedido: state.pedido.listaPedido,
   listaProductos: state.productos.listaProductos
-  /* suggestions: state.productos.suggestions, */
 });
 
 // action from Redux

@@ -22,9 +22,21 @@ const Home = props => {
   return (
     <div className="container">
       <div className="row d-flex justify-content-around align-items-center mt-3 ml-3 mr-3">
-        <InfoCard />
-        <InfoCard />
-        <InfoCard />
+        <InfoCard
+          classIcon="fas fa-cart-plus icon-card fuente-ok"
+          title="Ventas en el ultimo mes"
+          number="--"
+        />
+        <InfoCard
+          classIcon="fas fa-exclamation-triangle icon-card fuente-warning"
+          title="Productos con bajo stock"
+          number="--"
+        />
+        <InfoCard
+          classIcon="fas fa-chart-area  icon-card fuente-danger"
+          title="Precios desactualizado"
+          number="--"
+        />
       </div>
 
       <TablaVentas
