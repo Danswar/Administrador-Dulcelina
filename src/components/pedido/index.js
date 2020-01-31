@@ -48,13 +48,7 @@ class Pedido extends Component {
               </button>
               <p className="align-self-end fuente-ok">Bsf</p>
               <h1 className="align-self-end font-weight-bolder fuente-ok">
-                {this.props.listaPedido.reduce(
-                  (sum, value) =>
-                    typeof value.final == "number"
-                      ? sum + value.final
-                      : sum + Number(value.final),
-                  0
-                )}
+                {this.props.total}
               </h1>
               <h4 className="mr-3 fuente-ok d-none d-sm-block">Importe</h4>
             </div>
@@ -68,6 +62,7 @@ class Pedido extends Component {
 // PROPTYPES
 Pedido.propTypes = {
   listaPedido: PropTypes.array,
+  total: PropTypes.number,
   listaProductos: PropTypes.array,
   fetchProducts: PropTypes.func,
   addRow: PropTypes.func,
@@ -78,6 +73,7 @@ Pedido.propTypes = {
 // props from Redux
 const mapStateToProps = state => ({
   listaPedido: state.pedido.listaPedido,
+  total: state.pedido.total,
   listaProductos: state.productos.listaProductos
 });
 

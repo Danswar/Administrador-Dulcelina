@@ -60,8 +60,8 @@ const TablaVentas = props => {
           </Pagination>
         </div>
       </div>
-      <table class="table mt-2">
-        <thead class="thead-dark">
+      <table className="table mt-2">
+        <thead className="thead-dark">
           <tr>
             <th scope="col">ID venta</th>
             <th scope="col">Importe</th>
@@ -71,7 +71,7 @@ const TablaVentas = props => {
         <tbody>
           {listaVentas.map(venta => {
             return (
-              <tr>
+              <tr key={venta.id}>
                 <td>{venta.id}</td>
                 <td>{venta.total}Bsf</td>
                 <td>{venta.created_at}</td>

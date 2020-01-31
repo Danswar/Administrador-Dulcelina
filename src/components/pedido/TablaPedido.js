@@ -29,12 +29,12 @@ const TablaPedido = props => {
         </tr>
       </thead>
       <tbody>
-        <tr className="d-block d-sm-none p-2" onClick={() => alert("hola")}>
-          <p className="h5 text-muted text-center ">
-            <i class="fas fa-plus img-circle border p-2"></i>
-          </p>
-          <p className="h5 text-muted text-center">Añadir item</p>
-        </tr>
+        {/* <tr className="d-block d-sm-none p-2" onClick={() => alert("hola")}>
+          <i className="h5 text-muted text-center ">
+            <i className="fas fa-plus img-circle border p-2"></i>
+          </i>
+          <i className="h5 text-muted text-center">Añadir item</i>
+        </tr> */}
         {listaPedido.map(row => {
           console.log(row);
           return (
@@ -54,21 +54,21 @@ const TablaPedido = props => {
               </td>
               <td className="col-sm-6">{row.producto.nombre}</td>
               <td className="col-sm-2">
-                <span className="text-muted font-italic d-inline d-sm-none">
+                <i className="text-muted font-italic d-inline d-sm-none">
                   P. Unit.:{" "}
-                </span>
+                </i>
                 {row.producto.p_venta}
               </td>
               <td className="col-sm-1">
-                <span className="text-muted font-italic d-inline d-sm-none">
+                <i className="text-muted font-italic d-inline d-sm-none">
                   Cant:{" "}
-                </span>
+                </i>
                 {row.cantidad}
               </td>
               <td className="col-sm-2">
-                <span className="text-muted font-italic d-inline d-sm-none">
+                <i className="text-muted font-italic d-inline d-sm-none">
                   Final:{" "}
-                </span>
+                </i>
                 {row.final} Bsf
               </td>
             </tr>

@@ -1,3 +1,7 @@
+31/01/2020------------------------
+- implementado Total en el pedido reducer
+- reparados un monton de warning y errores
+
 30/01/2020------------------------
 - emplazado componente home e hijos (InfoCard y TablaVentas)
 - implementado reducer de lista de TablaVentas
