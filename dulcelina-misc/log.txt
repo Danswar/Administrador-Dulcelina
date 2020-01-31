@@ -1,6 +1,7 @@
 30/01/2020------------------------
 - emplazado componente home e hijos (InfoCard y TablaVentas)
 - implementado reducer de lista de TablaVentas
+- tabla de ventas muestra las ventas en la base de datos de forma paginada
 
 26/01/2020------------------------
 - reparado el responsive de la seccion de productos

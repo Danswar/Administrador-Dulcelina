@@ -1,6 +1,6 @@
 import {
-  fetchVentas,
   FETCH_VENTAS,
+  FETCH_VENTAS_PAGE,
   setListaVentas
 } from "../../actions/ventasActions";
 import { api } from "../../actions/apiActions";
@@ -14,6 +14,18 @@ export const ventasMiddleware = ({ dispatch }) => next => action => {
     case FETCH_VENTAS:
       dispatch(api(null, "GET", SELLS_ENDPOINT, setListaVentas));
       break;
+
+    case FETCH_VENTAS_PAGE:
+      dispatch(
+        api(
+          null,
+          "GET",
+          `${SELLS_ENDPOINT}?page=${action.payload}`,
+          setListaVentas
+        )
+      );
+      break;
+
     default:
       break;
   }
