@@ -3,6 +3,7 @@
 - reparados un monton de warning y errores
 - modal de confirmacion de procesar ventas
 - se procesa el pedido y se manda al server como una nueva venta (implementado en ventaMiddleware)
+- Emplazado componente modal detalle venta
 
 30/01/2020------------------------
 - emplazado componente home e hijos (InfoCard y TablaVentas)

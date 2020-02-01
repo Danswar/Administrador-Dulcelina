@@ -1,6 +1,7 @@
-import { SET_LISTA_VENTAS } from "../actions/ventasActions";
+import { SET_LISTA_VENTAS, SET_PENDING } from "../actions/ventasActions";
 
 const initialState = {
+  singleVenta: {},
   listaVentas: [],
   links: {
     first: "",
@@ -13,7 +14,8 @@ const initialState = {
     last_page: "",
     per_page: "",
     total: ""
-  }
+  },
+  pending: false
 };
 
 export const ventasReducer = (state = initialState, action) => {
@@ -25,6 +27,12 @@ export const ventasReducer = (state = initialState, action) => {
         listaVentas: data,
         links: links,
         meta: meta
+      };
+
+    case SET_PENDING:
+      return {
+        ...state,
+        pending: action.payload
       };
 
     default:

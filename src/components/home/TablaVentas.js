@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-
-import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
-
 import Proptype from "prop-types";
+
+import ModalDetalleVenta from "./ModalDetalleVenta";
+import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
 const TablaVentas = props => {
   const dispatch = useDispatch();
   const { listaVentas, meta, fetchPage } = props;
   const { current_page, last_page } = meta;
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
 
   const changeFirst = () => {
     dispatch(fetchPage(1));
@@ -30,6 +33,10 @@ const TablaVentas = props => {
 
   const changeLast = () => {
     dispatch(fetchPage(last_page));
+  };
+
+  const clickRow = e => {
+    toggleModal();
   };
 
   return (
@@ -60,7 +67,7 @@ const TablaVentas = props => {
           </Pagination>
         </div>
       </div>
-      <table className="table mt-2">
+      <table className="table table-hover mt-2">
         <thead className="thead-dark">
           <tr>
             <th scope="col">ID venta</th>
@@ -71,15 +78,20 @@ const TablaVentas = props => {
         <tbody>
           {listaVentas.map(venta => {
             return (
-              <tr key={venta.id}>
-                <td>{venta.id}</td>
-                <td>{venta.total}Bsf</td>
-                <td>{venta.created_at}</td>
+              <tr
+                key={venta.id}
+                className="hover-pointer hover-font-blue"
+                onClick={clickRow}
+              >
+                <td data-id={venta.id}>{venta.id}</td>
+                <td data-id={venta.id}>{venta.total}Bsf</td>
+                <td data-id={venta.id}>{venta.created_at}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <ModalDetalleVenta isOpen={modal} toggle={toggleModal} />
     </div>
   );
 };

@@ -160,3 +160,11 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.hover-pointer:hover {
+  cursor: pointer;
+}
+.hover-font-blue:hover {
+  color: #46a1d6 !important;
+  text-decoration: underline;
+}
