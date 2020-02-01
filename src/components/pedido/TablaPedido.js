@@ -5,6 +5,7 @@ const TablaPedido = props => {
   const { listaPedido, deleteRow } = props;
 
   const onDelete = e => {
+    e.stopPropagation();
     console.log(e.target.dataset.id);
     deleteRow(e.target.dataset.id);
   };

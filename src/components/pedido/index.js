@@ -5,6 +5,8 @@ import {
   fetchProducts,
   filterProducts
 } from "../../redux/actions/productosActions";
+
+import { processVenta } from "../../redux/actions/ventasActions";
 import { addRow, deleteRow } from "../../redux/actions/pedidoActions";
 
 import TablaPedido from "./TablaPedido";
@@ -13,11 +15,18 @@ import BarraEntrada from "./BarraEntrada";
 import PropTypes from "prop-types";
 
 import "./styles.css";
+import ModalConfirmacion from "./ModalConfirmacion";
 
 class Pedido extends Component {
   componentDidMount() {
     this.props.fetchProducts();
   }
+
+  handleProcesar = () => {
+    if (this.props.listaPedido.length !== 0) {
+      this.props.processVenta();
+    }
+  };
 
   render() {
     return (
@@ -43,9 +52,10 @@ class Pedido extends Component {
 
           <div className="card-footer importe">
             <div className="d-flex flex-row-reverse height-full ">
-              <button className="btn btn-outline-success ml-sm-5 ml-2">
-                <h6>Procesar</h6>
-              </button>
+              <ModalConfirmacion
+                total={this.props.total}
+                handleAccept={this.handleProcesar}
+              />
               <p className="align-self-end fuente-ok">Bsf</p>
               <h1 className="align-self-end font-weight-bolder fuente-ok">
                 {this.props.total}
@@ -82,7 +92,8 @@ const mapActionToProps = {
   fetchProducts,
   addRow,
   deleteRow,
-  filterProducts
+  filterProducts,
+  processVenta
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Pedido);

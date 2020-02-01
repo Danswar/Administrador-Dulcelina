@@ -1,13 +1,16 @@
 import {
   FETCH_VENTAS,
   FETCH_VENTAS_PAGE,
-  setListaVentas
+  setListaVentas,
+  PROCESS_VENTA
 } from "../../actions/ventasActions";
+import { setInicialState } from "../../actions/pedidoActions";
+
 import { api } from "../../actions/apiActions";
 
-import { SELLS_ENDPOINT } from "../../constats";
+import { SELLS_ENDPOINT, SELL_ENDPOINT } from "../../constats";
 
-export const ventasMiddleware = ({ dispatch }) => next => action => {
+export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
   next(action);
 
   switch (action.type) {
@@ -24,6 +27,23 @@ export const ventasMiddleware = ({ dispatch }) => next => action => {
           setListaVentas
         )
       );
+      break;
+
+    case PROCESS_VENTA:
+      const { listaPedido, total } = getState().pedido;
+      const data = {
+        total: total,
+        items: listaPedido.map(row => {
+          return {
+            product_id: row.producto.id,
+            p_costo: row.producto.p_costo,
+            p_costo_usd: row.producto.p_costo_usd,
+            p_venta: row.producto.p_venta,
+            cantidad: row.cantidad
+          };
+        })
+      };
+      dispatch(api(data, "POST", SELL_ENDPOINT, setInicialState));
       break;
 
     default:

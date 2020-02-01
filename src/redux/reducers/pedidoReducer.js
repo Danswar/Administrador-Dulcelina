@@ -1,4 +1,8 @@
-import { ADD_ROW, DELETE_ROW } from "../actions/pedidoActions";
+import {
+  ADD_ROW,
+  DELETE_ROW,
+  SET_INITIAL_STATE
+} from "../actions/pedidoActions";
 
 const initialState = {
   listaPedido: [],
@@ -39,6 +43,12 @@ export const pedidoReducer = (state = initialState, action) => {
         ...state,
         listaPedido: newList,
         total: total
+      };
+
+    case SET_INITIAL_STATE:
+      return {
+        ...state,
+        ...initialState
       };
 
     default:
