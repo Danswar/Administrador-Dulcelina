@@ -12,7 +12,7 @@ import {
   toggleModal,
   DELETE_PRODUCT,
   deleteSingleProduct,
-  DELETE_SINGLE_PRODUCT,
+  DELETE_SINGLE_PRODUCT
 } from "../../actions/productosActions";
 
 import {
@@ -50,7 +50,22 @@ export const productosMiddleware = store => next => action => {
 
       const suggestions = products.filter(producto => {
         const regex = new RegExp(`${filter}`, "gi");
-        return producto.nombre.match(regex) /* || producto.codigo.match(regex) */;
+        return producto.nombre.match(
+          regex
+        ) /* || producto.codigo.match(regex) */;
+      });
+
+      const dolar_actual = store.getState().dolar.dolar_actual;
+      suggestions.sort((a, b) => {
+        let margen_a = (a.p_venta / (a.p_costo_usd * dolar_actual) - 1) * 100;
+        let margen_b = (b.p_venta / (b.p_costo_usd * dolar_actual) - 1) * 100;
+        if (margen_a > margen_b) {
+          return 1;
+        } else if (margen_a < margen_b) {
+          return -1;
+        } else {
+          return 0;
+        }
       });
 
       dispatch(setSuggestion(suggestions));
@@ -61,7 +76,12 @@ export const productosMiddleware = store => next => action => {
     /* ACTION: añadir nuevo producto */
     case ADD_PRODUCT:
       dispatch(
-        apiRequest(action.payload, "POST", PRODUCT_ENDPOINT, `${PRODUCTS} ${INSERT}`)
+        apiRequest(
+          action.payload,
+          "POST",
+          PRODUCT_ENDPOINT,
+          `${PRODUCTS} ${INSERT}`
+        )
       );
       break;
 
@@ -70,9 +90,14 @@ export const productosMiddleware = store => next => action => {
     /* ACTION: Editar un producto */
     case EDIT_PRODUCT:
       dispatch(
-        apiRequest(action.payload, "POST", PRODUCT_ENDPOINT, `${PRODUCTS} ${UPDATE}`)
+        apiRequest(
+          action.payload,
+          "POST",
+          PRODUCT_ENDPOINT,
+          `${PRODUCTS} ${UPDATE}`
+        )
       );
-      break
+      break;
 
     case DELETE_PRODUCT:
       const { id } = action.payload;
@@ -84,7 +109,7 @@ export const productosMiddleware = store => next => action => {
     //--
     //--
     /* ACTION: Ordenar lista */
-    case ORDER_PRODUCTS:
+    /* case ORDER_PRODUCTS:
       const orderList = store.getState().productos.listaProductos;
       const dolar_actual = store.getState().dolar.dolar_actual;
       orderList.sort((a, b) => {
@@ -99,8 +124,7 @@ export const productosMiddleware = store => next => action => {
         }
       });
       dispatch(setProducts(orderList));
-      break
-
+      break */
 
     //--
     //--
@@ -126,29 +150,33 @@ export const productosMiddleware = store => next => action => {
     /* EVENT: petición añadir nuevo al server fue exitosa */
     case `${PRODUCTS} ${UPDATE} ${API_SUCCESS}`:
       const incomeProduct = action.payload.data;
-      const editProducts = store.getState().productos.listaProductos.map((item) => {
-        if (item.id === incomeProduct.id) {
-          return incomeProduct;
-        }
-        return item;
-      });
+      const editProducts = store
+        .getState()
+        .productos.listaProductos.map(item => {
+          if (item.id === incomeProduct.id) {
+            return incomeProduct;
+          }
+          return item;
+        });
       dispatch(setProducts(editProducts));
       dispatch(filterProducts());
       dispatch(toggleModal());
       break;
-
 
     //--
     //--
     /* EVENT: petición añadir nuevo al server fue exitosa */
     case DELETE_SINGLE_PRODUCT:
       const productToDelete = action.payload.data;
-      const list = store.getState().productos.listaProductos.filter((product) => product.id !== productToDelete.id);
+      const list = store
+        .getState()
+        .productos.listaProductos.filter(
+          product => product.id !== productToDelete.id
+        );
       dispatch(setProducts(list));
       dispatch(filterProducts());
       dispatch(toggleModal());
       break;
-
 
     //--
     //--
@@ -164,10 +192,7 @@ export const productosMiddleware = store => next => action => {
       console.log(action.payload);
       break;
 
-
     default:
       break;
   }
-
-
 };

@@ -2,6 +2,7 @@
 - listo modal detalle de venta
 - consumimos la API de LBC para traer el valor del dolar cada que se carga la app
 - incluimos un punto para actualizar el dolar en el Head del Main
+- codigo de ordenamiento de productos por margen emplazado temporalmente
 
 31/01/2020------------------------
 - implementado Total en el pedido reducer
