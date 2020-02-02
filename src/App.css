@@ -18,7 +18,7 @@ main {
   background-color: #f1f2f7;
 }
 aside {
-  height: 100vh;
+  min-height: 100vh;
   background-color: #2a3542;
 }
 .titulo-app {
@@ -159,4 +159,12 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.hover-pointer:hover {
+  cursor: pointer;
+}
+.hover-font-blue:hover {
+  color: #46a1d6 !important;
+  text-decoration: underline;
 }

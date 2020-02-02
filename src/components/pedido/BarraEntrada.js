@@ -52,13 +52,13 @@ const BarraEntrada = props => {
   };
 
   return (
-    <form class="barra-entrada">
+    <form className="barra-entrada">
       <div className="form-row d-flex flex-nowrap pb-3">
         <div className="col-md-7">
           <Autocomplete
             id="combo-nombre"
             options={listaProductos}
-            getOptionLabel={option => option.nombre}
+            getOptionLabel={option => (option.nombre ? option.nombre : "")}
             value={itemSelected}
             onChange={onItemChange}
             autoSelect

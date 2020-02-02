@@ -40,6 +40,16 @@ class AppNavbar extends Component {
             <Nav className="mr-auto" navbar>
 
               <NavLink 
+                exact={true}
+                to="/" 
+                style={styleLink}
+                activeStyle={activeLink}
+                onClick={this.toggle}
+              >
+                <i className="fas fa-home pr-3"></i>Home
+              </NavLink>
+
+              <NavLink 
                 to="/pedido" 
                 style={styleLink}
                 activeStyle={activeLink}

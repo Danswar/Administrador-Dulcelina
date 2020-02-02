@@ -13,8 +13,11 @@ class Aside extends Component {
 
         <nav className="container-flush mt-3">
           <ul>
-            {/* <li className="item-nav item-nav-active"><a className="d-block" href="index.html"><i
-                            className="fas fa-home pr-3"></i>Home</a></li> */}
+            <li>
+              <NavLink className="d-block item-nav" exact to='/'>
+                <i className="fas fa-home pr-3"></i>Home
+              </NavLink>
+            </li>
             <li>
               <NavLink className="d-block item-nav" to="/pedido">
                 <i className="fab fa-sellsy pr-3"></i>Armar pedido
@@ -25,10 +28,6 @@ class Aside extends Component {
                 <i className="fas fa-boxes pr-3"></i>Productos
               </NavLink>
             </li>
-            {/* <li className="item-nav"><a className="d-block" href="categoria.html"><i className="fas fa-list pr-3"></i>Categorias</a>
-                    </li>
-                    <li className="item-nav"><a className="d-block" href="ajustes.html"><i className="fas fa-toolbox pr-3"></i>Ajustes</a>
-                    </li> */}
           </ul>
         </nav>
 

@@ -1,3 +1,16 @@
+31/01/2020------------------------
+- implementado Total en el pedido reducer
+- reparados un monton de warning y errores
+- modal de confirmacion de procesar ventas
+- se procesa el pedido y se manda al server como una nueva venta (implementado en ventaMiddleware)
+- Emplazado componente modal detalle venta
+
+30/01/2020------------------------
+- emplazado componente home e hijos (InfoCard y TablaVentas)
+- implementado reducer de lista de TablaVentas
+- tabla de ventas muestra las ventas en la base de datos de forma paginada
+- InfoCard acepta parametros desde fuera
+
 26/01/2020------------------------
 - reparado el responsive de la seccion de productos
 - reparado el responsive de la seccion de pedidos

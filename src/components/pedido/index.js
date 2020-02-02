@@ -5,6 +5,8 @@ import {
   fetchProducts,
   filterProducts
 } from "../../redux/actions/productosActions";
+
+import { processVenta } from "../../redux/actions/ventasActions";
 import { addRow, deleteRow } from "../../redux/actions/pedidoActions";
 
 import TablaPedido from "./TablaPedido";
@@ -13,11 +15,18 @@ import BarraEntrada from "./BarraEntrada";
 import PropTypes from "prop-types";
 
 import "./styles.css";
+import ModalConfirmacion from "./ModalConfirmacion";
 
 class Pedido extends Component {
   componentDidMount() {
     this.props.fetchProducts();
   }
+
+  handleProcesar = () => {
+    if (this.props.listaPedido.length !== 0) {
+      this.props.processVenta();
+    }
+  };
 
   render() {
     return (
@@ -31,8 +40,6 @@ class Pedido extends Component {
             <BarraEntrada
               addRow={this.props.addRow}
               listaProductos={this.props.listaProductos}
-              /* filterProducts={this.props.filterProducts}
-            suggestions={this.props.suggestions}   */
             />
 
             <div className="container tabla-factura scroll-on mt-sm-3 mt-0">
@@ -45,18 +52,13 @@ class Pedido extends Component {
 
           <div className="card-footer importe">
             <div className="d-flex flex-row-reverse height-full ">
-              <button className="btn btn-outline-success ml-sm-5 ml-2">
-                <h6>Procesar</h6>
-              </button>
+              <ModalConfirmacion
+                total={this.props.total}
+                handleAccept={this.handleProcesar}
+              />
               <p className="align-self-end fuente-ok">Bsf</p>
               <h1 className="align-self-end font-weight-bolder fuente-ok">
-                {this.props.listaPedido.reduce(
-                  (sum, value) =>
-                    typeof value.final == "number"
-                      ? sum + value.final
-                      : sum + Number(value.final),
-                  0
-                )}
+                {this.props.total}
               </h1>
               <h4 className="mr-3 fuente-ok d-none d-sm-block">Importe</h4>
             </div>
@@ -70,6 +72,7 @@ class Pedido extends Component {
 // PROPTYPES
 Pedido.propTypes = {
   listaPedido: PropTypes.array,
+  total: PropTypes.number,
   listaProductos: PropTypes.array,
   fetchProducts: PropTypes.func,
   addRow: PropTypes.func,
@@ -80,8 +83,8 @@ Pedido.propTypes = {
 // props from Redux
 const mapStateToProps = state => ({
   listaPedido: state.pedido.listaPedido,
+  total: state.pedido.total,
   listaProductos: state.productos.listaProductos
-  /* suggestions: state.productos.suggestions, */
 });
 
 // action from Redux
@@ -89,7 +92,8 @@ const mapActionToProps = {
   fetchProducts,
   addRow,
   deleteRow,
-  filterProducts
+  filterProducts,
+  processVenta
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Pedido);

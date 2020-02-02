@@ -1,3 +1,4 @@
 import { productosMiddleware } from "./productosMiddleware";
+import { ventasMiddleware } from "./ventasMiddleware";
 
-export const appMidleware = [productosMiddleware];
+export const appMidleware = [productosMiddleware, ventasMiddleware];
