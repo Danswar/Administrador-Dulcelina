@@ -1,3 +1,8 @@
+1/01/2020------------------------
+- listo modal detalle de venta
+- consumimos la API de LBC para traer el valor del dolar cada que se carga la app
+- incluimos un punto para actualizar el dolar en el Head del Main
+
 31/01/2020------------------------
 - implementado Total en el pedido reducer
 - reparados un monton de warning y errores

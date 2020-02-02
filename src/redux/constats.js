@@ -6,3 +6,6 @@ export const PRODUCT_ENDPOINT = `${SERVER_ENDPOINT}/product`;
 
 export const SELLS_ENDPOINT = `${SERVER_ENDPOINT}/sells`;
 export const SELL_ENDPOINT = `${SERVER_ENDPOINT}/sell`;
+
+export const DOLAR_ENDPOINT =
+  "https://cors-anywhere.herokuapp.com/https://localbitcoins.com//api/equation/USD_in_DOLARTODAY";

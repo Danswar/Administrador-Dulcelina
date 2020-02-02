@@ -1,8 +1,22 @@
-import {UPDATE_DOLAR} from './types';
+export const SET_DOLAR = "[Dolar] Set dolar";
+export const FETCH_DOLAR = "[Dolar] Fetch dolar";
 
-export const updateDolar = (newValue) =>{
-    return({
-        type: UPDATE_DOLAR,
-        payload: newValue
-    });
-}
+export const setDolar = newValue => {
+  return {
+    type: SET_DOLAR,
+    payload: newValue
+  };
+};
+
+export const fetchDolar = () => {
+  return {
+    type: FETCH_DOLAR
+  };
+};
+
+export const unwrapAndSetDolar = data => {
+  return {
+    type: SET_DOLAR,
+    payload: data.data
+  };
+};

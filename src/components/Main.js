@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 
 import Productos from "./productos";
 import Pedido from "./pedido";
-import Home from './home';
+import Home from "./home";
+import UpdateDolarForm from "./productos/UpdateDolarForm";
 
 export default class Main extends Component {
   render() {
@@ -13,7 +14,7 @@ export default class Main extends Component {
       <main className="col-12 col-lg-9 pl-0 pr-0 mt-5 mt-sm-0 pt-3 pt-sm-0">
         <Header />
         <Switch>
-          <Route exact path='/' component={Home}>
+          <Route exact path="/" component={Home}>
             {/* <Home /> */}
           </Route>
           <Route exact path="/productos">
@@ -34,15 +35,17 @@ function Header() {
   return (
     <div className="header-main d-none d-lg-block">
       <div className="pt-2 d-flex justify-content-between align-items-center">
-        <p className="ml-3">
+        <div className="ml-3">
           <span className="mr-4">
             <i className="fas fa-dollar-sign fuente-verde"></i> {dolar_actual}{" "}
             Bsf/USD
+            <UpdateDolarForm />
           </span>
+
           <span className="font-itali d-none">
             <i className="far fa-calendar-alt"></i> 22/12/2019 - 12:26pm
           </span>
-        </p>
+        </div>
         <div className="perfil-emoji mr-3">
           <img
             className="img-circle"

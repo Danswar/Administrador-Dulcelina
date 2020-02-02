@@ -10,7 +10,13 @@ import AppNavbar from "./components/AppNavbar";
 import Main from "./components/Main";
 import Aside from "./components/Aside";
 
+import { fetchDolar } from "./redux/actions/dolarActions";
+
 class App extends Component {
+  componentDidMount() {
+    store.dispatch(fetchDolar());
+  }
+
   render() {
     return (
       <Provider store={store}>
