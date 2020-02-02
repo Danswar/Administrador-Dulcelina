@@ -1,8 +1,12 @@
 import {
   FETCH_VENTAS,
   FETCH_VENTAS_PAGE,
+  FETCH_SINGLE_VENTA,
   setListaVentas,
-  PROCESS_VENTA
+  PROCESS_VENTA,
+  setPending,
+  setSingleVenta,
+  SET_SINGLE_VENTA
 } from "../../actions/ventasActions";
 import { setInicialState } from "../../actions/pedidoActions";
 
@@ -27,6 +31,17 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
           setListaVentas
         )
       );
+      break;
+
+    case FETCH_SINGLE_VENTA:
+      dispatch(setPending(true));
+      dispatch(
+        api(null, "GET", `${SELL_ENDPOINT}/${action.payload}`, setSingleVenta)
+      );
+      break;
+
+    case SET_SINGLE_VENTA:
+      dispatch(setPending(false));
       break;
 
     case PROCESS_VENTA:

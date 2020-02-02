@@ -1,7 +1,14 @@
-import { SET_LISTA_VENTAS, SET_PENDING } from "../actions/ventasActions";
+import {
+  SET_LISTA_VENTAS,
+  SET_PENDING,
+  SET_SINGLE_VENTA
+} from "../actions/ventasActions";
 
 const initialState = {
-  singleVenta: {},
+  singleVenta: {
+    id: "",
+    items: []
+  },
   listaVentas: [],
   links: {
     first: "",
@@ -27,6 +34,12 @@ export const ventasReducer = (state = initialState, action) => {
         listaVentas: data,
         links: links,
         meta: meta
+      };
+
+    case SET_SINGLE_VENTA:
+      return {
+        ...state,
+        singleVenta: action.payload
       };
 
     case SET_PENDING:

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { fetchSingleVenta } from "../../redux/actions/ventasActions";
 import Proptype from "prop-types";
 
 import ModalDetalleVenta from "./ModalDetalleVenta";
@@ -13,31 +14,33 @@ const TablaVentas = props => {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
 
-  const changeFirst = () => {
+  function changeFirst() {
     dispatch(fetchPage(1));
-  };
+  }
 
-  const changeNext = () => {
+  function changeNext() {
     if (current_page + 1 <= last_page) {
       const next = current_page + 1;
       dispatch(fetchPage(next));
     }
-  };
+  }
 
-  const changePrev = () => {
+  function changePrev() {
     if (1 <= current_page - 1) {
       const prev = current_page - 1;
       dispatch(fetchPage(prev));
     }
-  };
+  }
 
-  const changeLast = () => {
+  function changeLast() {
     dispatch(fetchPage(last_page));
-  };
+  }
 
-  const clickRow = e => {
+  function clickRow(e) {
+    console.log(e.target.dataset.id);
+    dispatch(fetchSingleVenta(e.target.dataset.id));
     toggleModal();
-  };
+  }
 
   return (
     <div className="mt-3 ml-3 mr-3">
@@ -48,10 +51,10 @@ const TablaVentas = props => {
         <div>
           <Pagination size="md" aria-label="Page navigation example">
             <PaginationItem>
-              <PaginationLink first onClick={changeFirst} />
+              <PaginationLink first onClick={() => changeFirst()} />
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink previous onClick={changePrev} />
+              <PaginationLink previous onClick={() => changePrev()} />
             </PaginationItem>
             <PaginationItem disabled>
               <PaginationLink>
@@ -59,14 +62,15 @@ const TablaVentas = props => {
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink next onClick={changeNext} />
+              <PaginationLink next onClick={() => changeNext()} />
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink last onClick={changeLast} />
+              <PaginationLink last onClick={() => changeLast()} />
             </PaginationItem>
           </Pagination>
         </div>
       </div>
+
       <table className="table table-hover mt-2">
         <thead className="thead-dark">
           <tr>
