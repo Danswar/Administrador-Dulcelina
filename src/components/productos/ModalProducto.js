@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 
-import { updateDolar } from "../../redux/actions/dolarActions";
-import { addProduct, editProduct, toggleModal } from "../../redux/actions/productosActions";
+import { setDolar } from "../../redux/actions/dolarActions";
+import {
+  addProduct,
+  editProduct,
+  toggleModal
+} from "../../redux/actions/productosActions";
 import { connect } from "react-redux";
 
 import {
@@ -19,7 +23,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Spinner,
+  Spinner
 } from "reactstrap";
 
 class ModalProducto extends Component {
@@ -63,7 +67,8 @@ class ModalProducto extends Component {
     this.state = {
       isOpen: false,
       isSending: false,
-      producto: producto
+      producto: producto,
+      dolar_actual: dolar_actual
     };
   }
 
@@ -83,7 +88,11 @@ class ModalProducto extends Component {
         producto: producto
       });
     }
-    if (this.state.isOpen === true && prevProps.isOpen === true && this.props.isOpen === false) {
+    if (
+      this.state.isOpen === true &&
+      prevProps.isOpen === true &&
+      this.props.isOpen === false
+    ) {
       this.toggle();
       this.props.toggleModal();
 
@@ -123,7 +132,9 @@ class ModalProducto extends Component {
   };
 
   handleValueDolarChange = e => {
-    this.props.updateDolar(e.target.value);
+    this.setState({
+      dolar_actual: e.target.value
+    });
     this.calculadora(e);
   };
 
@@ -163,7 +174,7 @@ class ModalProducto extends Component {
 
       case "p_venta":
         temp.p_venta_usd = parseFloat(
-          temp.p_venta / this.props.dolar_actual
+          temp.p_venta / this.state.dolar_actual
         ).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
         temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
@@ -171,7 +182,7 @@ class ModalProducto extends Component {
 
       case "dolar_actual":
         temp.p_venta_usd = parseFloat(
-          temp.p_venta / this.props.dolar_actual
+          temp.p_venta / this.state.dolar_actual
         ).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
         temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
@@ -179,7 +190,7 @@ class ModalProducto extends Component {
 
       case "p_venta_usd":
         temp.p_venta = parseFloat(
-          temp.p_venta_usd * this.props.dolar_actual
+          temp.p_venta_usd * this.state.dolar_actual
         ).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
         temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
@@ -189,7 +200,7 @@ class ModalProducto extends Component {
         temp.p_venta_usd =
           (temp.margen * temp.p_costo_usd) / 100 + parseFloat(temp.p_costo_usd);
         temp.p_venta = parseFloat(
-          temp.p_venta_usd * this.props.dolar_actual
+          temp.p_venta_usd * this.state.dolar_actual
         ).toFixed(2);
         break;
 
@@ -200,14 +211,17 @@ class ModalProducto extends Component {
   };
 
   handleOnSubmit = e => {
+    this.setState({ isSending: true });
     e.preventDefault();
 
-    this.setState({ isSending: true });
+    const dataToSend = this.state
+      .producto; /** ESTA ES LA DATA A STOREAR EN LA BD */
 
-    const dataToSend = this.state.producto; /** ESTA ES LA DATA A STOREAR EN LA BD */
+    dataToSend.id === ""
+      ? this.props.addProduct(dataToSend)
+      : this.props.editProduct(dataToSend);
 
-    dataToSend.id === "" ? this.props.addProduct(dataToSend) : this.props.editProduct(dataToSend);
-
+    this.props.setDolar(this.state.dolar_actual);
   };
 
   render() {
@@ -366,7 +380,7 @@ class ModalProducto extends Component {
                     <Label>Dolar actual</Label>
                     <InputGroup>
                       <Input
-                        value={this.props.dolar_actual}
+                        defaultValue={this.props.dolar_actual}
                         onChange={this.handleValueDolarChange}
                         type="number"
                         name="dolar_actual"
@@ -443,18 +457,12 @@ class ModalProducto extends Component {
                 <Button color="secondary" onClick={this.toggle}>
                   Cancelar
                 </Button>{" "}
-                {
-                  !this.state.isSending &&
+                {!this.state.isSending && (
                   <Button color="primary" type="submit">
                     Listo!
                   </Button>
-                }
-                {
-                  this.state.isSending &&
-                  <Spinner color="warning" />
-                }
-
-
+                )}
+                {this.state.isSending && <Spinner color="warning" />}
               </ModalFooter>
             </Form>
           </ModalBody>
@@ -470,12 +478,10 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
-  updateDolar,
+  setDolar,
   addProduct,
   editProduct,
   toggleModal
-}
+};
 
-export default connect(mapStateToProps, mapActionsToProps)(
-  ModalProducto
-);
+export default connect(mapStateToProps, mapActionsToProps)(ModalProducto);

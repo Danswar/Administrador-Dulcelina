@@ -14,7 +14,7 @@ const Home = props => {
 
   useEffect(() => {
     dispatch(fetchVentas());
-  }, []);
+  }, [dispatch]);
 
   const storeVentas = useSelector(store => store.ventas);
   const { listaVentas, meta } = storeVentas;
