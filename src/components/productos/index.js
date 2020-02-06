@@ -125,7 +125,7 @@ class Productos extends Component {
                     <span className="text-muted font-italic d-inline d-sm-none">
                       P. Venta:{" "}
                     </span>
-                    {prod.p_venta
+                    {Number(prod.p_venta)
                       .toFixed(2)
                       .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                     Bsf
