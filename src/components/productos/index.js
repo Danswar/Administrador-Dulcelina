@@ -114,7 +114,7 @@ class Productos extends Component {
                   </td> */}
                   <td>{prod.nombre}</td>
                   <td className="d-none d-sm-table-cell">{prod.stock}</td>
-                  <td>
+                  <td style={styleMargenLow(margen, prod.margen_min)}>
                     {" "}
                     <span className="text-muted font-italic d-inline d-sm-none">
                       Margen:{" "}
@@ -174,3 +174,12 @@ export default connect(mapStateToProps, mapActionsToProps)(Productos);
 ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
 ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
 ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
+
+const styleMargenLow = (margen, margen_min) => {
+  if (margen < margen_min) {
+    return {
+      color: "red",
+      fontWeight: "bold"
+    };
+  }
+};

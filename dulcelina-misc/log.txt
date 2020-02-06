@@ -1,5 +1,6 @@
 5/01/2020------------------------
 - separador de miles en varios lugares del codigo
+- estilos diferenciados para los productos con bajo margen
 
 1/01/2020------------------------
 - listo modal detalle de venta

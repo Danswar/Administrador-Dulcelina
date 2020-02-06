@@ -96,6 +96,10 @@ class ModalProducto extends Component {
       this.toggle();
       this.props.toggleModal();
 
+      this.setState({
+        isSending: false
+      });
+
       if (this.state.producto.id === "") {
         this.setState({
           producto: {
@@ -111,8 +115,7 @@ class ModalProducto extends Component {
             margen: "",
             margen_min: "",
             dolar_base: ""
-          },
-          isSending: false
+          }
         });
       }
     }
