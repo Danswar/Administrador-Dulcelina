@@ -58,7 +58,9 @@ const TablaPedido = props => {
                 <i className="text-muted font-italic d-inline d-sm-none">
                   P. Unit.:{" "}
                 </i>
-                {row.producto.p_venta}
+                {row.producto.p_venta
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
               </td>
               <td className="col-sm-1">
                 <i className="text-muted font-italic d-inline d-sm-none">
@@ -70,7 +72,7 @@ const TablaPedido = props => {
                 <i className="text-muted font-italic d-inline d-sm-none">
                   Final:{" "}
                 </i>
-                {row.final} Bsf
+                {row.final.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Bsf
               </td>
             </tr>
           );

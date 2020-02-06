@@ -88,7 +88,10 @@ const TablaVentas = props => {
                 onClick={clickRow}
               >
                 <td data-id={venta.id}>{venta.id}</td>
-                <td data-id={venta.id}>{venta.total}Bsf</td>
+                <td data-id={venta.id}>
+                  {venta.total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  Bsf
+                </td>
                 <td data-id={venta.id}>{venta.created_at}</td>
               </tr>
             );

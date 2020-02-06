@@ -58,7 +58,9 @@ class Pedido extends Component {
               />
               <p className="align-self-end fuente-ok">Bsf</p>
               <h1 className="align-self-end font-weight-bolder fuente-ok">
-                {this.props.total}
+                {this.props.total
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
               </h1>
               <h4 className="mr-3 fuente-ok d-none d-sm-block">Importe</h4>
             </div>

@@ -30,7 +30,10 @@ const ModalConfirmacion = props => {
         <ModalHeader toggle={toggle}>Procesar pedido</ModalHeader>
         <ModalBody>
           <h5 className="text-center">Monto total a cobrar:</h5>
-          <h1 className="text-center"> {total} </h1>
+          <h1 className="text-center">
+            {" "}
+            {total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+          </h1>
         </ModalBody>
         <ModalFooter>
           <Button outline color="secondary" onClick={toggle}>

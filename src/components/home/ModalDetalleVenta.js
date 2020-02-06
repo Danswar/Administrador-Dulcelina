@@ -35,12 +35,19 @@ const ModalDetalleVenta = props => {
                     <td>
                       <div className="d-flex justify-content-between">
                         <span className="font-italic">
-                          {item.product.nombre} - {item.p_venta} Bsf
+                          {item.product.nombre} -{" "}
+                          {item.p_venta
+                            .toFixed(2)
+                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                          Bsf
                         </span>
                         <span>x{item.cantidad}</span>
                       </div>
                       <p className="text-right mt-1">
-                        {item.p_venta * item.cantidad} Bsf
+                        {(item.p_venta * item.cantidad)
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                        Bsf
                       </p>
                     </td>
                   </tr>
@@ -51,7 +58,10 @@ const ModalDetalleVenta = props => {
           <div className="d-flex flex-row-reverse height-full ">
             <p className="align-self-end fuente-ok">Bsf</p>
             <h3 className="align-self-end font-weight-bolder fuente-ok">
-              {singleVenta.total}
+              {singleVenta.total &&
+                singleVenta.total
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
             </h3>
           </div>
         </ModalBody>

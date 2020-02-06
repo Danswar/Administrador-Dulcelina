@@ -37,7 +37,10 @@ function Header() {
       <div className="pt-2 d-flex justify-content-between align-items-center">
         <div className="ml-3">
           <span className="mr-4">
-            <i className="fas fa-dollar-sign fuente-verde"></i> {dolar_actual}{" "}
+            <i className="fas fa-dollar-sign fuente-verde"></i>{" "}
+            {Number(dolar_actual)
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
             Bsf/USD
             <UpdateDolarForm />
           </span>
