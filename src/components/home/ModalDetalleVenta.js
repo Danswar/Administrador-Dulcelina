@@ -9,12 +9,21 @@ import {
 } from "reactstrap";
 
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { cancelVenta } from "../../redux/actions/ventasActions";
 
 const ModalDetalleVenta = props => {
   const { isOpen, toggle } = props;
 
   const { singleVenta, pending } = useSelector(state => state.ventas);
+
+  const dispatch = useDispatch();
+  const anularFactura = () => {
+    if (singleVenta.id) {
+      dispatch(cancelVenta(singleVenta.id));
+      toggle();
+    }
+  };
 
   return (
     <div>
@@ -65,7 +74,10 @@ const ModalDetalleVenta = props => {
             </h3>
           </div>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter className="d-flex justify-content-between">
+          <Button outline color="danger" onClick={anularFactura}>
+            Anular
+          </Button>
           <Button className="btn btn-primary" onClick={toggle}>
             Listo
           </Button>

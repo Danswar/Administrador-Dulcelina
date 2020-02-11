@@ -6,13 +6,19 @@ import {
   PROCESS_VENTA,
   setPending,
   setSingleVenta,
-  SET_SINGLE_VENTA
+  SET_SINGLE_VENTA,
+  CANCEL_VENTA,
+  fetchVentas
 } from "../../actions/ventasActions";
 import { setInicialState } from "../../actions/pedidoActions";
 
 import { api } from "../../actions/apiActions";
 
-import { SELLS_ENDPOINT, SELL_ENDPOINT } from "../../constats";
+import {
+  SELLS_ENDPOINT,
+  SELL_ENDPOINT,
+  CANCEL_SELL_ENDPOINT
+} from "../../constats";
 
 export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
   next(action);
@@ -59,6 +65,18 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
         })
       };
       dispatch(api(data, "POST", SELL_ENDPOINT, setInicialState));
+      break;
+
+    case CANCEL_VENTA:
+      dispatch(
+        api(
+          null,
+          "POST",
+          `${CANCEL_SELL_ENDPOINT}/${action.payload}`,
+          fetchVentas
+        )
+      );
+
       break;
 
     default:
