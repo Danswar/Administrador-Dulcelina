@@ -46,7 +46,7 @@ const TablaVentas = props => {
     <div className="mt-3 ml-3 mr-3">
       <div className="d-flex justify-content-between">
         <h4>
-          Ultimas ventas <small>Sucursal Dulcelina "La Churuata"</small>
+          Historial de ventas <small>Sucursal Dulcelina "La Churuata"</small>
         </h4>
         <div>
           <Pagination size="md" aria-label="Page navigation example">

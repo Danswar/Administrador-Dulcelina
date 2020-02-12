@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchVentas,
-  fetchVentasPage
-} from "../../redux/actions/ventasActions";
+import { fetchVentasPage } from "../../redux/actions/ventasActions";
 
 import InfoCard from "./InfoCard";
-import TablaVentas from "./TablaVentas";
+import TablaVentas from "../ventas/TablaVentas";
 
 const Home = props => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchVentas());
-  }, [dispatch]);
+  /* TODO: hacer fetch de ventas del dia y de productos aqui*/
+  useEffect(() => {}, [dispatch]);
 
   const storeVentas = useSelector(store => store.ventas);
   const { listaVentas, meta } = storeVentas;

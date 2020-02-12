@@ -1,3 +1,7 @@
+11/02/2020------------------------
+- creada ruta para historico de ventas.
+- se movio la TablaVentas al nuevo componente 'ventas'
+
 10/02/2020------------------------
 - agregado boton en ModalDetalleVenta para anular venta
 - agredado estilo a tabla de venta para diferenciar facturas anuladas

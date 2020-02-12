@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Productos from "./productos";
 import Pedido from "./pedido";
 import Home from "./home";
+import Ventas from "./ventas";
 import UpdateDolarForm from "./productos/UpdateDolarForm";
 
 export default class Main extends Component {
@@ -14,15 +15,14 @@ export default class Main extends Component {
       <main className="col-12 col-lg-9 pl-0 pr-0 mt-5 mt-sm-0 pt-3 pt-sm-0">
         <Header />
         <Switch>
-          <Route exact path="/" component={Home}>
-            {/* <Home /> */}
-          </Route>
+          <Route exact path="/" component={Home} />
           <Route exact path="/productos">
             <Productos />
           </Route>
           <Route exact path="/pedido">
             <Pedido />
           </Route>
+          <Route exact path="/ventas" component={Ventas} />
         </Switch>
       </main>
     );

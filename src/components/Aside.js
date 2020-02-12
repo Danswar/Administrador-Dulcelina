@@ -14,7 +14,7 @@ class Aside extends Component {
         <nav className="container-flush mt-3">
           <ul>
             <li>
-              <NavLink className="d-block item-nav" exact to='/'>
+              <NavLink className="d-block item-nav" exact to="/">
                 <i className="fas fa-home pr-3"></i>Home
               </NavLink>
             </li>
@@ -26,6 +26,11 @@ class Aside extends Component {
             <li>
               <NavLink className="d-block item-nav" to="/productos">
                 <i className="fas fa-boxes pr-3"></i>Productos
+              </NavLink>
+            </li>
+            <li>
+              <NavLink className="d-block item-nav" to="/ventas">
+                <i className="fas fa-cash-register pr-3"></i>Ventas
               </NavLink>
             </li>
           </ul>
@@ -60,6 +65,5 @@ class Aside extends Component {
     );
   }
 }
-
 
 export default Aside;
