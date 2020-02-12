@@ -91,6 +91,9 @@ const TablaVentas = props => {
                 <td data-id={venta.id}>
                   {venta.total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                   Bsf
+                  {venta.anulado ? (
+                    <span className="text-muted font-italic"> Anulado</span>
+                  ) : null}
                 </td>
                 <td data-id={venta.id}>{venta.created_at}</td>
               </tr>

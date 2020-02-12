@@ -1,6 +1,12 @@
+10/02/2020------------------------
+- agregado boton en ModalDetalleVenta para anular venta
+- agredado estilo a tabla de venta para diferenciar facturas anuladas
+- funcion de anular factura implementada
+
 5/01/2020------------------------
 - separador de miles en varios lugares del codigo
 - estilos diferenciados para los productos con bajo margen
+- VERSION EN PRODUCCION
 
 1/01/2020------------------------
 - listo modal detalle de venta
