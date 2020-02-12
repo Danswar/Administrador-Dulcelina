@@ -1,6 +1,9 @@
+12/02/2020------------------------
+- refactorizado el codigo de tabla de ventas para poder reutilizarlo
+
 11/02/2020------------------------
 - creada ruta para historico de ventas.
-- se movio la TablaVentas al nuevo componente 'ventas'
+- se movio la ResumenVentas al nuevo componente 'ventas'
 
 10/02/2020------------------------
 - agregado boton en ModalDetalleVenta para anular venta
@@ -27,8 +30,8 @@
 - Emplazado componente modal detalle venta
 
 30/01/2020------------------------
-- emplazado componente home e hijos (InfoCard y TablaVentas)
-- implementado reducer de lista de TablaVentas
+- emplazado componente home e hijos (InfoCard y ResumenVentas)
+- implementado reducer de lista de ResumenVentas
 - tabla de ventas muestra las ventas en la base de datos de forma paginada
 - InfoCard acepta parametros desde fuera
 

@@ -5,7 +5,7 @@ import {
   fetchVentasPage
 } from "../../redux/actions/ventasActions";
 
-import TablaVentas from "./TablaVentas";
+import ResumenVentas from "./ResumenVentas";
 
 const Ventas = () => {
   const storeVentas = useSelector(store => store.ventas);
@@ -18,7 +18,7 @@ const Ventas = () => {
 
   return (
     <div>
-      <TablaVentas
+      <ResumenVentas
         listaVentas={listaVentas}
         meta={meta}
         fetchPage={fetchVentasPage}

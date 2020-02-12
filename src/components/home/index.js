@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchVentasPage } from "../../redux/actions/ventasActions";
 
 import InfoCard from "./InfoCard";
-import TablaVentas from "../ventas/TablaVentas";
+import ResumenVentas from "../ventas/ResumenVentas";
 
 const Home = props => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Home = props => {
         />
       </div>
 
-      <TablaVentas
+      <ResumenVentas
         listaVentas={listaVentas}
         meta={meta}
         fetchPage={fetchVentasPage}
