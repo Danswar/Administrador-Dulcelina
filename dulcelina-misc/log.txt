@@ -1,5 +1,7 @@
 12/02/2020------------------------
 - refactorizado el codigo de tabla de ventas para poder reutilizarlo
+- agregada tabla de ventas del dia al comp Home
+- TODO: fix en el backend para que se ordenen descendientemente
 
 11/02/2020------------------------
 - creada ruta para historico de ventas.

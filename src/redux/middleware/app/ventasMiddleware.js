@@ -8,7 +8,9 @@ import {
   setSingleVenta,
   SET_SINGLE_VENTA,
   CANCEL_VENTA,
-  fetchVentas
+  fetchVentas,
+  FETCH_VENTAS_TODAY,
+  setVentasToday
 } from "../../actions/ventasActions";
 import { setInicialState } from "../../actions/pedidoActions";
 
@@ -17,7 +19,8 @@ import { api } from "../../actions/apiActions";
 import {
   SELLS_ENDPOINT,
   SELL_ENDPOINT,
-  CANCEL_SELL_ENDPOINT
+  CANCEL_SELL_ENDPOINT,
+  SELLS_TODAY_ENDPOINT
 } from "../../constats";
 
 export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
@@ -37,6 +40,9 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
           setListaVentas
         )
       );
+      break;
+    case FETCH_VENTAS_TODAY:
+      dispatch(api(null, "GET", SELLS_TODAY_ENDPOINT, setVentasToday));
       break;
 
     case FETCH_SINGLE_VENTA:

@@ -6,6 +6,7 @@ export const PRODUCT_ENDPOINT = `${SERVER_ENDPOINT}/product`;
 
 export const SELLS_ENDPOINT = `${SERVER_ENDPOINT}/sells`;
 export const SELL_ENDPOINT = `${SERVER_ENDPOINT}/sell`;
+export const SELLS_TODAY_ENDPOINT = `${SERVER_ENDPOINT}/sells/today`;
 export const CANCEL_SELL_ENDPOINT = `${SERVER_ENDPOINT}/sell/cancel`;
 
 export const DOLAR_ENDPOINT =
