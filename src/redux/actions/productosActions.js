@@ -15,6 +15,8 @@ export const SET_PRODUCTS = `${PRODUCTS} SET_LISTA_PRODUCTOS`;
 export const SET_FILTER = `${PRODUCTS} SET_FILTER`;
 export const SET_SUGGESTION = `${PRODUCTS} SET_SUGESTION`;
 export const TOGGLE_MODAL = `${PRODUCTS} TOGGLE_MODAL`;
+export const SET_PENDING = `${PRODUCTS} SET_PENDING`;
+
 //--
 //--
 // Middleware
@@ -60,6 +62,11 @@ export const setProducts = products => ({
   payload: {
     data: products
   }
+});
+
+export const setPending = state => ({
+  type: SET_PENDING,
+  payload: state,
 });
 
 export const setFilter = params => ({

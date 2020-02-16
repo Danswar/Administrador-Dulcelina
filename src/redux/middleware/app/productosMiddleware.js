@@ -8,11 +8,12 @@ import {
   filterProducts,
   ADD_PRODUCT,
   EDIT_PRODUCT,
-  ORDER_PRODUCTS,
   toggleModal,
   DELETE_PRODUCT,
   deleteSingleProduct,
-  DELETE_SINGLE_PRODUCT
+  DELETE_SINGLE_PRODUCT,
+  setPending,
+  SET_PRODUCTS
 } from "../../actions/productosActions";
 
 import {
@@ -30,15 +31,22 @@ export const productosMiddleware = store => next => action => {
   next(action);
 
   const dispatch = store.dispatch;
+  const { pending } = store.getState().productos;
 
   switch (action.type) {
     //--
     //--
     /* ACTION: pedir info al server */
     case FETCH_PRODUCTS:
-      dispatch(apiRequest(null, "GET", PRODUCTS_ENDPOINT, PRODUCTS));
+      if( !pending ){
+        dispatch(setPending(true));
+        dispatch(apiRequest(null, "GET", PRODUCTS_ENDPOINT, PRODUCTS));
+      }
       break;
 
+    case SET_PRODUCTS:
+      dispatch(setPending(false));
+      break;
     //--
     //--
     /* ACTION: tipear en la barra de busqueda de productos */
