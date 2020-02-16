@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVentasToday } from "../../redux/actions/ventasActions";
+import { fetchProducts } from "../../redux/actions/productosActions";
 
 import InfoCard from "./InfoCard";
 import TablaVentas from "../ventas/TablaVentas";
@@ -12,6 +13,7 @@ const Home = props => {
   /* TODO: hacer fetch de ventas del dia y de productos aqui*/
   useEffect(() => {
     dispatch(fetchVentasToday());
+    dispatch(fetchProducts());
   }, [dispatch]);
 
   const storeVentas = useSelector(store => store.ventas);

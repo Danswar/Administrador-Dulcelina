@@ -10,7 +10,8 @@ import {
   CANCEL_VENTA,
   fetchVentas,
   FETCH_VENTAS_TODAY,
-  setVentasToday
+  setVentasToday,
+  fetchVentasToday
 } from "../../actions/ventasActions";
 import { setInicialState } from "../../actions/pedidoActions";
 
@@ -75,12 +76,10 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
 
     case CANCEL_VENTA:
       dispatch(
-        api(
-          null,
-          "POST",
-          `${CANCEL_SELL_ENDPOINT}/${action.payload}`,
-          fetchVentas
-        )
+        api(null, "POST", `${CANCEL_SELL_ENDPOINT}/${action.payload}`, [
+          fetchVentas,
+          fetchVentasToday
+        ])
       );
 
       break;

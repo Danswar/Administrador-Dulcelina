@@ -20,11 +20,18 @@ export const apiMiddleware = ({ dispatch }) => next => action => {
       method: method,
       data: JSON.stringify(body)
     })
-      .then(data => dispatch(success(data.data)))
+      .then(data => {
+        if( Array.isArray(success) ){
+          success.map( action => dispatch(action(data.data)));
+        }else{
+           dispatch(success(data.data));
+        }
+      })
       .catch(error => {
         console.log(error);
         dispatch(apiError(error, action.payload.meta.entity));
       });
+      
   } else if (action.type.includes(API_REQUEST)) {
     const { method, url } = action.payload.meta;
     const body = action.payload.data;
