@@ -3,6 +3,7 @@ import {
   SET_FILTER,
   SET_SUGGESTION,
   TOGGLE_MODAL,
+  SET_PENDING,
 } from "../actions/productosActions";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   filter: "",
   suggestions: [],
   modalIsOpen: true,
+  pending: false,
 };
 
 export const productosReducer = (state = initialState, action) => {
@@ -19,6 +21,12 @@ export const productosReducer = (state = initialState, action) => {
         ...state,
         listaProductos: action.payload.data
       };
+    
+    case SET_PENDING:
+      return {
+        ...state,
+        pending: action.payload,
+      }
 
     case SET_FILTER:
       return {

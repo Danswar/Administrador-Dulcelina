@@ -1,18 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { fetchSingleVenta } from "../../redux/actions/ventasActions";
 import Proptype from "prop-types";
 
-import ModalDetalleVenta from "./ModalDetalleVenta";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
+import TablaVentas from "./TablaVentas";
 
-const TablaVentas = props => {
+const ResumenVentas = props => {
   const dispatch = useDispatch();
   const { listaVentas, meta, fetchPage } = props;
   const { current_page, last_page } = meta;
-
-  const [modal, setModal] = useState(false);
-  const toggleModal = () => setModal(!modal);
 
   function changeFirst() {
     dispatch(fetchPage(1));
@@ -36,17 +32,11 @@ const TablaVentas = props => {
     dispatch(fetchPage(last_page));
   }
 
-  function clickRow(e) {
-    console.log(e.target.dataset.id);
-    dispatch(fetchSingleVenta(e.target.dataset.id));
-    toggleModal();
-  }
-
   return (
     <div className="mt-3 ml-3 mr-3">
       <div className="d-flex justify-content-between">
         <h4>
-          Ultimas ventas <small>Sucursal Dulcelina "La Churuata"</small>
+          Historial de ventas <small>Sucursal Dulcelina "La Churuata"</small>
         </h4>
         <div>
           <Pagination size="md" aria-label="Page navigation example">
@@ -70,46 +60,15 @@ const TablaVentas = props => {
           </Pagination>
         </div>
       </div>
-
-      <table className="table table-hover mt-2">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">ID venta</th>
-            <th scope="col">Importe</th>
-            <th scope="col">Tiempo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listaVentas.map(venta => {
-            return (
-              <tr
-                key={venta.id}
-                className="hover-pointer hover-font-blue"
-                onClick={clickRow}
-              >
-                <td data-id={venta.id}>{venta.id}</td>
-                <td data-id={venta.id}>
-                  {venta.total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                  Bsf
-                  {venta.anulado ? (
-                    <span className="text-muted font-italic"> Anulado</span>
-                  ) : null}
-                </td>
-                <td data-id={venta.id}>{venta.created_at}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <ModalDetalleVenta isOpen={modal} toggle={toggleModal} />
+      <TablaVentas listaVentas={listaVentas} />
     </div>
   );
 };
 
-TablaVentas.propTypes = {
+ResumenVentas.propTypes = {
   listaVentas: Proptype.array,
   meta: Proptype.object,
   fetchPage: Proptype.func
 };
 
-export default TablaVentas;
+export default ResumenVentas;

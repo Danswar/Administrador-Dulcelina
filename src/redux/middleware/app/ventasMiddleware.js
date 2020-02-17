@@ -8,7 +8,14 @@ import {
   setSingleVenta,
   SET_SINGLE_VENTA,
   CANCEL_VENTA,
-  fetchVentas
+  fetchVentas,
+  FETCH_VENTAS_TODAY,
+  setVentasToday,
+  fetchVentasToday,
+  SET_VENTAS_TODAY,
+  setGanaciaToday,
+  CALC_GANANCIA_TODAY,
+  calcGananciaToday
 } from "../../actions/ventasActions";
 import { setInicialState } from "../../actions/pedidoActions";
 
@@ -17,11 +24,15 @@ import { api } from "../../actions/apiActions";
 import {
   SELLS_ENDPOINT,
   SELL_ENDPOINT,
-  CANCEL_SELL_ENDPOINT
+  CANCEL_SELL_ENDPOINT,
+  SELLS_TODAY_ENDPOINT
 } from "../../constats";
+import { SET_DOLAR } from "../../actions/dolarActions";
 
 export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
   next(action);
+
+  const dolar = getState().dolar.dolar_actual;
 
   switch (action.type) {
     case FETCH_VENTAS:
@@ -38,6 +49,9 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
         )
       );
       break;
+    case FETCH_VENTAS_TODAY:
+      dispatch(api(null, "GET", SELLS_TODAY_ENDPOINT, setVentasToday));
+      break;
 
     case FETCH_SINGLE_VENTA:
       dispatch(setPending(true));
@@ -48,6 +62,53 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
 
     case SET_SINGLE_VENTA:
       dispatch(setPending(false));
+      break;
+
+    case SET_VENTAS_TODAY:
+      dispatch(calcGananciaToday(action.payload));
+      break;
+
+    case SET_DOLAR:
+      let lista = getState().ventas.ventasToday;
+      if (lista.length !== 0) {
+        dispatch(calcGananciaToday(lista));
+      }
+
+      break;
+
+    case CALC_GANANCIA_TODAY:
+      if (dolar !== 1) {
+        var gananciaUsd = action.payload.reduce((total, venta) => {
+          if (!venta.anulado) {
+            return (
+              venta.items.reduce((subtotal, item) => {
+                return (
+                  subtotal +
+                  (item.p_venta / dolar - item.p_costo_usd) * item.cantidad
+                );
+              }, 0) + total
+            );
+          } else {
+            return total;
+          }
+        }, 0);
+
+        var gananciaBruta = action.payload.reduce((total, venta) => {
+          if (!venta.anulado) {
+            return (
+              venta.items.reduce((subtotal, item) => {
+                return (
+                  subtotal + (item.p_venta - item.p_costo_usd) * item.cantidad
+                );
+              }, 0) + total
+            );
+          } else {
+            return total;
+          }
+        }, 0);
+
+        dispatch(setGanaciaToday(gananciaBruta, gananciaUsd));
+      }
       break;
 
     case PROCESS_VENTA:
@@ -69,12 +130,10 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
 
     case CANCEL_VENTA:
       dispatch(
-        api(
-          null,
-          "POST",
-          `${CANCEL_SELL_ENDPOINT}/${action.payload}`,
-          fetchVentas
-        )
+        api(null, "POST", `${CANCEL_SELL_ENDPOINT}/${action.payload}`, [
+          fetchVentas,
+          fetchVentasToday
+        ])
       );
 
       break;

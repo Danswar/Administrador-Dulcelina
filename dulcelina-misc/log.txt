@@ -1,3 +1,20 @@
+16/02/2020------------------------
+- implementado pending en fetch productos
+- el middleware API ahora puede recibir un array de accions
+- el componente Home dispara fetch_products
+- al anular una venta se hace request a todas las ventas y las del dia
+- calculo de ganancias diarias
+- implementado cantidad de ventas, precios desactualizados y con bajo stock
+
+12/02/2020------------------------
+- refactorizado el codigo de tabla de ventas para poder reutilizarlo
+- agregada tabla de ventas del dia al comp Home
+- TODO: fix en el backend para que se ordenen descendientemente
+
+11/02/2020------------------------
+- creada ruta para historico de ventas.
+- se movio la ResumenVentas al nuevo componente 'ventas'
+
 10/02/2020------------------------
 - agregado boton en ModalDetalleVenta para anular venta
 - agredado estilo a tabla de venta para diferenciar facturas anuladas
@@ -23,8 +40,8 @@
 - Emplazado componente modal detalle venta
 
 30/01/2020------------------------
-- emplazado componente home e hijos (InfoCard y TablaVentas)
-- implementado reducer de lista de TablaVentas
+- emplazado componente home e hijos (InfoCard y ResumenVentas)
+- implementado reducer de lista de ResumenVentas
 - tabla de ventas muestra las ventas en la base de datos de forma paginada
 - InfoCard acepta parametros desde fuera
 
