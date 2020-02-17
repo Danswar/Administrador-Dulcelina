@@ -3,6 +3,8 @@
 - el middleware API ahora puede recibir un array de accions
 - el componente Home dispara fetch_products
 - al anular una venta se hace request a todas las ventas y las del dia
+- calculo de ganancias diarias
+- implementado cantidad de ventas, precios desactualizados y con bajo stock
 
 12/02/2020------------------------
 - refactorizado el codigo de tabla de ventas para poder reutilizarlo

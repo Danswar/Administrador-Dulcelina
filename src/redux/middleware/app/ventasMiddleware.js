@@ -11,7 +11,11 @@ import {
   fetchVentas,
   FETCH_VENTAS_TODAY,
   setVentasToday,
-  fetchVentasToday
+  fetchVentasToday,
+  SET_VENTAS_TODAY,
+  setGanaciaToday,
+  CALC_GANANCIA_TODAY,
+  calcGananciaToday
 } from "../../actions/ventasActions";
 import { setInicialState } from "../../actions/pedidoActions";
 
@@ -23,9 +27,12 @@ import {
   CANCEL_SELL_ENDPOINT,
   SELLS_TODAY_ENDPOINT
 } from "../../constats";
+import { SET_DOLAR } from "../../actions/dolarActions";
 
 export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
   next(action);
+
+  const dolar = getState().dolar.dolar_actual;
 
   switch (action.type) {
     case FETCH_VENTAS:
@@ -55,6 +62,53 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
 
     case SET_SINGLE_VENTA:
       dispatch(setPending(false));
+      break;
+
+    case SET_VENTAS_TODAY:
+      dispatch(calcGananciaToday(action.payload));
+      break;
+
+    case SET_DOLAR:
+      let lista = getState().ventas.ventasToday;
+      if (lista.length !== 0) {
+        dispatch(calcGananciaToday(lista));
+      }
+
+      break;
+
+    case CALC_GANANCIA_TODAY:
+      if (dolar !== 1) {
+        var gananciaUsd = action.payload.reduce((total, venta) => {
+          if (!venta.anulado) {
+            return (
+              venta.items.reduce((subtotal, item) => {
+                return (
+                  subtotal +
+                  (item.p_venta / dolar - item.p_costo_usd) * item.cantidad
+                );
+              }, 0) + total
+            );
+          } else {
+            return total;
+          }
+        }, 0);
+
+        var gananciaBruta = action.payload.reduce((total, venta) => {
+          if (!venta.anulado) {
+            return (
+              venta.items.reduce((subtotal, item) => {
+                return (
+                  subtotal + (item.p_venta - item.p_costo_usd) * item.cantidad
+                );
+              }, 0) + total
+            );
+          } else {
+            return total;
+          }
+        }, 0);
+
+        dispatch(setGanaciaToday(gananciaBruta, gananciaUsd));
+      }
       break;
 
     case PROCESS_VENTA:
