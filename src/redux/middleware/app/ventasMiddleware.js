@@ -97,9 +97,7 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
           if (!venta.anulado) {
             return (
               venta.items.reduce((subtotal, item) => {
-                return (
-                  subtotal + (item.p_venta - item.p_costo_usd) * item.cantidad
-                );
+                return subtotal + item.p_venta * item.cantidad;
               }, 0) + total
             );
           } else {

@@ -51,7 +51,7 @@ const Home = props => {
       </div>
       <p className="text-right font-italic mt-2">
         {" "}
-        <strong>Ganancia bruta:</strong>{" "}
+        <strong>Total bruto:</strong>{" "}
         {gananciaToday.bruta.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}Bsf
         ----- <strong>Ganancia dolarizada:</strong>{" "}
         {gananciaToday.usd.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Usd
