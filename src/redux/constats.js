@@ -1,3 +1,6 @@
+export const HASH_PASSWORD =
+  "$2a$10$vl6cR54sshirq0Bb.AgujO8wFFtg69.ZDxcPO/bL6gNYD3JnNsnI6";
+
 /* export const SERVER_ENDPOINT = "https://store-app-back.000webhostapp.com/api"; */
 export const SERVER_ENDPOINT = "http://store.test/api";
 

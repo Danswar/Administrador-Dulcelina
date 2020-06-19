@@ -11,16 +11,16 @@ const middleware = [
   //the middleware goes here
   thunk,
   ...appMidleware,
-  apiMiddleware
+  apiMiddleware,
 ];
 
 const store = createStore(
   rootReducer,
   initialState,
   compose(
-    applyMiddleware(...middleware)
+    applyMiddleware(...middleware),
     /* //for react devtools - */
-    /* window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() */
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 
