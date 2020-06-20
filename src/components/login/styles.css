@@ -1,0 +1,9 @@
+.container-no-auth {
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container-no-auth i::before {
+  font-size: 150px;
+}

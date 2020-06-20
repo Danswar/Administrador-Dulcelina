@@ -24,10 +24,14 @@ const LoginModal = () => {
   const handleOnChange = ({ target: { value } }) => setPassword(value);
 
   const tryLogin = () => dispatch(loginIntent(password));
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    tryLogin();
+  };
 
   useEffect(() => {
     if (isLoggedIn && modal) setModal(false);
-  }, [isLoggedIn]);
+  }, [isLoggedIn, modal]);
 
   useEffect(() => {
     if (!modal) setPassword("");
@@ -38,12 +42,18 @@ const LoginModal = () => {
       <button className="btn btn-outline-success" onClick={logAction}>
         {isLoggedIn ? "Log out" : "Log in"}
       </button>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={modal} toggle={toggle} autoFocus={false}>
         <ModalHeader toggle={toggle}></ModalHeader>
         <ModalBody>
           <h5 className="text-center mb-4">Ingresa tu contraseña</h5>
           <div className="text-center p-4">
-            <Input type="password" onChange={handleOnChange} />
+            <form onSubmit={handleOnSubmit}>
+              <Input
+                type="password"
+                onChange={handleOnChange}
+                autoFocus={true}
+              />
+            </form>
           </div>
         </ModalBody>
         <ModalFooter>

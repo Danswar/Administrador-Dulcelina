@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 
 import { useSelector } from "react-redux";
@@ -9,29 +9,35 @@ import Home from "./home";
 import Ventas from "./ventas";
 import UpdateDolarForm from "./productos/UpdateDolarForm";
 import LoginModal from "./login/LoginModal";
+import { NoAuth } from "./login/NoAuth";
 
-export default class Main extends Component {
-  render() {
-    return (
-      <main className="col-12 col-lg-9 pl-0 pr-0 mt-5 mt-sm-0 pt-3 pt-sm-0">
-        <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/productos">
-            <Productos />
-          </Route>
-          <Route exact path="/pedido">
-            <Pedido />
-          </Route>
-          <Route exact path="/ventas" component={Ventas} />
-        </Switch>
-      </main>
-    );
-  }
-}
+const Main = () => {
+  const { isLoggedIn } = useSelector((state) => state.login);
+
+  return (
+    <main className="col-12 col-lg-9 pl-0 pr-0 mt-5 mt-sm-0 pt-3 pt-sm-0">
+      <Header />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/productos">
+          {isLoggedIn ? <Productos /> : <NoAuth />}
+        </Route>
+        <Route exact path="/pedido">
+          <Pedido />
+        </Route>
+        <Route exact path="/ventas">
+          {isLoggedIn ? <Ventas /> : <NoAuth />}
+        </Route>
+      </Switch>
+    </main>
+  );
+};
+
+export default Main;
 
 function Header() {
   const dolar_actual = useSelector((state) => state.dolar.dolar_actual);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
   return (
     <div className="header-main d-none d-lg-block">
@@ -43,7 +49,7 @@ function Header() {
               .toFixed(2)
               .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
             Bsf/USD
-            <UpdateDolarForm />
+            {isLoggedIn && <UpdateDolarForm />}
           </span>
 
           <span className="font-itali d-none">
@@ -51,14 +57,18 @@ function Header() {
           </span>
         </div>
         <div className="perfil-emoji mr-3">
-          <img
-            className="img-circle"
-            src="https://via.placeholder.com/35"
-            alt=""
-          />
-          <p>
-            Hola, <strong>Admin</strong>
-          </p>
+          {isLoggedIn && (
+            <>
+              <img
+                className="img-circle"
+                src="https://via.placeholder.com/35"
+                alt=""
+              />
+              <p>
+                Hola, <strong>Admin</strong>
+              </p>
+            </>
+          )}
           <LoginModal />
         </div>
       </div>

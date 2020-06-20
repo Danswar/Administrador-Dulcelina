@@ -7,7 +7,7 @@ import { fetchProducts } from "../../redux/actions/productosActions";
 import InfoCard from "./InfoCard";
 import TablaVentas from "../ventas/TablaVentas";
 
-const Home = props => {
+const Home = () => {
   const dispatch = useDispatch();
 
   /* TODO: hacer fetch de ventas del dia y de productos aqui*/
@@ -16,12 +16,12 @@ const Home = props => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const storeVentas = useSelector(store => store.ventas);
-  const { ventasToday, gananciaToday } = storeVentas;
+  const storeVentas = useSelector((store) => store.ventas);
+  const { ventasToday } = storeVentas;
 
-  const listaProductos = useSelector(store => store.productos.listaProductos);
+  const listaProductos = useSelector((store) => store.productos.listaProductos);
 
-  const dolar = useSelector(store => store.dolar.dolar_actual);
+  const dolar = useSelector((store) => store.dolar.dolar_actual);
 
   return (
     <div className="container">
@@ -49,18 +49,7 @@ const Home = props => {
           }, 0)}
         />
       </div>
-      <p className="text-right font-italic mt-2">
-        {" "}
-        <strong>Total bruto:</strong>{" "}
-        {gananciaToday.bruta.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}Bsf
-        ----- <strong>Ganancia dolarizada:</strong>{" "}
-        {gananciaToday.usd.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Usd
-        ----- <strong>Ganancia dolarizada en Bsf:</strong>{" "}
-        {(gananciaToday.usd * dolar)
-          .toFixed(2)
-          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
-        Bsf
-      </p>
+
       <TablaVentas listaVentas={ventasToday} />
     </div>
   );

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {
   fetchProducts,
   filterProducts,
-  orderProductsBy
+  orderProductsBy,
 } from "../../redux/actions/productosActions";
 
 import UpdateDolarForm from "./UpdateDolarForm";
@@ -18,7 +18,7 @@ class Productos extends Component {
     this.props.fetchProducts();
   }
 
-  handleSearch = e => {
+  handleSearch = (e) => {
     let searchParam = e.target.value;
     this.props.filterProducts(searchParam);
   };
@@ -104,7 +104,7 @@ class Productos extends Component {
             </tr>
           </thead>
           <tbody>
-            {suggestions.map(prod => {
+            {suggestions.map((prod) => {
               let margen =
                 (prod.p_venta / (prod.p_costo_usd * dolar_actual) - 1) * 100;
               return (
@@ -155,17 +155,17 @@ class Productos extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   dolar_actual: state.dolar.dolar_actual,
   productos: state.productos.listaProductos,
   filter: state.productos.filter,
-  suggestions: state.productos.suggestions
+  suggestions: state.productos.suggestions,
 });
 
 const mapActionsToProps = {
   fetchProducts,
   filterProducts,
-  orderProductsBy
+  orderProductsBy,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Productos);
@@ -179,7 +179,7 @@ const styleMargenLow = (margen, margen_min) => {
   if (margen < margen_min) {
     return {
       color: "red",
-      fontWeight: "bold"
+      fontWeight: "bold",
     };
   }
 };

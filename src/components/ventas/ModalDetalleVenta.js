@@ -5,17 +5,18 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Spinner
+  Spinner,
 } from "reactstrap";
 
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { cancelVenta } from "../../redux/actions/ventasActions";
 
-const ModalDetalleVenta = props => {
+const ModalDetalleVenta = (props) => {
   const { isOpen, toggle } = props;
 
-  const { singleVenta, pending } = useSelector(state => state.ventas);
+  const { singleVenta, pending } = useSelector((state) => state.ventas);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
   const dispatch = useDispatch();
   const anularFactura = () => {
@@ -39,7 +40,7 @@ const ModalDetalleVenta = props => {
                 </div>
               )}
               {!pending &&
-                singleVenta.items.map(item => (
+                singleVenta.items.map((item) => (
                   <tr key={item.id}>
                     <td>
                       <div className="d-flex justify-content-between">
@@ -75,9 +76,11 @@ const ModalDetalleVenta = props => {
           </div>
         </ModalBody>
         <ModalFooter className="d-flex justify-content-between">
-          <Button outline color="danger" onClick={anularFactura}>
-            Anular
-          </Button>
+          {isLoggedIn && (
+            <Button outline color="danger" onClick={anularFactura}>
+              Anular
+            </Button>
+          )}
           <Button className="btn btn-primary" onClick={toggle}>
             Listo
           </Button>
@@ -91,7 +94,7 @@ ModalDetalleVenta.propTypes = {
   isOpen: PropTypes.bool,
   toggle: PropTypes.func,
   venta: PropTypes.object,
-  pending: PropTypes.bool
+  pending: PropTypes.bool,
 };
 
 export default ModalDetalleVenta;
