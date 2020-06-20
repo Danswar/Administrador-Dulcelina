@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setDolar } from "../../redux/actions/dolarActions";
+import { setDolar, fetchDolar } from "../../redux/actions/dolarActions";
 
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from "reactstrap";
 import {
   Button,
@@ -16,26 +16,28 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from "reactstrap";
 
-const UpdateDolarForm = props => {
+const UpdateDolarForm = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
-  const valueDolar = useSelector(state => state.dolar.dolar_actual);
-  const [inputValue, setInputValue] = useState(valueDolar);
+  const { dolar_actual, pending } = useSelector((state) => state.dolar);
+  const [inputValue, setInputValue] = useState(dolar_actual);
 
   useEffect(() => {
-    setInputValue(valueDolar);
-  }, [valueDolar]);
+    setInputValue(dolar_actual);
+  }, [dolar_actual]);
 
   const dispatch = useDispatch();
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     dispatch(setDolar(inputValue));
     toggle();
   };
+
+  const onClickFetchDolar = () => dispatch(fetchDolar());
 
   return (
     <Dropdown
@@ -53,25 +55,36 @@ const UpdateDolarForm = props => {
         </DropdownItem>
         <Form onSubmit={onSubmit} className="px-3 py-1 text-center">
           <FormGroup>
-            <InputGroup>
-              <Input
-                type="number"
-                step="any"
-                name="dolar_actual"
-                id="dolar_actual"
-                placeholder="Ingresa valor"
-                className="text-center"
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
-              />
-              <InputGroupAddon addonType="append">
-                <InputGroupText>
-                  <small>Bsf/Usd</small>
-                </InputGroupText>
-              </InputGroupAddon>
-            </InputGroup>
+            {!pending ? (
+              <InputGroup>
+                <Input
+                  type="number"
+                  step="any"
+                  name="dolar_actual"
+                  id="dolar_actual"
+                  placeholder="Ingresa valor"
+                  className="text-center"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+                <InputGroupAddon addonType="append">
+                  <InputGroupText>
+                    <small>Bsf/Usd</small>
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+            ) : (
+              <div>Cargando...</div>
+            )}
           </FormGroup>
-          <Button className="btn btn-primary">Actualizar</Button>
+          <div>
+            <Button type="submit" className="btn btn-primary mr-2">
+              Actualizar
+            </Button>
+            <Button outline color="secondary" onClick={onClickFetchDolar}>
+              <i class="fab fa-bitcoin"></i>
+            </Button>
+          </div>
         </Form>
       </DropdownMenu>
     </Dropdown>
