@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import Pedido from "./pedido";
 import Home from "./home";
 import Ventas from "./ventas";
 import UpdateDolarForm from "./productos/UpdateDolarForm";
+import LoginModal from "./login/LoginModal";
 
 export default class Main extends Component {
   render() {
@@ -30,7 +31,7 @@ export default class Main extends Component {
 }
 
 function Header() {
-  const dolar_actual = useSelector(state => state.dolar.dolar_actual);
+  const dolar_actual = useSelector((state) => state.dolar.dolar_actual);
 
   return (
     <div className="header-main d-none d-lg-block">
@@ -58,7 +59,7 @@ function Header() {
           <p>
             Hola, <strong>Admin</strong>
           </p>
-          <button className="btn btn-outline-success">Logout</button>
+          <LoginModal />
         </div>
       </div>
     </div>

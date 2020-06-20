@@ -8,7 +8,7 @@ export const loginMiddleware = ({ dispatch }) => (next) => (action) => {
   switch (action.type) {
     case LOGIN_INTENT:
       dispatch(loginPending(true));
-      if (bcrypt.compareSync(action.password, HASH_PASSWORD)) {
+      if (bcrypt.compareSync(action.payload, HASH_PASSWORD)) {
         dispatch(login());
       }
       dispatch(loginPending(false));
