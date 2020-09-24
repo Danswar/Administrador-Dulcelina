@@ -6,6 +6,7 @@ import { fetchProducts } from "../../redux/actions/productosActions";
 
 import InfoCard from "./InfoCard";
 import TablaVentas from "../ventas/TablaVentas";
+import BarraResumenVenta from "../BarraResumenVenta";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const Home = () => {
           }, 0)}
         />
       </div>
-
+      <BarraResumenVenta />
       <TablaVentas listaVentas={ventasToday} />
     </div>
   );
