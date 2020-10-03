@@ -13,7 +13,6 @@ const TablaVentas = ({ listaVentas }) => {
   const dispatch = useDispatch();
 
   function clickRow(e) {
-    console.log(e.target.dataset.id);
     dispatch(fetchSingleVenta(e.target.dataset.id));
     toggleModal();
   }
@@ -28,7 +27,7 @@ const TablaVentas = ({ listaVentas }) => {
         </tr>
       </thead>
       <tbody>
-        {listaVentas.map(venta => {
+        {listaVentas.map((venta) => {
           return (
             <tr
               key={venta.id}
@@ -54,7 +53,7 @@ const TablaVentas = ({ listaVentas }) => {
 };
 
 TablaVentas.propTypes = {
-  listaVentas: PropTypes.array
+  listaVentas: PropTypes.array,
 };
 
 export default TablaVentas;

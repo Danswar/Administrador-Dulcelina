@@ -15,7 +15,7 @@ import {
   SET_VENTAS_TODAY,
   setGanaciaToday,
   CALC_GANANCIA_TODAY,
-  calcGananciaToday
+  calcGananciaToday,
 } from "../../actions/ventasActions";
 import { setInicialState } from "../../actions/pedidoActions";
 
@@ -25,11 +25,13 @@ import {
   SELLS_ENDPOINT,
   SELL_ENDPOINT,
   CANCEL_SELL_ENDPOINT,
-  SELLS_TODAY_ENDPOINT
+  SELLS_TODAY_ENDPOINT,
 } from "../../constats";
 import { SET_DOLAR } from "../../actions/dolarActions";
 
-export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
+export const ventasMiddleware = ({ getState, dispatch }) => (next) => (
+  action
+) => {
   next(action);
 
   const dolar = getState().dolar.dolar_actual;
@@ -78,32 +80,22 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
 
     case CALC_GANANCIA_TODAY:
       if (dolar !== 1) {
-        var gananciaUsd = action.payload.reduce((total, venta) => {
-          if (!venta.anulado) {
-            return (
-              venta.items.reduce((subtotal, item) => {
-                return (
-                  subtotal +
+        var gananciaUsd = action.payload
+          .filter((venta) => !venta.anulado)
+          .map((venta) =>
+            venta.items
+              .map(
+                (item) =>
                   (item.p_venta / dolar - item.p_costo_usd) * item.cantidad
-                );
-              }, 0) + total
-            );
-          } else {
-            return total;
-          }
-        }, 0);
+              )
+              .reduce((a, b) => a + b, 0)
+          )
+          .reduce((a, b) => a + b, 0);
 
-        var gananciaBruta = action.payload.reduce((total, venta) => {
-          if (!venta.anulado) {
-            return (
-              venta.items.reduce((subtotal, item) => {
-                return subtotal + item.p_venta * item.cantidad;
-              }, 0) + total
-            );
-          } else {
-            return total;
-          }
-        }, 0);
+        const gananciaBruta = action.payload
+          .filter((venta) => !venta.anulado)
+          .map((venta) => venta.total)
+          .reduce((a, b) => a + b, 0);
 
         dispatch(setGanaciaToday(gananciaBruta, gananciaUsd));
       }
@@ -113,15 +105,15 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
       const { listaPedido, total } = getState().pedido;
       const data = {
         total: total,
-        items: listaPedido.map(row => {
+        items: listaPedido.map((row) => {
           return {
             product_id: row.producto.id,
             p_costo: row.producto.p_costo,
             p_costo_usd: row.producto.p_costo_usd,
             p_venta: row.producto.p_venta,
-            cantidad: row.cantidad
+            cantidad: row.cantidad,
           };
-        })
+        }),
       };
       dispatch(api(data, "POST", SELL_ENDPOINT, setInicialState));
       break;
@@ -130,7 +122,7 @@ export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
       dispatch(
         api(null, "POST", `${CANCEL_SELL_ENDPOINT}/${action.payload}`, [
           fetchVentas,
-          fetchVentasToday
+          fetchVentasToday,
         ])
       );
 
