@@ -5,6 +5,8 @@ import thunk from "redux-thunk";
 import { appMidleware } from "./middleware/app";
 import { apiMiddleware } from "./middleware/core/apiMiddleware";
 
+const isDev = process.env.REACT_APP_USE_ENV_CONFIG || false;
+
 const initialState = {};
 
 const middleware = [
@@ -18,9 +20,11 @@ const store = createStore(
   rootReducer,
   initialState,
   compose(
-    applyMiddleware(...middleware)
+    applyMiddleware(...middleware),
     /* //for react devtools - */
-    /*window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() */
+    isDev &&
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 

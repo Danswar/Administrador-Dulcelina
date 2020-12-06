@@ -1,15 +1,17 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete } from "@material-ui/lab";
 import uuid from "uuid";
 import PropTypes from "prop-types";
 
-const BarraEntrada = props => {
-  const { addRow, listaProductos } = props;
+const BarraEntrada = ({ addRow, listaProductos }) => {
+  const dolar_actual = useSelector(state => state.dolar.dolar_actual);
 
   const [itemSelected, setItemSelected] = useState({});
   const [cantidad, setCantidad] = useState(1);
   const [final, setFinal] = useState("");
+  const [finalUsd, setFinalUsd] = useState("");
 
   const onSubmit = e => {
     e.preventDefault();
@@ -22,12 +24,14 @@ const BarraEntrada = props => {
       id: uuid(), //solo para controlar el borrado de la lista
       producto: itemSelected,
       cantidad,
-      final
+      final,
+      finalUsd,
     });
 
     setItemSelected(null);
     setCantidad(1);
     setFinal("");
+    setFinalUsd("");
   };
 
   //Cambio en el item seleccionado en el campo autocompletado
@@ -35,8 +39,10 @@ const BarraEntrada = props => {
     setItemSelected(value);
     if (!value) {
       setFinal("");
+      setFinalUsd("");
     } else if (cantidad) {
       setFinal(Number(value.p_venta) * Number(cantidad));
+      setFinalUsd(Number(value.p_venta_usd) * Number(cantidad));
     }
   };
 
@@ -45,9 +51,11 @@ const BarraEntrada = props => {
     const { value } = e.target;
     if (itemSelected) {
       setFinal(Number(itemSelected.p_venta) * Number(value));
+      setFinalUsd(Number(itemSelected.p_venta_usd) * Number(value));
       setCantidad(value);
     } else {
       setFinal("");
+      setFinalUsd("");
     }
   };
 
@@ -107,9 +115,7 @@ const BarraEntrada = props => {
 
 BarraEntrada.propTypes = {
   addRow: PropTypes.func,
-  listaProductos: PropTypes.array
-  /* filterProducts: PropTypes.func,
-  suggestions: PropTypes.array, */
+  listaProductos: PropTypes.array,
 };
 
 export default BarraEntrada;

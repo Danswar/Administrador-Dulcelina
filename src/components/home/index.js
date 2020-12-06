@@ -17,12 +17,10 @@ const Home = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const storeVentas = useSelector((store) => store.ventas);
+  const storeVentas = useSelector(store => store.ventas);
   const { ventasToday } = storeVentas;
 
-  const listaProductos = useSelector((store) => store.productos.listaProductos);
-
-  const dolar = useSelector((store) => store.dolar.dolar_actual);
+  const listaProductos = useSelector(store => store.productos.listaProductos);
 
   return (
     <div className="container">
@@ -39,14 +37,6 @@ const Home = () => {
           title="Productos con bajo stock"
           number={listaProductos.reduce((total, item) => {
             return item.stock_min > item.stock ? total + 1 : total;
-          }, 0)}
-        />
-        <InfoCard
-          classIcon="fas fa-chart-area  icon-card fuente-danger"
-          title="Precios desactualizado"
-          number={listaProductos.reduce((total, item) => {
-            let margen = (item.p_venta / (item.p_costo_usd * dolar) - 1) * 100;
-            return margen < item.margen_min ? total + 1 : total;
           }, 0)}
         />
       </div>

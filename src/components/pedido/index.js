@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import {
   fetchProducts,
-  filterProducts
+  filterProducts,
 } from "../../redux/actions/productosActions";
 
 import { processVenta } from "../../redux/actions/ventasActions";
@@ -32,10 +32,6 @@ class Pedido extends Component {
     return (
       <div className="pedido-main container">
         <div id="ventana-factura" className="card mt-sm-3 mt-0">
-          <h5 className="card-header card-header-importe">
-            Gestion de pedidos <small>Sucursal "La churuata"</small>
-          </h5>
-
           <div className="card-body">
             <BarraEntrada
               addRow={this.props.addRow}
@@ -54,11 +50,18 @@ class Pedido extends Component {
             <div className="d-flex flex-row-reverse height-full ">
               <ModalConfirmacion
                 total={this.props.total}
+                totalUsd={this.props.totalUsd}
                 handleAccept={this.handleProcesar}
               />
               <p className="align-self-end fuente-ok">Bsf</p>
               <h1 className="align-self-end font-weight-bolder fuente-ok">
                 {this.props.total
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+              </h1>
+              <p className="align-self-end fuente-azul   mr-4">Usd</p>
+              <h1 className="align-self-end font-weight-bolder fuente-azul">
+                {this.props.totalUsd
                   .toFixed(2)
                   .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
               </h1>
@@ -79,14 +82,15 @@ Pedido.propTypes = {
   fetchProducts: PropTypes.func,
   addRow: PropTypes.func,
   deleteRow: PropTypes.func,
-  filterProducts: PropTypes.func
+  filterProducts: PropTypes.func,
 };
 
 // props from Redux
 const mapStateToProps = state => ({
   listaPedido: state.pedido.listaPedido,
   total: state.pedido.total,
-  listaProductos: state.productos.listaProductos
+  totalUsd: state.pedido.totalUsd,
+  listaProductos: state.productos.listaProductos,
 });
 
 // action from Redux
@@ -95,7 +99,7 @@ const mapActionToProps = {
   addRow,
   deleteRow,
   filterProducts,
-  processVenta
+  processVenta,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Pedido);

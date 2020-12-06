@@ -4,7 +4,7 @@ import { setDolar } from "../../redux/actions/dolarActions";
 import {
   addProduct,
   editProduct,
-  toggleModal
+  toggleModal,
 } from "../../redux/actions/productosActions";
 import { connect } from "react-redux";
 
@@ -23,8 +23,10 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Spinner
+  Spinner,
 } from "reactstrap";
+
+import DolarShower from "../DolarShower";
 
 class ModalProducto extends Component {
   constructor(props) {
@@ -40,7 +42,6 @@ class ModalProducto extends Component {
     const {
       producto = {
         id: "",
-        codigo: "",
         nombre: "",
         stock: "",
         stock_min: "",
@@ -49,17 +50,16 @@ class ModalProducto extends Component {
         p_venta: "",
         p_venta_usd: "",
         margen: "",
-        margen_min: "",
-        dolar_base: ""
-      }
+      },
     } = props;
 
     /**el margen y el precio venta se calculan al inicializar*/
     let { p_venta, p_costo_usd } = producto;
-    let dolar_actual = this.props.dolar_actual;
 
     if (p_venta !== "" && p_costo_usd !== "") {
-      producto.p_venta_usd = parseFloat(p_venta / dolar_actual).toFixed(2);
+      producto.p_venta_usd = parseFloat(
+        p_venta / this.props.dolar_actual
+      ).toFixed(2);
       let diff = producto.p_venta_usd - p_costo_usd;
       producto.margen = parseFloat((diff / p_costo_usd) * 100).toFixed(2);
     }
@@ -68,26 +68,25 @@ class ModalProducto extends Component {
       isOpen: false,
       isSending: false,
       producto: producto,
-      dolar_actual: dolar_actual
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // Handling calculation because dolar changes
     if (prevProps.dolar_actual !== this.props.dolar_actual) {
-      let producto = this.state.producto;
-      let { p_venta, p_costo_usd } = producto;
-      let dolar_actual = this.props.dolar_actual;
-
-      if (p_venta !== "" && p_costo_usd !== "") {
-        producto.p_venta_usd = parseFloat(p_venta / dolar_actual).toFixed(2);
-        let diff = producto.p_venta_usd - p_costo_usd;
-        producto.margen = parseFloat((diff / p_costo_usd) * 100).toFixed(2);
-      }
+      let newProduct = {
+        ...this.state.producto,
+        p_venta: parseFloat(
+          this.props.dolar_actual * this.state.producto.p_venta_usd
+        ),
+      };
 
       this.setState({
-        producto: producto
+        producto: newProduct,
       });
     }
+
+    // Handling of open property for modal
     if (
       this.state.isOpen === true &&
       prevProps.isOpen === true &&
@@ -97,14 +96,13 @@ class ModalProducto extends Component {
       this.props.toggleModal();
 
       this.setState({
-        isSending: false
+        isSending: false,
       });
 
       if (this.state.producto.id === "") {
         this.setState({
           producto: {
             id: "",
-            codigo: "",
             nombre: "",
             stock: "",
             stock_min: "",
@@ -113,9 +111,7 @@ class ModalProducto extends Component {
             p_venta: "",
             p_venta_usd: "",
             margen: "",
-            margen_min: "",
-            dolar_base: ""
-          }
+          },
         });
       }
     }
@@ -123,88 +119,68 @@ class ModalProducto extends Component {
 
   toggle = () =>
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
 
   handleChange = e => {
     let newProducto = this.calculadora(e);
 
     this.setState({
-      producto: newProducto
+      producto: newProducto,
     });
-  };
-
-  handleValueDolarChange = e => {
-    this.setState({
-      dolar_actual: e.target.value
-    });
-    this.calculadora(e);
   };
 
   calculadora = e => {
     let name = e.target.name;
     let value = e.target.value;
 
-    let temp = this.state.producto;
+    let temp = { ...this.state.producto };
     temp[name] = value;
 
     let diff = 0;
     name = value === 0 || value === "" ? null : name;
     switch (name) {
-      case "p_costo":
-        temp.p_costo_usd = parseFloat(temp.p_costo / temp.dolar_base).toFixed(
-          2
-        );
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
-
-      case "dolar_base":
-        temp.p_costo_usd = parseFloat(temp.p_costo / temp.dolar_base).toFixed(
-          2
-        );
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
-
       case "p_costo_usd":
-        temp.dolar_base = parseFloat(temp.p_costo / temp.p_costo_usd).toFixed(
-          2
-        );
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
-
-      case "p_venta":
+        // Calc of precio venta usd
         temp.p_venta_usd = parseFloat(
-          temp.p_venta / this.state.dolar_actual
+          temp.p_costo_usd * (1 + temp.margen / 100)
         ).toFixed(2);
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
 
-      case "dolar_actual":
-        temp.p_venta_usd = parseFloat(
-          temp.p_venta / this.state.dolar_actual
-        ).toFixed(2);
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
-
-      case "p_venta_usd":
+        // Refresh precio venta bsf
         temp.p_venta = parseFloat(
-          temp.p_venta_usd * this.state.dolar_actual
+          temp.p_venta_usd * this.props.dolar_actual
         ).toFixed(2);
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "margen":
-        temp.p_venta_usd =
-          (temp.margen * temp.p_costo_usd) / 100 + parseFloat(temp.p_costo_usd);
-        temp.p_venta = parseFloat(
-          temp.p_venta_usd * this.state.dolar_actual
+        // Calc of precio venta usd
+        temp.p_venta_usd = parseFloat(
+          temp.p_costo_usd * (1 + temp.margen / 100)
         ).toFixed(2);
+
+        // Refresh precio venta bsf
+        temp.p_venta = parseFloat(
+          temp.p_venta_usd * this.props.dolar_actual
+        ).toFixed(2);
+        break;
+
+      case "p_venta_usd":
+        diff = temp.p_venta_usd - temp.p_costo_usd;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
+
+        temp.p_venta = parseFloat(
+          temp.p_venta_usd * this.props.dolar_actual
+        ).toFixed(2);
+        break;
+
+      case "p_venta":
+        // Calc of precio venta usd
+        temp.p_venta_usd = parseFloat(
+          temp.p_venta / this.props.dolar_actual
+        ).toFixed(2);
+
+        diff = temp.p_venta_usd - temp.p_costo_usd;
+        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       default:
@@ -223,8 +199,6 @@ class ModalProducto extends Component {
     dataToSend.id === ""
       ? this.props.addProduct(dataToSend)
       : this.props.editProduct(dataToSend);
-
-    this.props.setDolar(this.state.dolar_actual);
   };
 
   render() {
@@ -252,18 +226,7 @@ class ModalProducto extends Component {
           <ModalBody>
             <Form onSubmit={this.handleOnSubmit} className="pr-1 pl-1">
               <Row form>
-                <Col md={3}>
-                  <FormGroup>
-                    <Label for="codigo">Codigo</Label>
-                    <Input
-                      value={this.state.producto.codigo}
-                      onChange={this.handleChange}
-                      name="codigo"
-                      id="codigo"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={9}>
+                <Col>
                   <FormGroup>
                     <Label for="nombre">Nombre del producto</Label>
                     <Input
@@ -277,7 +240,6 @@ class ModalProducto extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-
               <Row form className="pb-3">
                 <Col md={5}>
                   <div className="d-flex flex-wrap">
@@ -314,42 +276,7 @@ class ModalProducto extends Component {
               <Row form className="pb-3 pt-3">
                 <Col md={4}>
                   <FormGroup>
-                    <Label for="p_costo">P. costo Bsf</Label>
-                    <Input
-                      value={this.state.producto.p_costo}
-                      onChange={this.handleChange}
-                      type="number"
-                      name="p_costo"
-                      id="p_costo"
-                      step="any"
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label>Dolar base</Label>
-                    <InputGroup>
-                      <Input
-                        value={this.state.producto.dolar_base}
-                        onChange={this.handleChange}
-                        type="number"
-                        name="dolar_base"
-                        id="dolar_base"
-                        step="any"
-                        required
-                      />
-                      <InputGroupAddon addonType="append">
-                        <Button outline color="success">
-                          <i className="fas fa-sync-alt"></i>
-                        </Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="p_costo_usd">P. costo Usd</Label>
+                    <Label for="p_costo_usd">P. costo $</Label>
                     <Input
                       value={this.state.producto.p_costo_usd}
                       onChange={this.handleChange}
@@ -361,47 +288,32 @@ class ModalProducto extends Component {
                     />
                   </FormGroup>
                 </Col>
+                {/*<Col md={4}>
+                  <FormGroup>
+                    <Label for="p_costo">P. costo Bsf</Label>
+                    <Input
+                      value={this.state.producto.p_costo}
+                      onChange={this.handleChange}
+                      type="number"
+                      name="p_costo"
+                      id="p_costo"
+                      step="any"
+                      required
+                    />
+                  </FormGroup> 
+                </Col> */}
+                <Col
+                  md={4}
+                  className="d-flex flex-wrap justify-content-center align-items-center"
+                >
+                  <DolarShower />
+                </Col>
               </Row>
 
               <Row form className="pt-3">
                 <Col md={4}>
                   <FormGroup>
-                    <Label for="p_venta">P. venta Bsf</Label>
-                    <Input
-                      onChange={this.handleChange}
-                      value={this.state.producto.p_venta}
-                      type="number"
-                      name="p_venta"
-                      id="p_venta"
-                      step="any"
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label>Dolar actual</Label>
-                    <InputGroup>
-                      <Input
-                        defaultValue={this.props.dolar_actual}
-                        onChange={this.handleValueDolarChange}
-                        type="number"
-                        name="dolar_actual"
-                        id="dolar_actual"
-                        step="any"
-                        required
-                      />
-                      <InputGroupAddon addonType="append">
-                        <Button outline color="success">
-                          <i className="fas fa-sync-alt"></i>
-                        </Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="p_venta_usd">P. venta Usd</Label>
+                    <Label for="p_venta_usd">P. venta $</Label>
                     <Input
                       onChange={this.handleChange}
                       value={this.state.producto.p_venta_usd}
@@ -413,13 +325,10 @@ class ModalProducto extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-
-              <Row form className="pb-4">
-                <Col md={5}>
-                  <div className="d-flex flex-wrap">
-                    <Label className="mb-0 pt-1">Margen</Label>
-                    <InputGroup className="col-md-8">
+                <Col md={4}>
+                  <FormGroup>
+                    <Label>Margen</Label>
+                    <InputGroup>
                       <Input
                         onChange={this.handleChange}
                         value={this.state.producto.margen}
@@ -433,26 +342,21 @@ class ModalProducto extends Component {
                         <InputGroupText>%</InputGroupText>
                       </InputGroupAddon>
                     </InputGroup>
-                  </div>
+                  </FormGroup>
                 </Col>
-                <Col md={{ size: 5, offset: 1 }}>
-                  <div className="d-flex flex-wrap">
-                    <Label className="mb-0 pt-1">Margen min.</Label>
-                    <InputGroup className="col-md-8">
-                      <Input
-                        value={this.state.producto.margen_min}
-                        onChange={this.handleChange}
-                        type="number"
-                        id="margen_min"
-                        name="margen_min"
-                        step="any"
-                        required
-                      />
-                      <InputGroupAddon addonType="append">
-                        <InputGroupText>%</InputGroupText>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </div>
+                <Col md={4}>
+                  <FormGroup>
+                    <Label for="p_venta">P. venta Bsf</Label>
+                    <Input
+                      onChange={this.handleChange}
+                      value={this.state.producto.p_venta}
+                      type="number"
+                      name="p_venta"
+                      id="p_venta"
+                      step="any"
+                      required
+                    />
+                  </FormGroup>
                 </Col>
               </Row>
 
@@ -477,14 +381,14 @@ class ModalProducto extends Component {
 
 const mapStateToProps = state => ({
   dolar_actual: state.dolar.dolar_actual,
-  isOpen: state.productos.modalIsOpen
+  isOpen: state.productos.modalIsOpen,
 });
 
 const mapActionsToProps = {
   setDolar,
   addProduct,
   editProduct,
-  toggleModal
+  toggleModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(ModalProducto);

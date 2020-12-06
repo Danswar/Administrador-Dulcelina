@@ -7,7 +7,6 @@ import {
   orderProductsBy,
 } from "../../redux/actions/productosActions";
 
-import UpdateDolarForm from "./UpdateDolarForm";
 import ModalProducto from "./ModalProducto";
 import ModalDelete from "./ModalDelete";
 
@@ -18,7 +17,7 @@ class Productos extends Component {
     this.props.fetchProducts();
   }
 
-  handleSearch = (e) => {
+  handleSearch = e => {
     let searchParam = e.target.value;
     this.props.filterProducts(searchParam);
   };
@@ -45,7 +44,7 @@ class Productos extends Component {
             buttonLabel="Agregar nuevo"
             classNameIcon="fas fa-plus-circle pr-2"
           />
-          <div className="input-group col-md-6 col-12 pr-0 pl-0">
+          <div className="input-group col-md-6 col-12 pr-0 pl-0  pb-4">
             <input
               type="text"
               className="form-control"
@@ -74,21 +73,6 @@ class Productos extends Component {
           classNameIcon="fas fa-plus"
         />
 
-        <div className="pt-4  pb-1 text-right">
-          <p className="text-right font-italic d-inline pr-2">
-            <small>Dolar: </small>
-            <strong>
-              {" "}
-              {Number(dolar_actual)
-                .toFixed(2)
-                .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-              bsf/usd
-            </strong>
-            {/*  - act.: justo ahora */}
-          </p>
-          <UpdateDolarForm dolar_actual={this.props.dolar_actual} />
-        </div>
-
         {/* TABLA DE DATOS */}
         <table className="table table-hover">
           <thead className="thead-dark">
@@ -98,37 +82,25 @@ class Productos extends Component {
               </th> */}
               <th scope="col">Nombre</th>
               <th scope="col">Stock</th>
-              <th scope="col">Margen</th>
               <th scope="col">P.Venta</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            {suggestions.map((prod) => {
-              let margen =
-                (prod.p_venta / (prod.p_costo_usd * dolar_actual) - 1) * 100;
+            {suggestions.map(prod => {
+              console.log(prod);
               return (
                 <tr key={prod.id}>
-                  {/* <td className="d-none">
-                    {prod.codigo}
-                  </td> */}
                   <td>{prod.nombre}</td>
                   <td className="d-none d-sm-table-cell">{prod.stock}</td>
-                  <td style={styleMargenLow(margen, prod.margen_min)}>
-                    {" "}
-                    <span className="text-muted font-italic d-inline d-sm-none">
-                      Margen:{" "}
-                    </span>
-                    {parseFloat(margen).toFixed(1)}%
-                  </td>
                   <td>
                     <span className="text-muted font-italic d-inline d-sm-none">
                       P. Venta:{" "}
                     </span>
-                    {Number(prod.p_venta)
+                    {Number(prod.p_venta_usd)
                       .toFixed(2)
                       .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                    Bsf
+                    USD
                   </td>
                   <td className="d-flex td-acciones">
                     <ModalProducto
@@ -155,7 +127,7 @@ class Productos extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   dolar_actual: state.dolar.dolar_actual,
   productos: state.productos.listaProductos,
   filter: state.productos.filter,
@@ -169,17 +141,3 @@ const mapActionsToProps = {
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Productos);
-
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-
-const styleMargenLow = (margen, margen_min) => {
-  if (margen < margen_min) {
-    return {
-      color: "red",
-      fontWeight: "bold",
-    };
-  }
-};
