@@ -105,8 +105,6 @@ class Productos extends Component {
           </thead>
           <tbody>
             {suggestions.map(prod => {
-              let margen =
-                (prod.p_venta / (prod.p_costo_usd * dolar_actual) - 1) * 100;
               return (
                 <tr key={prod.id}>
                   {/* <td className="d-none">

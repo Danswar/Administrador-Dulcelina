@@ -49,7 +49,6 @@ class ModalProducto extends Component {
         p_venta: "",
         p_venta_usd: "",
         margen: "",
-        dolar_base: "",
       },
     } = props;
 
@@ -112,7 +111,6 @@ class ModalProducto extends Component {
             p_venta: "",
             p_venta_usd: "",
             margen: "",
-            dolar_base: "",
           },
         });
       }
@@ -150,25 +148,12 @@ class ModalProducto extends Component {
     name = value === 0 || value === "" ? null : name;
     switch (name) {
       case "p_costo":
-        temp.p_costo_usd = parseFloat(temp.p_costo / temp.dolar_base).toFixed(
-          2
-        );
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
-
-      case "dolar_base":
-        temp.p_costo_usd = parseFloat(temp.p_costo / temp.dolar_base).toFixed(
-          2
-        );
+        temp.p_costo_usd = parseFloat(temp.p_costo).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
         temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
 
       case "p_costo_usd":
-        temp.dolar_base = parseFloat(temp.p_costo / temp.p_costo_usd).toFixed(
-          2
-        );
         diff = temp.p_venta_usd - temp.p_costo_usd;
         temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
         break;
@@ -322,27 +307,6 @@ class ModalProducto extends Component {
                       step="any"
                       required
                     />
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label>Dolar base</Label>
-                    <InputGroup>
-                      <Input
-                        value={this.state.producto.dolar_base}
-                        onChange={this.handleChange}
-                        type="number"
-                        name="dolar_base"
-                        id="dolar_base"
-                        step="any"
-                        required
-                      />
-                      <InputGroupAddon addonType="append">
-                        <Button outline color="success">
-                          <i className="fas fa-sync-alt"></i>
-                        </Button>
-                      </InputGroupAddon>
-                    </InputGroup>
                   </FormGroup>
                 </Col>
                 <Col md={4}>

@@ -22,8 +22,6 @@ const Home = () => {
 
   const listaProductos = useSelector(store => store.productos.listaProductos);
 
-  const dolar = useSelector(store => store.dolar.dolar_actual);
-
   return (
     <div className="container">
       <div className="row d-flex justify-content-around align-items-center mt-3 ml-3 mr-3">

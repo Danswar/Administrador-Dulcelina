@@ -13,7 +13,7 @@ import {
   deleteSingleProduct,
   DELETE_SINGLE_PRODUCT,
   setPending,
-  SET_PRODUCTS
+  SET_PRODUCTS,
 } from "../../actions/productosActions";
 
 import {
@@ -22,7 +22,7 @@ import {
   INSERT,
   API_ERROR,
   UPDATE,
-  api
+  api,
 } from "../../actions/apiActions";
 
 import { PRODUCTS_ENDPOINT, PRODUCT_ENDPOINT } from "../../constats";
@@ -38,7 +38,7 @@ export const productosMiddleware = store => next => action => {
     //--
     /* ACTION: pedir info al server */
     case FETCH_PRODUCTS:
-      if( !pending ){
+      if (!pending) {
         dispatch(setPending(true));
         dispatch(apiRequest(null, "GET", PRODUCTS_ENDPOINT, PRODUCTS));
       }
@@ -113,26 +113,6 @@ export const productosMiddleware = store => next => action => {
         api(null, "POST", `${PRODUCT_ENDPOINT}/${id}`, deleteSingleProduct)
       );
       break;
-
-    //--
-    //--
-    /* ACTION: Ordenar lista */
-    /* case ORDER_PRODUCTS:
-      const orderList = store.getState().productos.listaProductos;
-      const dolar_actual = store.getState().dolar.dolar_actual;
-      orderList.sort((a, b) => {
-        let margen_a = (a.p_venta / (a.p_costo_usd * dolar_actual) - 1) * 100
-        let margen_b = (b.p_venta / (b.p_costo_usd * dolar_actual) - 1) * 100
-        if (margen_a > margen_b) {
-          return 1;
-        } else if (margen_a < margen_b) {
-          return -1;
-        } else {
-          return 0
-        }
-      });
-      dispatch(setProducts(orderList));
-      break */
 
     //--
     //--
