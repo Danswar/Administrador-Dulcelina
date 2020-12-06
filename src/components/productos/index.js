@@ -82,13 +82,13 @@ class Productos extends Component {
               </th> */}
               <th scope="col">Nombre</th>
               <th scope="col">Stock</th>
-              <th scope="col">Margen</th>
               <th scope="col">P.Venta</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             {suggestions.map(prod => {
+              console.log(prod);
               return (
                 <tr key={prod.id}>
                   <td>{prod.nombre}</td>
@@ -97,10 +97,10 @@ class Productos extends Component {
                     <span className="text-muted font-italic d-inline d-sm-none">
                       P. Venta:{" "}
                     </span>
-                    {Number(prod.p_venta)
+                    {Number(prod.p_venta_usd)
                       .toFixed(2)
                       .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                    Bsf
+                    USD
                   </td>
                   <td className="d-flex td-acciones">
                     <ModalProducto
