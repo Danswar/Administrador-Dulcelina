@@ -233,7 +233,7 @@ class ModalProducto extends Component {
           <ModalBody>
             <Form onSubmit={this.handleOnSubmit} className="pr-1 pl-1">
               <Row form>
-                <Col md={9}>
+                <Col>
                   <FormGroup>
                     <Label for="nombre">Nombre del producto</Label>
                     <Input
@@ -247,7 +247,6 @@ class ModalProducto extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-
               <Row form className="pb-3">
                 <Col md={5}>
                   <div className="d-flex flex-wrap">
@@ -284,20 +283,6 @@ class ModalProducto extends Component {
               <Row form className="pb-3 pt-3">
                 <Col md={4}>
                   <FormGroup>
-                    <Label for="p_costo">P. costo Bsf</Label>
-                    <Input
-                      value={this.state.producto.p_costo}
-                      onChange={this.handleChange}
-                      type="number"
-                      name="p_costo"
-                      id="p_costo"
-                      step="any"
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
                     <Label for="p_costo_usd">P. costo Usd</Label>
                     <Input
                       value={this.state.producto.p_costo_usd}
@@ -310,26 +295,9 @@ class ModalProducto extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-
-              <Row form className="pt-3">
                 <Col md={4}>
                   <FormGroup>
-                    <Label for="p_venta">P. venta Bsf</Label>
-                    <Input
-                      onChange={this.handleChange}
-                      value={this.state.producto.p_venta}
-                      type="number"
-                      name="p_venta"
-                      id="p_venta"
-                      step="any"
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label>Dolar actual</Label>
+                    <Label>Dolar</Label>
                     <InputGroup>
                       <Input
                         defaultValue={this.props.dolar_actual}
@@ -350,6 +318,23 @@ class ModalProducto extends Component {
                 </Col>
                 <Col md={4}>
                   <FormGroup>
+                    <Label for="p_costo">P. costo Bsf</Label>
+                    <Input
+                      value={this.state.producto.p_costo}
+                      onChange={this.handleChange}
+                      type="number"
+                      name="p_costo"
+                      id="p_costo"
+                      step="any"
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+
+              <Row form className="pt-3">
+                <Col md={4}>
+                  <FormGroup>
                     <Label for="p_venta_usd">P. venta Usd</Label>
                     <Input
                       onChange={this.handleChange}
@@ -362,13 +347,10 @@ class ModalProducto extends Component {
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-
-              <Row form className="pb-4">
-                <Col md={5}>
-                  <div className="d-flex flex-wrap">
-                    <Label className="mb-0 pt-1">Margen</Label>
-                    <InputGroup className="col-md-8">
+                <Col md={4}>
+                  <FormGroup>
+                    <Label>Margen</Label>
+                    <InputGroup>
                       <Input
                         onChange={this.handleChange}
                         value={this.state.producto.margen}
@@ -382,10 +364,23 @@ class ModalProducto extends Component {
                         <InputGroupText>%</InputGroupText>
                       </InputGroupAddon>
                     </InputGroup>
-                  </div>
+                  </FormGroup>
+                </Col>
+                <Col md={4}>
+                  <FormGroup>
+                    <Label for="p_venta">P. venta Bsf</Label>
+                    <Input
+                      onChange={this.handleChange}
+                      value={this.state.producto.p_venta}
+                      type="number"
+                      name="p_venta"
+                      id="p_venta"
+                      step="any"
+                      required
+                    />
+                  </FormGroup>
                 </Col>
               </Row>
-
               <ModalFooter>
                 <Button color="secondary" onClick={this.toggle}>
                   Cancelar
