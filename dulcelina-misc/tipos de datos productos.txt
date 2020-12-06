@@ -35,7 +35,7 @@
 			
 10) margen: number - notNull - default=1 - CALCULATED - margen porcentual entre p_costo_dolares y p_venta_usd
 
-11) margen_min : number - notNull - default=0 - STORE - margen para alerta de precio desactualizado, misma ecuacion de margen
+11) margen_min : number - notNull - default=0 - STORE - margen para alerta de precio desactualizado, misma ecuacion de margen (OBSOLETE)
 
 12) dolar_base : number - notNull - default=0 - STORE - conversión bolivares por dolar al momento de ingresar un p_costo
 	-valor de la conversion bsf-usd al momento de fijar un p_costo

@@ -4,7 +4,7 @@ import { setDolar } from "../../redux/actions/dolarActions";
 import {
   addProduct,
   editProduct,
-  toggleModal
+  toggleModal,
 } from "../../redux/actions/productosActions";
 import { connect } from "react-redux";
 
@@ -23,7 +23,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Spinner
+  Spinner,
 } from "reactstrap";
 
 class ModalProducto extends Component {
@@ -49,9 +49,8 @@ class ModalProducto extends Component {
         p_venta: "",
         p_venta_usd: "",
         margen: "",
-        margen_min: "",
-        dolar_base: ""
-      }
+        dolar_base: "",
+      },
     } = props;
 
     /**el margen y el precio venta se calculan al inicializar*/
@@ -68,7 +67,7 @@ class ModalProducto extends Component {
       isOpen: false,
       isSending: false,
       producto: producto,
-      dolar_actual: dolar_actual
+      dolar_actual: dolar_actual,
     };
   }
 
@@ -85,7 +84,7 @@ class ModalProducto extends Component {
       }
 
       this.setState({
-        producto: producto
+        producto: producto,
       });
     }
     if (
@@ -97,7 +96,7 @@ class ModalProducto extends Component {
       this.props.toggleModal();
 
       this.setState({
-        isSending: false
+        isSending: false,
       });
 
       if (this.state.producto.id === "") {
@@ -113,9 +112,8 @@ class ModalProducto extends Component {
             p_venta: "",
             p_venta_usd: "",
             margen: "",
-            margen_min: "",
-            dolar_base: ""
-          }
+            dolar_base: "",
+          },
         });
       }
     }
@@ -123,20 +121,20 @@ class ModalProducto extends Component {
 
   toggle = () =>
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
 
   handleChange = e => {
     let newProducto = this.calculadora(e);
 
     this.setState({
-      producto: newProducto
+      producto: newProducto,
     });
   };
 
   handleValueDolarChange = e => {
     this.setState({
-      dolar_actual: e.target.value
+      dolar_actual: e.target.value,
     });
     this.calculadora(e);
   };
@@ -435,25 +433,6 @@ class ModalProducto extends Component {
                     </InputGroup>
                   </div>
                 </Col>
-                <Col md={{ size: 5, offset: 1 }}>
-                  <div className="d-flex flex-wrap">
-                    <Label className="mb-0 pt-1">Margen min.</Label>
-                    <InputGroup className="col-md-8">
-                      <Input
-                        value={this.state.producto.margen_min}
-                        onChange={this.handleChange}
-                        type="number"
-                        id="margen_min"
-                        name="margen_min"
-                        step="any"
-                        required
-                      />
-                      <InputGroupAddon addonType="append">
-                        <InputGroupText>%</InputGroupText>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </div>
-                </Col>
               </Row>
 
               <ModalFooter>
@@ -477,14 +456,14 @@ class ModalProducto extends Component {
 
 const mapStateToProps = state => ({
   dolar_actual: state.dolar.dolar_actual,
-  isOpen: state.productos.modalIsOpen
+  isOpen: state.productos.modalIsOpen,
 });
 
 const mapActionsToProps = {
   setDolar,
   addProduct,
   editProduct,
-  toggleModal
+  toggleModal,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(ModalProducto);

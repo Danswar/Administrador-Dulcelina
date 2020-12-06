@@ -18,7 +18,7 @@ class Productos extends Component {
     this.props.fetchProducts();
   }
 
-  handleSearch = (e) => {
+  handleSearch = e => {
     let searchParam = e.target.value;
     this.props.filterProducts(searchParam);
   };
@@ -104,7 +104,7 @@ class Productos extends Component {
             </tr>
           </thead>
           <tbody>
-            {suggestions.map((prod) => {
+            {suggestions.map(prod => {
               let margen =
                 (prod.p_venta / (prod.p_costo_usd * dolar_actual) - 1) * 100;
               return (
@@ -114,13 +114,6 @@ class Productos extends Component {
                   </td> */}
                   <td>{prod.nombre}</td>
                   <td className="d-none d-sm-table-cell">{prod.stock}</td>
-                  <td style={styleMargenLow(margen, prod.margen_min)}>
-                    {" "}
-                    <span className="text-muted font-italic d-inline d-sm-none">
-                      Margen:{" "}
-                    </span>
-                    {parseFloat(margen).toFixed(1)}%
-                  </td>
                   <td>
                     <span className="text-muted font-italic d-inline d-sm-none">
                       P. Venta:{" "}
@@ -155,7 +148,7 @@ class Productos extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   dolar_actual: state.dolar.dolar_actual,
   productos: state.productos.listaProductos,
   filter: state.productos.filter,
@@ -169,17 +162,3 @@ const mapActionsToProps = {
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Productos);
-
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS ////ESTILOS
-
-const styleMargenLow = (margen, margen_min) => {
-  if (margen < margen_min) {
-    return {
-      color: "red",
-      fontWeight: "bold",
-    };
-  }
-};
