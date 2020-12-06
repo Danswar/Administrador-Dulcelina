@@ -29,9 +29,7 @@ import {
 } from "../../constats";
 import { SET_DOLAR } from "../../actions/dolarActions";
 
-export const ventasMiddleware = ({ getState, dispatch }) => (next) => (
-  action
-) => {
+export const ventasMiddleware = ({ getState, dispatch }) => next => action => {
   next(action);
 
   const dolar = getState().dolar.dolar_actual;
@@ -81,11 +79,11 @@ export const ventasMiddleware = ({ getState, dispatch }) => (next) => (
     case CALC_GANANCIA_TODAY:
       if (dolar !== 1) {
         var gananciaUsd = action.payload
-          .filter((venta) => !venta.anulado)
-          .map((venta) =>
+          .filter(venta => !venta.anulado)
+          .map(venta =>
             venta.items
               .map(
-                (item) =>
+                item =>
                   (item.p_venta / dolar - item.p_costo_usd) * item.cantidad
               )
               .reduce((a, b) => a + b, 0)
@@ -93,30 +91,34 @@ export const ventasMiddleware = ({ getState, dispatch }) => (next) => (
           .reduce((a, b) => a + b, 0);
 
         const gananciaBruta = action.payload
-          .filter((venta) => !venta.anulado)
-          .map((venta) => venta.total)
+          .filter(venta => !venta.anulado)
+          .map(venta => venta.total)
           .reduce((a, b) => a + b, 0);
 
         dispatch(setGanaciaToday(gananciaBruta, gananciaUsd));
       }
       break;
 
-    case PROCESS_VENTA:
-      const { listaPedido, total } = getState().pedido;
+    case PROCESS_VENTA: {
+      const { listaPedido, total, totalUsd } = getState().pedido;
       const data = {
-        total: total,
-        items: listaPedido.map((row) => {
+        total,
+        totalUsd,
+        dolarRef: dolar,
+        items: listaPedido.map(row => {
           return {
             product_id: row.producto.id,
             p_costo: row.producto.p_costo,
             p_costo_usd: row.producto.p_costo_usd,
             p_venta: row.producto.p_venta,
+            p_venta_usd: row.producto.p_venta_usd,
             cantidad: row.cantidad,
           };
         }),
       };
       dispatch(api(data, "POST", SELL_ENDPOINT, setInicialState));
       break;
+    }
 
     case CANCEL_VENTA:
       dispatch(

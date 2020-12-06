@@ -4,7 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import PropTypes from "prop-types";
 
 const ModalConfirmacion = props => {
-  const { total, handleAccept } = props;
+  const { total, totalUsd, handleAccept } = props;
 
   const [modal, setModal] = useState(false);
 
@@ -32,7 +32,11 @@ const ModalConfirmacion = props => {
           <h5 className="text-center">Monto total a cobrar:</h5>
           <h1 className="text-center">
             {" "}
-            {total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+            {total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Bsf
+          </h1>
+          <h1 className="text-center">
+            {" "}
+            {totalUsd.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Usd
           </h1>
         </ModalBody>
         <ModalFooter>
@@ -50,7 +54,7 @@ const ModalConfirmacion = props => {
 
 ModalConfirmacion.propTypes = {
   total: PropTypes.number,
-  handleAccept: PropTypes.func
+  handleAccept: PropTypes.func,
 };
 
 export default ModalConfirmacion;

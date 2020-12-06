@@ -8,7 +8,7 @@ export const EDIT_PRODUCT = `${PRODUCTS} edit`;
 export const ORDER_PRODUCTS = `${PRODUCTS} order`;
 export const DELETE_PRODUCT = `${PRODUCTS} delete`;
 export const DELETE_SINGLE_PRODUCT = `${PRODUCTS} delete single`;
-
+export const UPDATE_PRICING = `${PRODUCTS} Update pricing`;
 
 /* van al Reducer */
 export const SET_PRODUCTS = `${PRODUCTS} SET_LISTA_PRODUCTOS`;
@@ -21,37 +21,41 @@ export const SET_PENDING = `${PRODUCTS} SET_PENDING`;
 //--
 // Middleware
 export const fetchProducts = () => ({
-  type: FETCH_PRODUCTS
+  type: FETCH_PRODUCTS,
 });
 
 export const filterProducts = params => ({
   type: FILTER_PRODUCTS,
-  payload: params
+  payload: params,
 });
 
 export const addProduct = product => ({
   type: ADD_PRODUCT,
-  payload: product
+  payload: product,
 });
 
 export const editProduct = product => ({
   type: EDIT_PRODUCT,
-  payload: product
+  payload: product,
 });
 
 export const orderProductsBy = field => ({
   type: ORDER_PRODUCTS,
-  payload: field
+  payload: field,
 });
 
 export const deleteProduct = product => ({
   type: DELETE_PRODUCT,
-  payload: product
+  payload: product,
 });
 
 export const deleteSingleProduct = product => ({
   type: DELETE_SINGLE_PRODUCT,
-  payload: product
+  payload: product,
+});
+
+export const updatePricingProduct = () => ({
+  type: UPDATE_PRICING,
 });
 
 //--
@@ -60,8 +64,8 @@ export const deleteSingleProduct = product => ({
 export const setProducts = products => ({
   type: SET_PRODUCTS,
   payload: {
-    data: products
-  }
+    data: products,
+  },
 });
 
 export const setPending = state => ({
@@ -71,12 +75,12 @@ export const setPending = state => ({
 
 export const setFilter = params => ({
   type: SET_FILTER,
-  payload: params
+  payload: params,
 });
 
 export const setSuggestion = products => ({
   type: SET_SUGGESTION,
-  payload: products
+  payload: products,
 });
 
 export const toggleModal = products => ({

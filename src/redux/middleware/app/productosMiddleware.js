@@ -14,6 +14,7 @@ import {
   DELETE_SINGLE_PRODUCT,
   setPending,
   SET_PRODUCTS,
+  UPDATE_PRICING,
 } from "../../actions/productosActions";
 
 import {
@@ -115,10 +116,33 @@ export const productosMiddleware = store => next => action => {
     //--
     //--
     /* EVENT: petición al server fue exitosa */
-    case `${PRODUCTS} ${API_SUCCESS}`:
-      dispatch(setProducts(action.payload.data));
+    case `${PRODUCTS} ${API_SUCCESS}`: {
+      const dolar = store.getState().dolar.dolar_actual;
+      const productWithPVenta = action.payload.data.map(product => ({
+        ...product,
+        p_venta: parseFloat(dolar * product.p_venta_usd),
+      }));
+
+      dispatch(setProducts(productWithPVenta));
       dispatch(filterProducts());
       break;
+    }
+
+    //--
+    //--
+    /* EVENT: update pricing as dolar value changed */
+    case UPDATE_PRICING: {
+      const dolar = store.getState().dolar.dolar_actual;
+      const products = store.getState().productos.listaProductos;
+      const productWithPVenta = products.map(product => ({
+        ...product,
+        p_venta: parseFloat(dolar * product.p_venta_usd),
+      }));
+
+      dispatch(setProducts(productWithPVenta));
+      dispatch(filterProducts());
+      break;
+    }
 
     //--
     //--
