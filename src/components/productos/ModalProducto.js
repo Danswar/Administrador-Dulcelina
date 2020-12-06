@@ -26,6 +26,8 @@ import {
   Spinner,
 } from "reactstrap";
 
+import DolarShower from "../DolarShower";
+
 class ModalProducto extends Component {
   constructor(props) {
     super(props);
@@ -139,32 +141,31 @@ class ModalProducto extends Component {
     let name = e.target.name;
     let value = e.target.value;
 
-    let temp = this.state.producto;
+    let temp = { ...this.state.producto };
     temp[name] = value;
 
     let diff = 0;
     name = value === 0 || value === "" ? null : name;
     switch (name) {
+      case "margen":
+        temp.p_venta_usd =
+          (temp.margen * temp.p_costo_usd) / 100 + parseFloat(temp.p_costo_usd);
+        temp.p_venta = parseFloat(
+          temp.p_venta_usd * this.state.dolar_actual
+        ).toFixed(2);
+        break;
+
       case "p_costo":
-        temp.p_costo_usd = parseFloat(temp.p_costo).toFixed(2);
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
+        temp.p_costo_usd = parseFloat(value / this.state.dolar_actual).toFixed(
+          2
+        );
         break;
 
       case "p_costo_usd":
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
+        temp.p_costo = parseFloat(value * this.state.dolar_actual).toFixed(2);
         break;
 
       case "p_venta":
-        temp.p_venta_usd = parseFloat(
-          temp.p_venta / this.state.dolar_actual
-        ).toFixed(2);
-        diff = temp.p_venta_usd - temp.p_costo_usd;
-        temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
-
-      case "dolar_actual":
         temp.p_venta_usd = parseFloat(
           temp.p_venta / this.state.dolar_actual
         ).toFixed(2);
@@ -178,14 +179,6 @@ class ModalProducto extends Component {
         ).toFixed(2);
         diff = temp.p_venta_usd - temp.p_costo_usd;
         temp.margen = parseFloat((diff / temp.p_costo_usd) * 100).toFixed(2);
-        break;
-
-      case "margen":
-        temp.p_venta_usd =
-          (temp.margen * temp.p_costo_usd) / 100 + parseFloat(temp.p_costo_usd);
-        temp.p_venta = parseFloat(
-          temp.p_venta_usd * this.state.dolar_actual
-        ).toFixed(2);
         break;
 
       default:
@@ -295,26 +288,11 @@ class ModalProducto extends Component {
                     />
                   </FormGroup>
                 </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label>Dolar</Label>
-                    <InputGroup>
-                      <Input
-                        defaultValue={this.props.dolar_actual}
-                        onChange={this.handleValueDolarChange}
-                        type="number"
-                        name="dolar_actual"
-                        id="dolar_actual"
-                        step="any"
-                        required
-                      />
-                      <InputGroupAddon addonType="append">
-                        <Button outline color="success">
-                          <i className="fas fa-sync-alt"></i>
-                        </Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </FormGroup>
+                <Col
+                  md={4}
+                  className="d-flex flex-wrap justify-content-center align-items-center"
+                >
+                  <DolarShower />
                 </Col>
                 <Col md={4}>
                   <FormGroup>
@@ -381,6 +359,7 @@ class ModalProducto extends Component {
                   </FormGroup>
                 </Col>
               </Row>
+
               <ModalFooter>
                 <Button color="secondary" onClick={this.toggle}>
                   Cancelar

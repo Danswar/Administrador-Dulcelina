@@ -21,9 +21,9 @@ import {
 
 const UpdateDolarForm = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const toggle = () => setDropdownOpen(prevState => !prevState);
 
-  const { dolar_actual, pending } = useSelector((state) => state.dolar);
+  const { dolar_actual, pending } = useSelector(state => state.dolar);
   const [inputValue, setInputValue] = useState(dolar_actual);
 
   useEffect(() => {
@@ -31,8 +31,9 @@ const UpdateDolarForm = () => {
   }, [dolar_actual]);
 
   const dispatch = useDispatch();
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
+    e.stopPropagation();
     dispatch(setDolar(inputValue));
     toggle();
   };
@@ -65,7 +66,7 @@ const UpdateDolarForm = () => {
                   placeholder="Ingresa valor"
                   className="text-center"
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={e => setInputValue(e.target.value)}
                 />
                 <InputGroupAddon addonType="append">
                   <InputGroupText>

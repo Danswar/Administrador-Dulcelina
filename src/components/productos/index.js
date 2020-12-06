@@ -7,7 +7,6 @@ import {
   orderProductsBy,
 } from "../../redux/actions/productosActions";
 
-import UpdateDolarForm from "./UpdateDolarForm";
 import ModalProducto from "./ModalProducto";
 import ModalDelete from "./ModalDelete";
 
@@ -45,7 +44,7 @@ class Productos extends Component {
             buttonLabel="Agregar nuevo"
             classNameIcon="fas fa-plus-circle pr-2"
           />
-          <div className="input-group col-md-6 col-12 pr-0 pl-0">
+          <div className="input-group col-md-6 col-12 pr-0 pl-0  pb-4">
             <input
               type="text"
               className="form-control"
@@ -73,21 +72,6 @@ class Productos extends Component {
           buttonLabel=""
           classNameIcon="fas fa-plus"
         />
-
-        <div className="pt-4  pb-1 text-right">
-          <p className="text-right font-italic d-inline pr-2">
-            <small>Dolar: </small>
-            <strong>
-              {" "}
-              {Number(dolar_actual)
-                .toFixed(2)
-                .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-              bsf/usd
-            </strong>
-            {/*  - act.: justo ahora */}
-          </p>
-          <UpdateDolarForm dolar_actual={this.props.dolar_actual} />
-        </div>
 
         {/* TABLA DE DATOS */}
         <table className="table table-hover">

@@ -1,7 +1,9 @@
 import { LOGIN, LOGOUT } from "../actions/loginActions";
 
+const isDev = process.env.REACT_APP_USE_ENV_CONFIG || false;
+
 const initialState = {
-  isLoggedIn: false,
+  isLoggedIn: isDev,
 };
 
 export default function (state = initialState, action) {
