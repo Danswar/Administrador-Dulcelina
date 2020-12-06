@@ -58,9 +58,7 @@ export const productosMiddleware = store => next => action => {
 
       const suggestions = products.filter(producto => {
         const regex = new RegExp(`${filter}`, "gi");
-        return producto.nombre.match(
-          regex
-        ) /* || producto.codigo.match(regex) */;
+        return producto.nombre.match(regex);
       });
 
       const dolar_actual = store.getState().dolar.dolar_actual;

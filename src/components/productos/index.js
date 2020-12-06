@@ -107,9 +107,6 @@ class Productos extends Component {
             {suggestions.map(prod => {
               return (
                 <tr key={prod.id}>
-                  {/* <td className="d-none">
-                    {prod.codigo}
-                  </td> */}
                   <td>{prod.nombre}</td>
                   <td className="d-none d-sm-table-cell">{prod.stock}</td>
                   <td>

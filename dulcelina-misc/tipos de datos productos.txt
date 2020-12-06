@@ -1,7 +1,7 @@
 1) id : number - notNull - STORE - NO SHOW - primarykey
 	-Solo para manejo de la base de datos, no visible para el usuario
 
-2) codigo : number - null - unique - STORE - identificar el producto
+2) codigo : number - null - unique - STORE - identificar el producto (OBSOLOTE)
 	-Viene a se como un codigo de barras o algo asi
 
 3) nombre : string - notNull - unique - STORE - identificar el producto

@@ -40,7 +40,6 @@ class ModalProducto extends Component {
     const {
       producto = {
         id: "",
-        codigo: "",
         nombre: "",
         stock: "",
         stock_min: "",
@@ -102,7 +101,6 @@ class ModalProducto extends Component {
         this.setState({
           producto: {
             id: "",
-            codigo: "",
             nombre: "",
             stock: "",
             stock_min: "",
@@ -235,17 +233,6 @@ class ModalProducto extends Component {
           <ModalBody>
             <Form onSubmit={this.handleOnSubmit} className="pr-1 pl-1">
               <Row form>
-                <Col md={3}>
-                  <FormGroup>
-                    <Label for="codigo">Codigo</Label>
-                    <Input
-                      value={this.state.producto.codigo}
-                      onChange={this.handleChange}
-                      name="codigo"
-                      id="codigo"
-                    />
-                  </FormGroup>
-                </Col>
                 <Col md={9}>
                   <FormGroup>
                     <Label for="nombre">Nombre del producto</Label>
