@@ -120,7 +120,7 @@ export const productosMiddleware = store => next => action => {
       const dolar = store.getState().dolar.dolar_actual;
       const productWithPVenta = action.payload.data.map(product => ({
         ...product,
-        p_venta: parseFloat(dolar * product.p_venta_usd),
+        p_venta: Number(parseFloat(dolar * product.p_venta_usd).toFixed(2)),
       }));
 
       dispatch(setProducts(productWithPVenta));
@@ -136,7 +136,7 @@ export const productosMiddleware = store => next => action => {
       const products = store.getState().productos.listaProductos;
       const productWithPVenta = products.map(product => ({
         ...product,
-        p_venta: parseFloat(dolar * product.p_venta_usd),
+        p_venta: Number(parseFloat(dolar * product.p_venta_usd).toFixed(2)),
       }));
 
       dispatch(setProducts(productWithPVenta));
@@ -147,23 +147,44 @@ export const productosMiddleware = store => next => action => {
     //--
     //--
     /* EVENT: petición añadir nuevo al server fue exitosa */
-    case `${PRODUCTS} ${INSERT} ${API_SUCCESS}`:
+    case `${PRODUCTS} ${INSERT} ${API_SUCCESS}`: {
+      const dolar = store.getState().dolar.dolar_actual;
       const prevProducts = store.getState().productos.listaProductos;
-      const nextProducts = [action.payload.data, ...prevProducts];
+
+      const newProduct = { ...action.payload.data };
+      newProduct.stock = Number(newProduct.stock);
+      newProduct.stock_min = Number(newProduct.stock_min);
+      newProduct.p_costo_usd = Number(newProduct.p_costo_usd);
+      newProduct.p_venta = Number(
+        parseFloat(dolar * newProduct.p_venta_usd).toFixed(2)
+      );
+      newProduct.margen = Number(newProduct.margen);
+
+      const nextProducts = [newProduct, ...prevProducts];
       dispatch(setProducts(nextProducts));
       dispatch(filterProducts());
       dispatch(toggleModal());
       break;
+    }
 
     //--
     //--
     /* EVENT: petición añadir nuevo al server fue exitosa */
-    case `${PRODUCTS} ${UPDATE} ${API_SUCCESS}`:
+    case `${PRODUCTS} ${UPDATE} ${API_SUCCESS}`: {
+      const dolar = store.getState().dolar.dolar_actual;
       const incomeProduct = action.payload.data;
       const editProducts = store
         .getState()
         .productos.listaProductos.map(item => {
           if (item.id === incomeProduct.id) {
+            incomeProduct.stock = Number(incomeProduct.stock);
+            incomeProduct.stock_min = Number(incomeProduct.stock_min);
+            incomeProduct.p_costo_usd = Number(incomeProduct.p_costo_usd);
+            incomeProduct.p_venta = Number(
+              parseFloat(dolar * incomeProduct.p_venta_usd).toFixed(2)
+            );
+            incomeProduct.margen = Number(incomeProduct.margen);
+
             return incomeProduct;
           }
           return item;
@@ -172,6 +193,7 @@ export const productosMiddleware = store => next => action => {
       dispatch(filterProducts());
       dispatch(toggleModal());
       break;
+    }
 
     //--
     //--

@@ -88,7 +88,6 @@ class Productos extends Component {
           </thead>
           <tbody>
             {suggestions.map(prod => {
-              console.log(prod);
               return (
                 <tr key={prod.id}>
                   <td>{prod.nombre}</td>

@@ -6,7 +6,6 @@ const TablaPedido = props => {
 
   const onDelete = e => {
     e.stopPropagation();
-    console.log(e.target.dataset.id);
     deleteRow(e.target.dataset.id);
   };
 
@@ -37,7 +36,6 @@ const TablaPedido = props => {
           <i className="h5 text-muted text-center">Añadir item</i>
         </tr> */}
         {listaPedido.map(row => {
-          console.log(row);
           return (
             <tr className="row" key={row.id}>
               <td className="col-sm-1">
@@ -85,7 +83,7 @@ const TablaPedido = props => {
 // PROPTYPES
 TablaPedido.propTypes = {
   listaPedido: PropTypes.array,
-  deleteRow: PropTypes.func
+  deleteRow: PropTypes.func,
 };
 
 export default TablaPedido;

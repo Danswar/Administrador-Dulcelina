@@ -19,31 +19,31 @@ export const productosReducer = (state = initialState, action) => {
     case SET_PRODUCTS:
       return {
         ...state,
-        listaProductos: action.payload.data
+        listaProductos: action.payload.data.sort((a, b) => a.id - b.id),
       };
-    
+
     case SET_PENDING:
       return {
         ...state,
         pending: action.payload,
-      }
+      };
 
     case SET_FILTER:
       return {
         ...state,
-        filter: action.payload
+        filter: action.payload,
       };
 
     case SET_SUGGESTION:
       return {
         ...state,
-        suggestions: action.payload
+        suggestions: action.payload.sort((a, b) => a.id - b.id),
       };
 
     case TOGGLE_MODAL:
       return {
         ...state,
-        modalIsOpen: !state.modalIsOpen
+        modalIsOpen: !state.modalIsOpen,
       };
 
     default:
