@@ -12,11 +12,11 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { cancelVenta } from "../../redux/actions/ventasActions";
 
-const ModalDetalleVenta = (props) => {
+const ModalDetalleVenta = props => {
   const { isOpen, toggle } = props;
 
-  const { singleVenta, pending } = useSelector((state) => state.ventas);
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const { singleVenta, pending } = useSelector(state => state.ventas);
+  const isLoggedIn = useSelector(state => state.login.isLoggedIn);
 
   const dispatch = useDispatch();
   const anularFactura = () => {
@@ -25,7 +25,7 @@ const ModalDetalleVenta = (props) => {
       toggle();
     }
   };
-
+  console.log(singleVenta);
   return (
     <div>
       <Modal isOpen={isOpen}>
@@ -40,7 +40,7 @@ const ModalDetalleVenta = (props) => {
                 </div>
               )}
               {!pending &&
-                singleVenta.items.map((item) => (
+                singleVenta.items.map(item => (
                   <tr key={item.id}>
                     <td>
                       <div className="d-flex justify-content-between">
@@ -73,6 +73,25 @@ const ModalDetalleVenta = (props) => {
                   .toFixed(2)
                   .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
             </h3>
+          </div>
+
+          <div className="d-flex flex-row-reverse height-full mt-2">
+            <p className="align-self-end fuente-azul">Usd</p>
+            <h3 className="align-self-end font-weight-bolder fuente-azul">
+              {singleVenta.totalUsd &&
+                singleVenta.totalUsd
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+            </h3>
+          </div>
+          <div className="d-flex flex-row-reverse height-fullmt-2">
+            <p className="align-self-end"> BSF / Usd</p>
+            <p className="align-self-end">
+              {singleVenta.dolarRef &&
+                singleVenta.dolarRef
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+            </p>
           </div>
         </ModalBody>
         <ModalFooter className="d-flex justify-content-between">
