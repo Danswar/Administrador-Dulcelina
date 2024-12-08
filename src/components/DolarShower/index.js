@@ -5,7 +5,6 @@ import UpdateDolarForm from "./UpdateDolarForm";
 
 const DolarShower = clasess => {
   const dolar_actual = useSelector(state => state.dolar.dolar_actual);
-  const isLoggedIn = useSelector(state => state.login.isLoggedIn);
 
   return (
     <span className={clasess}>
@@ -14,7 +13,7 @@ const DolarShower = clasess => {
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
       Bsf/USD
-      {isLoggedIn && <UpdateDolarForm />}
+      <UpdateDolarForm />
     </span>
   );
 };

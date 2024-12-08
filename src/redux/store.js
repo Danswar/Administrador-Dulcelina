@@ -21,10 +21,9 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(...middleware),
-    /* //for react devtools - */
-    isDev &&
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION__()
+    isDev && window.__REDUX_DEVTOOLS_EXTENSION__ 
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      : f => f
   )
 );
 

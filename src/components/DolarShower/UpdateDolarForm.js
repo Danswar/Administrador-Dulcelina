@@ -82,9 +82,6 @@ const UpdateDolarForm = () => {
             <Button type="submit" className="btn btn-primary mr-2">
               Actualizar
             </Button>
-            <Button outline color="secondary" onClick={onClickFetchDolar}>
-              <i class="fab fa-bitcoin"></i>
-            </Button>
           </div>
         </Form>
       </DropdownMenu>

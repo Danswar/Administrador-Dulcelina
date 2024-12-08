@@ -17,38 +17,64 @@ const TablaVentas = ({ listaVentas }) => {
     toggleModal();
   }
 
+  const exportToCSV = () => {
+    const headers = ['ID venta', 'Importe (BsF)', 'Tiempo'];
+    const csvData = listaVentas.map(venta => [
+      venta.id,
+      venta.total,
+      venta.created_at
+    ]);
+    
+    const csvContent = [
+      headers.join(','),
+      ...csvData.map(row => row.join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ventas.csv';
+    a.click();
+  };
+
   return (
-    <table className="table table-hover mt-2">
-      <thead className="thead-dark">
-        <tr>
-          <th scope="col">ID venta</th>
-          <th scope="col">Importe</th>
-          <th scope="col">Tiempo</th>
-        </tr>
-      </thead>
-      <tbody>
-        {listaVentas.map((venta) => {
-          return (
-            <tr
-              key={venta.id}
-              className="hover-pointer hover-font-blue"
-              onClick={clickRow}
-            >
-              <td data-id={venta.id}>{venta.id}</td>
-              <td data-id={venta.id}>
-                {venta.total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                Bsf
-                {venta.anulado ? (
-                  <span className="text-muted font-italic"> Anulado</span>
-                ) : null}
-              </td>
-              <td data-id={venta.id}>{venta.created_at}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-      <ModalDetalleVenta isOpen={modal} toggle={toggleModal} />
-    </table>
+    <>
+      <button className="btn btn-primary mb-2" onClick={exportToCSV}>
+        Exportar
+      </button>
+      <table className="table table-hover mt-2">
+        <thead className="thead-dark">
+          <tr>
+            <th scope="col">ID venta</th>
+            <th scope="col">Importe</th>
+            <th scope="col">Tiempo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listaVentas.map((venta) => {
+            return (
+              <tr
+                key={venta.id}
+                className="hover-pointer hover-font-blue"
+                onClick={clickRow}
+              >
+                <td data-id={venta.id}>{venta.id}</td>
+                <td data-id={venta.id}>
+                  {venta.total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  Bsf
+                  {venta.anulado ? (
+                    <span className="text-muted font-italic"> Anulado</span>
+                  ) : null}
+                </td>
+                <td data-id={venta.id}>{venta.created_at}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+        <ModalDetalleVenta isOpen={modal} toggle={toggleModal} />
+      </table>
+    </>
   );
 };
 

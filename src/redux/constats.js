@@ -1,5 +1,5 @@
 export const HASH_PASSWORD =
-  "$2a$10$vl6cR54sshirq0Bb.AgujO8wFFtg69.ZDxcPO/bL6gNYD3JnNsnI6";
+  "$2a$10$cIJg6BA.YvK8UXOCWfEzFuJMSY0SuzrWUzVzAykM.1dxztZ3Jmh1C";
 
 const isDev = process.env.REACT_APP_USE_ENV_CONFIG || false;
 
